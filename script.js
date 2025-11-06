@@ -1,18 +1,28 @@
 // Mobile menu
 const burger = document.getElementById('hamburger');
-const menu = document.getElementById('mobileMenu');
-burger?.addEventListener('click', () => {
-  menu.style.display = (menu.style.display === 'block') ? 'none' : 'block';
-});
+const links  = document.getElementById('nav-links');
 
-// Smooth scroll for internal links
-document.querySelectorAll('a[href^="#"]').forEach(a => {
-  a.addEventListener('click', e => {
+if (burger && links){
+  burger.addEventListener('click', () => {
+    const open = links.classList.toggle('open');
+    burger.setAttribute('aria-expanded', open ? 'true' : 'false');
+  });
+
+  // Close when clicking a link (and smooth scroll)
+  links.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', () => links.classList.remove('open'));
+  });
+}
+
+// Smooth scroll for all internal links
+document.querySelectorAll('a[href^="#"]').forEach(a=>{
+  a.addEventListener('click', e=>{
     const id = a.getAttribute('href');
-    if (id.length > 1) {
+    const target = document.querySelector(id);
+    if(target){
       e.preventDefault();
-      document.querySelector(id)?.scrollIntoView({behavior:'smooth', block:'start'});
-      menu.style.display = 'none';
+      target.scrollIntoView({behavior:'smooth', block:'start'});
+      history.pushState(null, '', id);
     }
   });
 });
