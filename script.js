@@ -1,15 +1,13 @@
-// mobile menu
+// Mobile menu
 const burger = document.getElementById('hamburger');
 const menu = document.getElementById('mobileMenu');
-if (burger){
-  burger.addEventListener('click', () => {
-    menu.style.display = menu.style.display === 'flex' ? 'none' : 'flex';
-  });
-}
+burger?.addEventListener('click', () => {
+  menu.style.display = (menu.style.display === 'block') ? 'none' : 'block';
+});
 
-// smooth scroll for anchor links
-document.querySelectorAll('a[href^="#"]').forEach(a=>{
-  a.addEventListener('click', e=>{
+// Smooth scroll for internal links
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', e => {
     const id = a.getAttribute('href');
     if (id.length > 1) {
       e.preventDefault();
@@ -19,5 +17,5 @@ document.querySelectorAll('a[href^="#"]').forEach(a=>{
   });
 });
 
-// copyright year
+// Year in footer
 document.getElementById('y').textContent = new Date().getFullYear();
