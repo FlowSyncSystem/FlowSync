@@ -1,33 +1,24 @@
-// Mobile nav toggle with auto-close on selection
-const toggleBtn = document.getElementById('menuToggle');
-const nav = document.getElementById('navLinks');
-
-if (toggleBtn && nav) {
-  toggleBtn.addEventListener('click', () => {
-    const open = nav.classList.toggle('show');
-    toggleBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
-  });
-
-  nav.querySelectorAll('a').forEach(a => {
-    a.addEventListener('click', () => {
-      nav.classList.remove('show');
-      toggleBtn.setAttribute('aria-expanded', 'false');
-    });
-  });
-}
-
 // Year in footer
 document.getElementById('y').textContent = new Date().getFullYear();
 
-// (Optional) Progressive enhancement to re-trigger gradient animation
-// when the elements enter the viewport (keeps things lively on iOS)
-const animTargets = document.querySelectorAll('.anim-gradient');
-if ('IntersectionObserver' in window) {
-  const io = new IntersectionObserver(entries =>
-    entries.forEach(e => { if (e.isIntersecting) e.target.style.animationPlayState = 'running'; })
-  , { threshold: 0.2 });
-  animTargets.forEach(el => {
-    el.style.animationPlayState = 'paused';
-    io.observe(el);
-  });
-}
+// Hamburger / mobile menu
+const burger = document.getElementById('hamburger');
+const mobile = document.getElementById('mobileMenu');
+
+burger.addEventListener('click', () => {
+  const open = mobile.style.display === 'flex';
+  mobile.style.display = open ? 'none' : 'flex';
+  burger.setAttribute('aria-expanded', String(!open));
+});
+
+// Close mobile menu after clicking a link + smooth scroll (native CSS handles scroll)
+mobile.querySelectorAll('a').forEach(a=>{
+  a.addEventListener('click', ()=>{ mobile.style.display='none'; burger.setAttribute('aria-expanded','false'); });
+});
+
+// Optional: tiny parallax on gradient button for “motion” feel
+const wobbleTargets = document.querySelectorAll('.btn--primary.anim-gradient, .gradient.anim-gradient');
+window.addEventListener('scroll', () => {
+  const amt = Math.min(1, window.scrollY / 600);
+  wobbleTargets.forEach(el => el.style.filter = `saturate(${1+amt*0.2})`);
+});
