@@ -380,3 +380,9 @@ h1, h2, h3 {
 .social { color: #fff; }                /* icon color */
 .social svg { width: 22px; height: 22px; display: block; }
 .social svg path { fill: currentColor; }/* ensure paths use the color */
+.socials .social {
+  color: #ffffff !important;
+}
+.social svg path {
+  fill: currentColor !important;
+}
