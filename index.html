@@ -201,149 +201,57 @@
     dotBtn.classList.toggle('is-open');
   });
 <script>
-  const btn = document.getElementById('nav-toggle');
+(() => {
+  const btn     = document.getElementById('nav-toggle');
   const overlay = document.getElementById('nav-overlay');
-  const drawer = document.getElementById('nav-drawer');
+  const drawer  = document.getElementById('nav-drawer');
 
   const openNav = () => {
     document.body.classList.add('nav-open');
     btn.classList.add('is-open');
-    btn.setAttribute('aria-expanded', 'true');
+    btn.setAttribute('aria-expanded','true');
     overlay.removeAttribute('aria-hidden');
-    drawer.setAttribute('aria-expanded', 'true');
+    drawer.setAttribute('aria-expanded','true');
+    drawer.removeAttribute('aria-hidden');
   };
 
   const closeNav = () => {
     document.body.classList.remove('nav-open');
     btn.classList.remove('is-open');
-    btn.setAttribute('aria-expanded', 'false');
-    overlay.setAttribute('aria-hidden', 'true');
-    drawer.setAttribute('aria-expanded', 'false');
+    btn.setAttribute('aria-expanded','false');
+    overlay.setAttribute('aria-hidden','true');
+    drawer.removeAttribute('aria-expanded');
+    drawer.setAttribute('aria-hidden','true');
   };
 
+  // Toggle with the dots button
   btn.addEventListener('click', () => {
-    if (document.body.classList.contains('nav-open')) closeNav();
-    else openNav();
+    document.body.classList.contains('nav-open') ? closeNav() : openNav();
   });
 
+  // ✅ Tap anywhere on the overlay to close
   overlay.addEventListener('click', closeNav);
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') closeNav();
-  });
-
-  // Close when a menu link is clicked
-  document.querySelectorAll('#nav-drawer a').forEach(a => {
-    a.addEventListener('click', closeNav);
-  });
-<script>
-  // ...your existing nav code...
-
-  // Smooth-scroll to sections with an offset AND close the drawer
-  document.querySelectorAll('#nav-drawer a[href^="#"]').forEach(link => {
-    link.addEventListener('click', (e) => {
-      e.preventDefault();
-
-      const id = link.getAttribute('href').slice(1);
-      const target = document.getElementById(id);
-      if (!target) return;
-
-      // height of your header + a little breathing room
-      const headerOffset = 88; 
-      const y = target.getBoundingClientRect().top + window.pageYOffset - headerOffset;
-
-      window.scrollTo({ top: y, behavior: 'smooth' });
-
-      // close the menu
-      closeNav && closeNav();
-    });
-});
-</script>   <!-- ADD THIS -->
-
-<script>   
-
-// cache DOM
-const overlay = document.getElementById('nav-overlay');
-const drawer  = document.getElementById('nav-drawer');
-const toggle  = document.getElementById('nav-toggle');
-
-// open / close
-const openNav = () => {
-  document.body.classList.add('nav-open');
-  toggle.classList.add('is-open');
-  overlay.removeAttribute('aria-hidden');
-  drawer.setAttribute('aria-expanded', 'true');
-};
-
-const closeNav = () => {
-  document.body.classList.remove('nav-open');
-  toggle.classList.remove('is-open');
-  overlay.setAttribute('aria-hidden', 'true');
-  drawer.setAttribute('aria-expanded', 'false');
-};
-
-// toggle button
-toggle.addEventListener('click', () => {
-  document.body.classList.contains('nav-open') ? closeNav() : openNav();
-});
-
-// tap outside to close
-overlay.addEventListener('click', closeNav);
-
-// ESC to close
-document.addEventListener('keydown', (e) => {
-  if (e.key === 'Escape') closeNav();
-});
-
-// smooth-scroll + close when a menu item is tapped
-document.querySelectorAll('#nav-drawer a[href^="#"]').forEach(link => {
-  link.addEventListener('click', (e) => {
-    e.preventDefault();
-    const id = link.getAttribute('href').slice(1);
-    const target = document.getElementById(id);
-    if (!target) return;
-
-    const headerOffset = 88;
-    const y = target.getBoundingClientRect().top + window.pageYOffset - headerOffset;
-
-    window.scrollTo({ top: y, behavior: 'smooth' });
-    closeNav();
-  });
-});
-</script>
-const overlay = document.getElementById('nav-overlay');
-const drawer  = document.getElementById('nav-drawer');
-const toggle  = document.getElementById('nav-toggle');
-  function openNav(){
-    document.body.classList.add('nav-open');
-    overlay.setAttribute('aria-hidden','false');
-    drawer.setAttribute('aria-hidden','false');
-  }
-  function closeNav(){
-    document.body.classList.remove('nav-open');
-    overlay.setAttribute('aria-hidden','true');
-    drawer.setAttribute('aria-hidden','true');
-  }
-
-  // Toggle
-  toggle.addEventListener('click', () => {
-    if (document.body.classList.contains('nav-open')) closeNav();
-    else openNav();
-  });
-
-  // Tap outside to close (only when tapping the overlay, not the drawer)
-  overlay.addEventListener('click', (e) => {
-    if (e.target === overlay) closeNav();
-  });
 
   // ESC to close
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') closeNav();
   });
 
-  // Close when a menu link is tapped (including Back to top)
+  // Smooth scroll + close when a menu link is clicked
+  const HEADER_OFFSET = 88; // adjust if your header height changes
   document.querySelectorAll('#nav-drawer a').forEach(a => {
-    a.addEventListener('click', closeNav);
+    a.addEventListener('click', (e) => {
+      const href = a.getAttribute('href') || '';
+      if (href.startsWith('#')) {
+        e.preventDefault();
+        const target = document.querySelector(href) || document.getElementById('top');
+        const y = (target ? target.getBoundingClientRect().top + window.pageYOffset : 0) - HEADER_OFFSET;
+        window.scrollTo({ top: Math.max(0, y), behavior: 'smooth' });
+      }
+      closeNav();
+    });
   });
+})();
 </script>
 
   <script src="script.js"></script>
