@@ -1,24 +1,33 @@
-// Mobile menu toggle + smooth scroll (also closes menu on click)
-const nav = document.getElementById('navlinks');
-const burger = document.getElementById('hamburger');
+// Mobile nav toggle with auto-close on selection
+const toggleBtn = document.getElementById('menuToggle');
+const nav = document.getElementById('navLinks');
 
-burger?.addEventListener('click', () => {
-  const open = nav.style.display === 'grid';
-  nav.style.display = open ? '' : 'grid';
-});
-
-document.querySelectorAll('[data-scroll]').forEach(link => {
-  link.addEventListener('click', e => {
-    const id = link.getAttribute('href');
-    if (!id || !id.startsWith('#')) return;
-    const target = document.querySelector(id);
-    if (!target) return;
-    e.preventDefault();
-    nav.style.display = '';            // close mobile menu
-    target.scrollIntoView({behavior:'smooth', block:'start'});
-    history.replaceState(null, '', id);
+if (toggleBtn && nav) {
+  toggleBtn.addEventListener('click', () => {
+    const open = nav.classList.toggle('show');
+    toggleBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
   });
-});
 
-// Footer year
-document.getElementById('y')?.append(new Date().getFullYear());
+  nav.querySelectorAll('a').forEach(a => {
+    a.addEventListener('click', () => {
+      nav.classList.remove('show');
+      toggleBtn.setAttribute('aria-expanded', 'false');
+    });
+  });
+}
+
+// Year in footer
+document.getElementById('y').textContent = new Date().getFullYear();
+
+// (Optional) Progressive enhancement to re-trigger gradient animation
+// when the elements enter the viewport (keeps things lively on iOS)
+const animTargets = document.querySelectorAll('.anim-gradient');
+if ('IntersectionObserver' in window) {
+  const io = new IntersectionObserver(entries =>
+    entries.forEach(e => { if (e.isIntersecting) e.target.style.animationPlayState = 'running'; })
+  , { threshold: 0.2 });
+  animTargets.forEach(el => {
+    el.style.animationPlayState = 'paused';
+    io.observe(el);
+  });
+}
