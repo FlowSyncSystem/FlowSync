@@ -195,12 +195,6 @@
     © 2025 FlowSync. All rights reserved.
   </footer>
 <script>
-  const dotBtn = document.getElementById('nav-toggle');
-
-  dotBtn.addEventListener('click', () => {
-    dotBtn.classList.toggle('is-open');
-  });
-<script>
 (() => {
   const btn     = document.getElementById('nav-toggle');
   const overlay = document.getElementById('nav-overlay');
@@ -210,43 +204,52 @@
     document.body.classList.add('nav-open');
     btn.classList.add('is-open');
     btn.setAttribute('aria-expanded','true');
-    overlay.removeAttribute('aria-hidden');
+
+    overlay.style.opacity = "1";
+    overlay.style.pointerEvents = "auto";
+
     drawer.setAttribute('aria-expanded','true');
-    drawer.removeAttribute('aria-hidden');
+    drawer.style.transform = "translateX(0)";
   };
 
   const closeNav = () => {
     document.body.classList.remove('nav-open');
     btn.classList.remove('is-open');
     btn.setAttribute('aria-expanded','false');
-    overlay.setAttribute('aria-hidden','true');
+
+    overlay.style.opacity = "0";
+    overlay.style.pointerEvents = "none";
+
     drawer.removeAttribute('aria-expanded');
-    drawer.setAttribute('aria-hidden','true');
+    drawer.style.transform = "translateX(100%)";
   };
 
-  // Toggle with the dots button
+  // ✅ Toggle the drawer when the button is pressed
   btn.addEventListener('click', () => {
-    document.body.classList.contains('nav-open') ? closeNav() : openNav();
+    if (document.body.classList.contains('nav-open')) closeNav();
+    else openNav();
   });
 
-  // ✅ Tap anywhere on the overlay to close
+  // ✅ Tap ANYWHERE on overlay to close
   overlay.addEventListener('click', closeNav);
 
-  // ESC to close
+  // ✅ Close on ESC key
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') closeNav();
   });
 
-  // Smooth scroll + close when a menu link is clicked
-  const HEADER_OFFSET = 88; // adjust if your header height changes
+  // ✅ Smooth scrolling for your existing menu links (unchanged)
+  const HEADER_OFFSET = 88;
   document.querySelectorAll('#nav-drawer a').forEach(a => {
     a.addEventListener('click', (e) => {
       const href = a.getAttribute('href') || '';
       if (href.startsWith('#')) {
         e.preventDefault();
-        const target = document.querySelector(href) || document.getElementById('top');
-        const y = (target ? target.getBoundingClientRect().top + window.pageYOffset : 0) - HEADER_OFFSET;
-        window.scrollTo({ top: Math.max(0, y), behavior: 'smooth' });
+        const target = document.querySelector(href);
+        if (target) {
+          const y = target.getBoundingClientRect().top + window.pageYOffset - HEADER_OFFSET;
+          window.scrollTo({ top: y, behavior: 'smooth' });
+        }
       }
       closeNav();
     });
