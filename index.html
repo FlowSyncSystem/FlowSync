@@ -1,154 +1,325 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>FlowSync</title>
-  <link rel="icon" href="2.png" />
-  <link rel="preload" href="2.png" as="image">
-  <link rel="stylesheet" href="styles.css" />
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>FlowSync</title>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --bg:#0b0c10;
+    --panel:#12141a;
+    --muted:#b6b9c6;
+    --text:#e9ecf3;
+    --border:rgba(255,255,255,.08);
+    --shadow:0 10px 30px rgba(0,0,0,.35);
+
+    /* Brand gradient (purple ➜ blue ➜ mint) with motion */
+    --grad-from:#8b5cf6;
+    --grad-mid:#60a5fa;
+    --grad-to:#34d399;
+    --brand:linear-gradient(90deg,var(--grad-from),var(--grad-mid),var(--grad-to));
+  }
+
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+    line-height:1.6;
+  }
+
+  /* -------- LOADER -------- */
+  #loader{
+    position:fixed;inset:0;background:#fff;display:flex;align-items:center;justify-content:center;
+    z-index:999999;
+  }
+  #loader img{width:180px;opacity:.15;filter:grayscale(1);}
+  
+  /* --- Layout --- */
+  .wrap{max-width:1080px;margin:0 auto;padding:24px 20px 96px}
+  header{position:sticky;top:0;z-index:1000;background:linear-gradient(to bottom, rgba(11,12,16,.9), rgba(11,12,16,.6) 60%, transparent);backdrop-filter:saturate(140%) blur(6px);}
+  .nav{display:flex;align-items:center;justify-content:space-between;padding:14px 20px}
+  .brand{display:flex;align-items:center;gap:12px;text-decoration:none;color:var(--text)}
+  .brand img{width:28px;height:28px;border-radius:6px;object-fit:cover}
+  .brand span{font-size:20px;font-weight:700;letter-spacing:.2px}
+
+  .links{display:none;gap:18px}
+  .links a{color:var(--muted);text-decoration:none;font-weight:600;font-size:14px;padding:8px 10px;border-radius:10px}
+  .links a:hover{background:rgba(255,255,255,.06);color:var(--text)}
+
+  .menu-btn{width:44px;height:44px;border-radius:12px;background:rgba(255,255,255,.06);display:flex;align-items:center;justify-content:center;border:1px solid var(--border);cursor:pointer}
+  .menu-btn span,.menu-btn::before,.menu-btn::after{
+    content:"";display:block;width:22px;height:2px;background:#cfd4e1;border-radius:2px;box-shadow:0 1px 0 rgba(0,0,0,.15)
+  }
+  .menu-btn::before{transform:translateY(-6px)}
+  .menu-btn::after{transform:translateY(6px)}
+
+  /* Drawer */
+  .drawer{
+    position:fixed;inset:0;background:rgba(0,0,0,.55);backdrop-filter:blur(6px);
+    display:none;z-index:1500;
+  }
+  .drawer.open{display:block}
+  .drawer-panel{
+    position:absolute;right:0;top:0;height:100%;width:min(86%,380px);
+    background:var(--panel);border-left:1px solid var(--border);box-shadow:var(--shadow);padding:22px;
+  }
+  .drawer a{display:block;color:var(--text);text-decoration:none;font-weight:600;padding:14px;border:1px solid var(--border);border-radius:14px;margin-bottom:14px;background:rgba(255,255,255,.03)}
+  .drawer a:hover{background:rgba(255,255,255,.06)}
+
+  /* --- Hero --- */
+  .pill{
+    display:inline-flex;align-items:center;gap:8px;padding:10px 16px;border-radius:999px;
+    border:1px solid var(--border);background:rgba(255,255,255,.04);color:#cfd4e1;font-weight:600
+  }
+  .h1{
+    font-size:clamp(28px,7.5vw,54px);line-height:1.1;margin:18px 0 10px;font-weight:800;letter-spacing:.2px;
+  }
+  .grad-text{
+    background:var(--brand);background-size:200% 100%;
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+    animation:slideGrad 8s linear infinite;
+  }
+  @keyframes slideGrad{0%{background-position:0% 50%}100%{background-position:200% 50%}}
+
+  .sub{color:#c9ced9;max-width:740px;margin:12px 0 22px;font-size:16px}
+
+  .cta-row{display:flex;gap:16px;flex-wrap:wrap}
+  .btn{
+    position:relative;display:inline-flex;align-items:center;justify-content:center;
+    padding:14px 20px;border-radius:18px;font-weight:700;font-size:16px;border:1px solid var(--border);
+    box-shadow:0 10px 25px rgba(0,0,0,.35);transform:translateZ(0);text-decoration:none
+  }
+  .btn-primary{
+    color:#0c1117;background:var(--brand);background-size:200% 100%;
+    animation:slideGrad 8s linear infinite, btnPulse 2.6s ease-in-out infinite;
+  }
+  .btn-ghost{background:rgba(255,255,255,.06);color:#e6eaf2}
+  @keyframes btnPulse{0%,100%{filter:brightness(1)}50%{filter:brightness(1.15)}}
+
+  /* --- Feature list with heartbeat ticks --- */
+  .features{margin:22px 0 18px;display:flex;flex-direction:column;gap:14px}
+  .feat{display:flex;align-items:flex-start;gap:14px}
+  .tick{
+    width:18px;height:18px;border-radius:6px;background:#22d39a;border:0;box-shadow:0 0 0 0 rgba(34,211,154,.6);
+    flex:0 0 18px;transform:translateZ(0);
+    animation:heartbeat 1.9s ease-in-out infinite;
+  }
+  @keyframes heartbeat{
+    0%{transform:scale(1);box-shadow:0 0 0 0 rgba(34,211,154,.55)}
+    25%{transform:scale(1.10);box-shadow:0 0 0 8px rgba(34,211,154,0)}
+    40%{transform:scale(1)}
+    60%{transform:scale(1.08)}
+    100%{transform:scale(1);box-shadow:0 0 0 0 rgba(34,211,154,.55)}
+  }
+
+  /* Socials */
+  .socials{display:flex;gap:14px;margin-top:10px}
+  .icon-btn{
+    width:44px;height:44px;border-radius:12px;border:1px solid var(--border);
+    background:rgba(255,255,255,.06);display:inline-flex;align-items:center;justify-content:center;
+    text-decoration:none
+  }
+  .icon-btn svg{width:22px;height:22px;fill:none;stroke:#d9deea;stroke-width:1.6}
+
+  /* --- Cards (How it works & Pricing) --- */
+  .section-title{font-size:26px;font-weight:800;margin:28px 0 14px}
+  .card{
+    background:var(--panel);border:1px solid var(--border);border-radius:22px;padding:18px;box-shadow:var(--shadow);
+  }
+  .how-grid{display:grid;gap:14px}
+  .how-card h3{margin:0 0 6px;font-size:18px}
+  .muted{color:#c9ced9}
+
+  .price-card{position:relative;padding:22px;border-radius:26px}
+  .most{position:absolute;left:22px;top:-14px;background:#5b44b0;color:#fff;font-weight:700;
+        padding:8px 14px;border-radius:999px;border:1px solid rgba(255,255,255,.16);font-size:14px}
+  .price-title{font-weight:700;color:#cfd4e1;margin:0 0 6px}
+  .price{font-size:36px;font-weight:800;margin:6px 0;color:#fff}
+  .subscribe{
+    margin-top:14px;
+    display:inline-flex;align-items:center;justify-content:center;width:100%;
+    padding:14px 16px;border-radius:18px;border:1px solid var(--border);
+    background:linear-gradient(90deg,#8b5cf6 0%, #7aa4ff 50%, #8b5cf6 100%); /* as last screenshot */
+    background-size:200% 100%; color:#0d1020;font-weight:800;
+    animation:slideGrad 8s linear infinite, btnPulse 2.6s ease-in-out infinite;
+    text-decoration:none;
+  }
+
+  footer{margin-top:46px;padding:28px 20px;border-top:1px solid var(--border);color:#aeb6c6;text-align:center}
+
+  @media (min-width:860px){
+    .links{display:flex}
+    .menu-btn{display:none}
+    .h1{font-size:clamp(32px,6vw,52px)}
+  }
+</style>
 </head>
 <body>
-  <header class="site-header">
+
+<!-- LOADER -->
+<div id="loader"><img src="2.png" alt="FlowSync logo"></div>
+
+<header>
+  <div class="nav wrap" style="padding-left:20px;padding-right:20px;">
     <a class="brand" href="#top">
-      <img src="2.png" alt="FlowSync" class="logo" />
-      <span class="brand-name">FlowSync</span>
+      <img src="2.png" alt="FlowSync">
+      <span>FlowSync</span>
     </a>
-
-    <button class="menu-toggle" aria-controls="nav" aria-expanded="false">
-      <span></span><span></span><span></span>
-    </button>
-
-    <nav id="nav" class="nav">
+    <nav class="links">
       <a href="#how">How it works</a>
       <a href="#pricing">Pricing</a>
       <a href="#book">Book</a>
     </nav>
-  </header>
+    <button id="openMenu" class="menu-btn" aria-label="Menu"><span></span></button>
+  </div>
+</header>
 
-  <main id="top">
-    <section class="banner-pill">
-      <span>No ads. No code. Live in days.</span>
-    </section>
+<!-- Drawer -->
+<div id="drawer" class="drawer" aria-hidden="true">
+  <div class="drawer-panel">
+    <a href="#how" class="drawer-link">How it works</a>
+    <a href="#pricing" class="drawer-link">Pricing</a>
+    <a href="#book" class="drawer-link">Book</a>
+  </div>
+</div>
 
-    <section class="hero">
-      <h1>
-        Turn missed<br />
-        messages into<br />
-        <span class="gradient-word">booked customers.</span>
-      </h1>
+<main class="wrap" id="top">
+  <div class="pill">No ads. No code. Live in days.</div>
 
-      <p class="lede">
-        Instant reply, auto-booking, and no-show reduction — so every enquiry becomes an appointment.
-      </p>
+  <h1 class="h1">
+    Turn missed<br>
+    messages into<br>
+    <span class="grad-text">booked customers.</span>
+  </h1>
 
-      <div class="cta-row">
-        <a class="btn btn-gradient" href="#book">Book a free setup</a>
-        <a class="btn btn-panel" href="#pricing">See pricing</a>
-      </div>
+  <p class="sub">Instant reply, auto-booking, and no-show reduction — so every enquiry becomes an appointment.</p>
 
-      <ul class="bullets">
-        <li>
-          <span class="tick" aria-hidden="true"></span>
-          <span>Instant reply on Instagram, WhatsApp &amp; SMS.</span>
-        </li>
-        <li>
-          <span class="tick" aria-hidden="true"></span>
-          <span>Auto-booking straight into your calendar.</span>
-        </li>
-        <li>
-          <span class="tick" aria-hidden="true"></span>
-          <span>No-shows cut by smart reminders.</span>
-        </li>
-      </ul>
+  <div class="cta-row">
+    <a class="btn btn-primary" href="#book">Book a free setup</a>
+    <a class="btn btn-ghost" href="#pricing">See pricing</a>
+  </div>
 
-      <div class="social">
-        <a class="icon" href="https://instagram.com/flowsyncsystem" aria-label="Instagram" target="_blank" rel="noopener">
-          <!-- Instagram official glyph (stroke square, no bottom line) -->
-          <svg viewBox="0 0 24 24" aria-hidden="true">
-            <path d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5zm0 2a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V7a3 3 0 0 0-3-3H7zm5 3.5A5.5 5.5 0 1 1 6.5 13 5.5 5.5 0 0 1 12 7.5zm0 2A3.5 3.5 0 1 0 15.5 13 3.5 3.5 0 0 0 12 9.5zM18 5.8a1.2 1.2 0 1 1-1.2 1.2A1.2 1.2 0 0 1 18 5.8z"/>
-          </svg>
-        </a>
+  <div class="features">
+    <div class="feat"><span class="tick" aria-hidden="true"></span><div>Instant reply on Instagram, WhatsApp &amp; SMS.</div></div>
+    <div class="feat"><span class="tick" aria-hidden="true"></span><div>Auto-booking straight into your calendar.</div></div>
+    <div class="feat"><span class="tick" aria-hidden="true"></span><div>No-shows cut by smart reminders.</div></div>
+  </div>
 
-        <a class="icon" href="https://www.tiktok.com/@flowsyncsystem" aria-label="TikTok" target="_blank" rel="noopener">
-          <!-- Clean TikTok monochrome mark (no weird cutoffs) -->
-          <svg viewBox="0 0 256 256" aria-hidden="true">
-            <path d="M168 32v50.2a73.7 73.7 0 0 0 48 17.3v35.2a108.7 108.7 0 0 1-48-12.2V192a64 64 0 1 1-64-64 64.7 64.7 0 0 1 13.2 1.4v35.9A28.9 28.9 0 0 0 112 163a29 29 0 1 0 29 29V32z"/>
-          </svg>
-        </a>
-      </div>
-    </section>
+  <div class="socials">
+    <!-- Instagram -->
+    <a class="icon-btn" href="https://instagram.com/flowsyncsystem" target="_blank" rel="noopener" aria-label="Instagram">
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <rect x="3.5" y="3.5" width="17" height="17" rx="4"></rect>
+        <circle cx="12" cy="12" r="4.2"></circle>
+        <circle cx="17.3" cy="6.7" r="1.3" fill="#d9deea" stroke="none"></circle>
+      </svg>
+    </a>
+    <!-- TikTok (accurate) -->
+    <a class="icon-btn" href="https://www.tiktok.com/@flowsyncsystem" target="_blank" rel="noopener" aria-label="TikTok">
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M14.5 3v7.2a5.2 5.2 0 1 1-4.2-2v2.65a2.6 2.6 0 1 0 2.6 2.6V3h1.6c.5 2.1 2.2 3.6 4.5 3.8v1.8c-2.1-.1-3.9-1-5.1-2.6V21h-1.8"/>
+      </svg>
+    </a>
+  </div>
 
-    <section id="how" class="how">
-      <h2>How it works</h2>
-      <div class="card">
-        <h3>1) Connect your inboxes</h3>
-        <p>We connect Instagram DMs, WhatsApp and SMS.</p>
-      </div>
-      <div class="card">
-        <h3>2) Auto-reply &amp; qualify</h3>
-        <p>Leads get instant answers and pre-qualification.</p>
-      </div>
-      <div class="card">
-        <h3>3) Auto-book into your calendar</h3>
-        <p>FlowSync sends your booking link and confirms.</p>
-      </div>
-      <div class="card">
-        <h3>4) Reduce no-shows</h3>
-        <p>Smart confirmations &amp; reminders keep revenue on the calendar.</p>
-      </div>
-    </section>
+  <!-- How it works -->
+  <h2 id="how" class="section-title">How it works</h2>
+  <div class="how-grid">
+    <div class="card how-card">
+      <h3>1) Connect your inboxes</h3>
+      <p class="muted">We connect Instagram DMs, WhatsApp and SMS.</p>
+    </div>
+    <div class="card how-card">
+      <h3>2) Auto-reply &amp; qualify</h3>
+      <p class="muted">Leads get instant answers and pre-qualification.</p>
+    </div>
+    <div class="card how-card">
+      <h3>3) Auto-book into your calendar</h3>
+      <p class="muted">FlowSync sends your booking link and confirms.</p>
+    </div>
+    <div class="card how-card">
+      <h3>4) Reduce no-shows</h3>
+      <p class="muted">Smart confirmations &amp; reminders keep revenue on the calendar.</p>
+    </div>
+  </div>
 
-    <section id="pricing" class="pricing">
-      <h2>Pricing</h2>
-      <p class="sub">Simple. No setup fee. Cancel anytime.</p>
+  <!-- Pricing -->
+  <h2 id="pricing" class="section-title" style="margin-top:36px">Pricing</h2>
+  <p class="muted" style="margin-top:-6px">Simple. No setup fee. Cancel anytime.</p>
 
-      <article class="pricing-card">
-        <span class="badge">Most popular</span>
-        <h3>Monthly</h3>
-        <p class="price"><span class="currency">£</span>269.99 <span class="per">/month</span></p>
-        <ul class="features">
-          <li>Instant reply &amp; auto-booking</li>
-          <li>WhatsApp / SMS / DMs</li>
-          <li>No-show reduction</li>
-          <li>Support included</li>
-        </ul>
-        <a class="btn btn-gradient wide" href="#book">Subscribe Monthly</a>
-      </article>
+  <div class="card price-card" style="margin-top:14px">
+    <span class="most">Most popular</span>
+    <div class="price-title">Monthly</div>
+    <div class="price">£269.99 <span style="font-size:14px;color:#cfd4e1;font-weight:700">/month</span></div>
+    <ul class="muted" style="margin:0 0 8px 18px">
+      <li>Instant reply &amp; auto-booking</li>
+      <li>WhatsApp / SMS / DMs</li>
+      <li>No-show reduction</li>
+      <li>Support included</li>
+    </ul>
+    <a class="subscribe" href="#book">Subscribe Monthly</a>
+  </div>
 
-      <article class="pricing-card alt">
-        <h3>One-time</h3>
-        <p class="price"><span class="currency">£</span>400</p>
-        <ul class="features">
-          <li>Pay once, get a year of FlowSync</li>
-          <li>Same features as monthly</li>
-        </ul>
-        <a class="btn btn-panel wide" href="#book">Pay £400 one-time</a>
-      </article>
-    </section>
+  <div class="card" style="margin-top:16px">
+    <div class="price-title">One-time</div>
+    <div class="price">£400</div>
+    <ul class="muted" style="margin:0 0 8px 18px">
+      <li>Pay once, get a year of FlowSync</li>
+      <li>Same features as monthly</li>
+    </ul>
+    <a class="btn btn-ghost" style="width:100%;justify-content:center;margin-top:10px" href="#book">Pay £400 one-time</a>
+  </div>
 
-    <section id="book" class="book">
-      <h2>Book your free setup call</h2>
-      <p>Pick a time — we’ll connect FlowSync, import your message templates and go live.</p>
-      <div class="book-row">
-        <a class="btn btn-panel" href="https://calendly.com/flowsyncsystem/30min" target="_blank" rel="noopener">Open Calendly</a>
-        <a class="btn btn-gradient" href="tel:07939899074">Call 07939899074</a>
-      </div>
+  <!-- Book -->
+  <h2 id="book" class="section-title" style="margin-top:36px">Book your free setup call</h2>
+  <p class="muted">Pick a time — we’ll connect FlowSync, import your message templates and go live.</p>
 
-      <div class="embed">
-        <iframe
-          title="Calendly"
-          src="https://calendly.com/flowsyncsystem/30min"
-          loading="lazy"
-        ></iframe>
-      </div>
-    </section>
-  </main>
+  <div class="cta-row" style="margin:14px 0 18px">
+    <a class="btn btn-ghost" href="https://calendly.com/flowsyncsystem/30min" target="_blank" rel="noopener">Open Calendly</a>
+    <a class="btn btn-primary" href="tel:07939899074">Call 07939899074</a>
+  </div>
 
-  <footer class="site-footer">
-    <div>© 2025 FlowSync. All rights reserved.</div>
-  </footer>
+  <div class="card" style="padding:0;overflow:hidden">
+    <iframe src="https://calendly.com/flowsyncsystem/30min" title="Calendly" style="width:100%;height:640px;border:0;background:#fff"></iframe>
+  </div>
+</main>
 
-  <script src="script.js"></script>
+<footer>
+  © <span id="yr"></span> FlowSync. All rights reserved.
+</footer>
+
+<script>
+  // Force-load latest assets so GitHub Pages caching doesn’t keep the broken loader
+  if ('serviceWorker' in navigator) {
+    caches?.keys?.().then(names => names.forEach(n => caches.delete(n))).catch(()=>{});
+  }
+
+  // Loader safety: hide no matter what after 1.5s
+  document.addEventListener("DOMContentLoaded", () => {
+    const loader = document.getElementById("loader");
+    setTimeout(()=> loader && (loader.style.display="none"), 1500);
+    window.addEventListener('load', ()=> loader && (loader.style.display="none"));
+  });
+
+  // Drawer
+  const drawer = document.getElementById('drawer');
+  const openBtn = document.getElementById('openMenu');
+  openBtn.addEventListener('click', ()=> drawer.classList.add('open'));
+  drawer.addEventListener('click', (e)=>{
+    if(e.target === drawer) drawer.classList.remove('open');
+  });
+  document.querySelectorAll('.drawer-link').forEach(a=>{
+    a.addEventListener('click', ()=>{
+      drawer.classList.remove('open');
+      // smooth anchor scroll still honored
+    });
+  });
+
+  // Footer year
+  document.getElementById('yr').textContent = new Date().getFullYear();
+</script>
 </body>
 </html>
