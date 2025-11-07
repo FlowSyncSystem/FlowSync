@@ -557,3 +557,19 @@ section h2 {
   .hero{ margin-bottom: var(--space-5); }
   #how .card + .card{ margin-top: var(--space-3); }
 }
+/* make overlay clickable when menu is open */
+#nav-overlay{
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.4);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .2s ease;
+}
+.nav-open #nav-overlay{
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* headings won’t sit flush under the header after anchor jump */
+.section{ scroll-margin-top: 88px; }
