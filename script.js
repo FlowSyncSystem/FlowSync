@@ -77,3 +77,37 @@ document.querySelectorAll('a[href^="#"]').forEach(a=>{
     });
   })();
 </script>
+<script>
+(() => {
+  const body = document.body;
+  const toggle = document.getElementById('nav-toggle');
+  const drawer = document.getElementById('nav-drawer');
+  const overlay = document.getElementById('nav-overlay');
+
+  const open = () => {
+    body.classList.add('menu-open');
+    toggle.setAttribute('aria-expanded','true');
+    drawer.setAttribute('aria-hidden','false');
+    overlay.setAttribute('aria-hidden','false');
+    body.style.overflow = 'hidden';
+  };
+  const close = () => {
+    body.classList.remove('menu-open');
+    toggle.setAttribute('aria-expanded','false');
+    drawer.setAttribute('aria-hidden','true');
+    overlay.setAttribute('aria-hidden','true');
+    body.style.overflow = '';
+  };
+
+  toggle.addEventListener('click', e => {
+    e.stopPropagation();
+    body.classList.contains('menu-open') ? close() : open();
+  });
+
+  overlay.addEventListener('click', close);
+  drawer.addEventListener('click', e => {
+    if (e.target.closest('.nav-item')) close();
+  });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') close(); });
+})();
+</script>
