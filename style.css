@@ -573,3 +573,24 @@ section h2 {
 
 /* headings won’t sit flush under the header after anchor jump */
 .section{ scroll-margin-top: 88px; }
+/* Full-screen, tappable overlay for the menu */
+#nav-overlay{
+  position: fixed;
+  inset: 0;
+  background: rgba(10,12,18,0.55);  /* soft blur/veil */
+  backdrop-filter: blur(6px);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity .2s ease, visibility .2s ease;
+  z-index: 80;                       /* below the drawer, above page */
+}
+
+.nav-open #nav-overlay{
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+/* Make sure the drawer sits above the overlay */
+#nav-drawer{ z-index: 90; position: fixed; right: 16px; left: 16px; }
