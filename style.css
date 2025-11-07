@@ -677,3 +677,39 @@ section h2 {
 /* Remove the big gap at the top (hero flush under header) */
 .hero{ margin-top: 0 !important; }
 .site-header{ margin-bottom: 0 !important; }  /* in case header had margin */
+/* Full-screen, tappable overlay (hidden by default) */
+#nav-overlay{
+  position: fixed;
+  inset: 0;
+  background: rgba(10,12,16,.55);
+  backdrop-filter: blur(6px);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .2s ease;
+  z-index: 40;            /* below the drawer */
+}
+
+/* When menu is open, make overlay visible & tappable */
+.nav-open #nav-overlay{
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* Drawer sits above overlay and is only interactable when open */
+#nav-drawer{
+  position: fixed;
+  left: 16px; right: 16px; top: 80px;
+  border-radius: 16px;
+  background: #0f141b;
+  padding: 12px;
+  transform: translateY(-8px) scale(.98);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .2s ease, transform .2s ease;
+  z-index: 50;
+}
+.nav-open #nav-drawer{
+  opacity: 1;
+  transform: none;
+  pointer-events: auto;
+}
