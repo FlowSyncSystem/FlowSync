@@ -519,3 +519,41 @@ section h2 {
 #book {
   margin-top: 80px;   /* adjust this number as needed */
 }
+/* --- Vertical rhythm / section spacing --- */
+:root{
+  --space-1: 12px;
+  --space-2: 20px;
+  --space-3: 32px;
+  --space-4: 48px;
+  --space-5: 64px;
+}
+
+/* give every section top space; first one stays flush */
+.section{ margin-top: var(--space-4); }
+.section:first-of-type{ margin-top: 0; }
+
+/* hero ends with room before next section */
+.hero{ margin-bottom: var(--space-4); }
+
+/* How it works */
+#how{ margin-top: var(--space-5); }                 /* big gap before the heading */
+#how .card + .card{ margin-top: var(--space-2); }   /* small gap between cards */
+
+/* Pricing */
+#pricing{ margin-top: var(--space-5); }             /* big gap before pricing */
+.price-card{ margin-bottom: var(--space-3); }       /* room between price cards */
+
+/* Book section */
+#book{ margin-top: var(--space-5); }                /* big gap before book */
+.book-cta{ margin-top: var(--space-2); }            /* space above the Book Now button */
+
+/* Hero features + socials tidy spacing */
+.features{ margin: var(--space-2) 0; }
+.socials{ margin-top: var(--space-2); gap: 12px; display: flex; }
+
+/* slightly larger gaps on tablets/desktop */
+@media (min-width: 768px){
+  .section{ margin-top: var(--space-5); }
+  .hero{ margin-bottom: var(--space-5); }
+  #how .card + .card{ margin-top: var(--space-3); }
+}
