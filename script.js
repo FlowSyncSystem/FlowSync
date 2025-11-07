@@ -37,3 +37,12 @@
     });
   });
 })();
+// Animate dots + pause when menu is open
+const dotBtn = document.getElementById('nav-toggle');
+if (dotBtn){
+  dotBtn.addEventListener('click', () => {
+    const expanded = dotBtn.getAttribute('aria-expanded') === 'true';
+    dotBtn.setAttribute('aria-expanded', (!expanded).toString());
+    dotBtn.classList.toggle('is-open', !expanded); // this class pauses the animation via CSS
+  });
+}
