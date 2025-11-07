@@ -237,3 +237,23 @@ body.nav-open{overflow:hidden}
 }
 .faq-item[open] { background: rgba(255,255,255,0.06); }
 .faq-item p { margin: 10px 0 0; color: rgba(255,255,255,0.8); }
+/* --- Make body text slightly smaller --- */
+body {
+  font-size: 0.95rem;   /* smaller but still readable */
+}
+
+/* Headings slightly smaller but still bold */
+h1, h2, h3 {
+  font-size: 0.92em;
+}
+
+/* --- Make Book Now link WHITE & clean --- */
+.book-link {
+  color: #ffffff !important;
+  font-weight: 600;
+  text-decoration: underline;
+}
+
+.book-link:hover {
+  opacity: 0.75;
+}
