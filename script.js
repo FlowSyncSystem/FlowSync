@@ -1,7 +1,7 @@
 // Year in footer
 document.getElementById('y').textContent = new Date().getFullYear();
 
-// Hamburger + overlay lock
+// Hamburger + overlay with backdrop close & Esc
 const ham = document.querySelector('.hamburger');
 const overlay = document.querySelector('.overlay');
 
@@ -9,15 +9,25 @@ function setMenu(open){
   ham.setAttribute('aria-expanded', open ? 'true' : 'false');
   overlay.classList.toggle('open', open);
   overlay.setAttribute('aria-hidden', open ? 'false' : 'true');
-  document.body.style.overflow = open ? 'hidden' : '';
+  document.body.classList.toggle('menu-open', open);
 }
-ham.addEventListener('click', () => setMenu(overlay.classList.contains('open') === false));
+
+ham.addEventListener('click', () => {
+  const open = overlay.classList.contains('open') === false;
+  setMenu(open);
+});
+
+// Close when clicking outside menu items (on the blurred backdrop)
 overlay.addEventListener('click', (e) => {
-  if (e.target.matches('.overlay a')) setMenu(false);
   if (e.target === overlay) setMenu(false);
 });
 
-// Smooth scroll for internal links (in case browser doesn’t)
+// Close on Esc
+document.addEventListener('keydown', (e)=>{
+  if (e.key === 'Escape') setMenu(false);
+});
+
+// Smooth scroll for in-page nav
 document.querySelectorAll('a[href^="#"]').forEach(a=>{
   a.addEventListener('click', e=>{
     const id = a.getAttribute('href').slice(1);
