@@ -411,3 +411,109 @@ button,
 .feature-text {
   font-size: 0.98rem;
 }
+/* ✅ CLEAN THREE-LINE BURGER */
+.burger {
+  width: 48px;
+  height: 48px;
+  display: grid;
+  place-content: center;
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,0.10);
+  background: rgba(255,255,255,0.07);
+  backdrop-filter: blur(6px);
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+.burger span {
+  display: block;
+  width: 24px;
+  height: 2px;
+  background: #ffffff;
+  border-radius: 2px;
+  margin: 4px 0;
+  transition: 0.25s;
+}
+
+/* ✅ transforms into an X */
+.burger.open span:nth-child(1) {
+  transform: translateY(6px) rotate(45deg);
+}
+.burger.open span:nth-child(2) {
+  opacity: 0;
+}
+.burger.open span:nth-child(3) {
+  transform: translateY(-6px) rotate(-45deg);
+}
+
+/* ✅ OVERLAY (tap outside to close) */
+#nav-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.45);
+  backdrop-filter: blur(3px);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .2s ease;
+  z-index: 98;
+}
+#nav-overlay.show {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* ✅ MENU DRAWER */
+.nav-drawer {
+  position: fixed;
+  top: 70px;
+  right: 14px;
+  left: 14px;
+  background: rgba(22,22,28,0.95);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 18px;
+  padding: 12px;
+  opacity: 0;
+  transform: translateY(-10px) scale(0.98);
+  pointer-events: none;
+  transition: 0.25s ease;
+  z-index: 99;
+}
+.nav-drawer.show {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  pointer-events: auto;
+}
+
+/* ✅ MENU LINKS */
+.nav-item {
+  display: block;
+  padding: 18px 16px;
+  margin: 8px 0;
+  border-radius: 14px;
+  background: rgba(255,255,255,0.07);
+  font-size: 17px;
+  font-weight: 600;
+  color: #fff;
+  text-decoration: none;
+}
+
+/* ✅ PAGE LOCK WHEN MENU OPEN */
+body.nav-open {
+  overflow: hidden;
+}
+
+/* ✅ SMALLER PRICING TEXT ONLY */
+#pricing .plan-card .plan-heading {
+  font-size: clamp(18px, 4vw, 22px);
+}
+#pricing .plan-card .price-amount {
+  font-size: clamp(32px, 7.5vw, 40px);
+}
+#pricing .plan-card .per-month {
+  font-size: clamp(14px, 3.4vw, 17px);
+}
+#pricing .plan-card .features li {
+  font-size: clamp(14px, 3.4vw, 16px);
+}
+#pricing .plan-card button {
+  font-size: clamp(15px, 3.6vw, 17px);
+}
