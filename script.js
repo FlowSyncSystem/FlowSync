@@ -1,33 +1,34 @@
-// Year in footer
-document.getElementById('y').textContent = new Date().getFullYear();
-
-// Mobile menu toggle
+// Close mobile menu on link click + smooth scroll programmatically (for older iOS)
+const nav = document.getElementById('navlinks');
 const burger = document.getElementById('hamburger');
-const menu   = document.getElementById('mobileMenu');
+
 burger?.addEventListener('click', () => {
-  const open = menu.hasAttribute('hidden') ? false : true;
-  if (open) { menu.setAttribute('hidden',''); burger.setAttribute('aria-expanded','false'); }
-  else { menu.removeAttribute('hidden'); burger.setAttribute('aria-expanded','true'); }
+  nav.classList.toggle('open');
+  if (nav.classList.contains('open')) {
+    nav.style.display = 'grid';
+  } else {
+    nav.style.display = '';
+  }
 });
 
-// Smooth scroll (forces smooth in Safari/iOS too)
-function smoothTo(id){
-  const el = document.querySelector(id);
-  if (!el) return;
-  el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-}
-document.querySelectorAll('a[href^="#"]').forEach(a=>{
-  a.addEventListener('click', e=>{
-    const id = a.getAttribute('href');
-    if (!id || id === '#') return;
-    if (id.startsWith('#')) {
-      e.preventDefault();
-      smoothTo(id);
-      // close mobile menu after tap
-      if (!menu.hasAttribute('hidden')) {
-        menu.setAttribute('hidden','');
-        burger.setAttribute('aria-expanded','false');
-      }
+document.querySelectorAll('[data-scroll]').forEach(a => {
+  a.addEventListener('click', (e) => {
+    const hash = a.getAttribute('href');
+    if (!hash || !hash.startsWith('#')) return;
+    const target = document.querySelector(hash);
+    if (!target) return;
+    e.preventDefault();
+
+    // close menu if open
+    if (nav.classList.contains('open')) {
+      nav.classList.remove('open');
+      nav.style.display = '';
     }
+
+    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    history.replaceState(null, '', hash); // keep anchor in URL
   });
 });
+
+// Year in footer
+document.getElementById('y').textContent = new Date().getFullYear();
