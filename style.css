@@ -764,3 +764,44 @@ section h2 {
   gap:12px;
   flex-wrap:wrap;
 }
+/* Compact Why FlowSync section */
+.why-section {
+  margin-top: 40px;
+}
+
+.why-section h2 {
+  margin-bottom: 16px;
+}
+
+/* Smaller cards for Why FlowSync */
+.why-card {
+  background: linear-gradient(180deg, #121821, #0f141b);
+  padding: 16px 18px;
+  border-radius: 18px;
+  box-shadow: 0 8px 26px rgba(0,0,0,.35), inset 0 0 0 1px rgba(255,255,255,.06);
+  margin-bottom: 14px;
+}
+
+.why-card h3 {
+  margin: 0 0 6px;
+  font-size: 17px;
+}
+
+.why-card p {
+  margin: 0;
+  font-size: 14px;
+  opacity: 0.9;
+}
+
+/* Reduce global section spacing so gaps look tighter */
+.section {
+  margin-top: 50px !important;
+}
+
+.hero {
+  margin-bottom: 40px !important;
+}
+
+#pricing {
+  margin-top: 60px !important;
+}
