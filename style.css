@@ -805,3 +805,18 @@ section h2 {
 #pricing {
   margin-top: 60px !important;
 }
+/* Make drawer menu items smaller */
+.nav-item {
+  padding: 12px 14px !important;
+  font-size: 15px;
+}
+
+/* Reduce spacing between menu buttons */
+.nav-item + .nav-item {
+  margin-top: 10px;
+}
+
+/* Make the drawer box smaller */
+#nav-drawer {
+  padding: 18px !important;
+}
