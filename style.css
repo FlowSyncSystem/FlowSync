@@ -729,3 +729,38 @@ section h2 {
   pointer-events: auto;      /* now it can be tapped */
 }
 #nav-drawer{ z-index: 1001; } /* sits above the overlay */
+
+/* --- Why section --- */
+.why-grid{
+  display:grid;
+  gap:16px;
+  grid-template-columns: 1fr;
+}
+@media (min-width:700px){
+  .why-grid{ grid-template-columns: repeat(2, 1fr); }
+}
+@media (min-width:1000px){
+  .why-grid{ grid-template-columns: repeat(3, 1fr); }
+}
+
+.why-proof{
+  list-style:none;
+  padding:0;
+  margin:18px 0 6px;
+  display:flex;
+  flex-wrap:wrap;
+  gap:14px 18px;
+  color:var(--muted);
+}
+.why-proof .kpi{
+  font-weight:800;
+  color:#eaf2ff;
+  margin-right:8px;
+}
+
+.why-cta{
+  margin-top:14px;
+  display:flex;
+  gap:12px;
+  flex-wrap:wrap;
+}
