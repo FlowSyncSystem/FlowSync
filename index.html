@@ -16,7 +16,7 @@
   <!-- GLASS / BLURRED NAV -->
   <header class="nav">
     <div class="nav-inner">
-      <!-- logo (uses logo.png in the root of the repo) -->
+      <!-- LOGO (uses logo.png in your repo) -->
       <a href="#hero" class="nav-logo">
         <img src="logo.png" alt="FlowSync logo" class="nav-logo-img">
         <span class="nav-logo-text">FlowSync</span>
@@ -26,32 +26,28 @@
         <a href="#how">How it works</a>
         <a href="#pricing">Pricing</a>
         <a href="#results">Results</a>
+        <a href="#faq">FAQ</a>
       </nav>
 
-      <a href="#pricing" class="nav-cta">Start 7-day free trial</a>
+      <!-- TOP CTA -> BOOK FREE SETUP (SCROLLS TO CALL SECTION) -->
+      <a href="#call" class="nav-cta">Book a free setup</a>
 
       <!-- mobile burger -->
-      <button class="nav-burger" aria-label="Open menu">
-        <span></span><span></span><span></span>
+      <button id="navToggle" class="nav-burger" aria-label="Open menu">
+        <span></span><span></span>
       </button>
     </div>
   </header>
 
-  <!-- MOBILE MENU DRAWER -->
+  <!-- MOBILE MENU DRAWER + OVERLAY -->
   <div id="navOverlay" class="nav-overlay"></div>
   <nav id="navDrawer" class="nav-drawer">
     <a class="nav-link" href="#hero">Home</a>
     <a class="nav-link" href="#how">How it works</a>
     <a class="nav-link" href="#pricing">Pricing</a>
     <a class="nav-link" href="#results">Results</a>
-    <a
-      class="nav-link nav-link-special"
-      href="https://calendly.com/flowsyncsystem/30min"
-      target="_blank"
-      rel="noreferrer"
-    >
-      Book a call
-    </a>
+    <a class="nav-link" href="#call">Book a free setup</a>
+    <a class="nav-link" href="#faq">FAQ</a>
   </nav>
 
   <div class="page-bg"></div>
@@ -60,22 +56,23 @@
     <!-- HERO -->
     <section id="hero" class="section hero">
       <div class="shell">
-        <div class="hero-pill">Built for beauty & aesthetics clinics</div>
+        <div class="hero-pill">Built for beauty &amp; aesthetics clinics</div>
 
         <h1 class="hero-title">
-          Turn DMs & missed calls into a
+          Turn DMs &amp; missed calls into a
           <span class="hero-gradient">fully booked calendar.</span>
         </h1>
 
         <p class="hero-sub">
-          FlowSync captures enquiries from Instagram, WhatsApp & your website,
+          FlowSync captures enquiries from Instagram, WhatsApp &amp; your website,
           replies instantly and books clients straight into your calendar —
           without your team touching the phone.
         </p>
 
         <div class="hero-cta-row">
-          <a href="#pricing" class="btn btn-primary">
-            Start 7-day free trial
+          <!-- PRIMARY CTA GOES TO CALL SECTION -->
+          <a href="#call" class="btn btn-primary">
+            Book a free setup
           </a>
           <a href="#pricing" class="btn btn-ghost">
             View pricing
@@ -87,10 +84,10 @@
         </p>
 
         <ul class="hero-bullets">
-          <li><span class="dot"></span>Instant replies to DMs, WhatsApp & forms</li>
-          <li><span class="dot"></span>Automatic booking, rescheduling & reminders</li>
+          <li><span class="dot"></span>Instant replies to DMs, WhatsApp &amp; forms</li>
+          <li><span class="dot"></span>Automatic booking, rescheduling &amp; reminders</li>
           <li><span class="dot"></span>No-shows cut with smart reminder flows</li>
-          <li><span class="dot"></span>Done-for-you setup & ongoing tweaks included</li>
+          <li><span class="dot"></span>Done-for-you setup &amp; ongoing tweaks included</li>
         </ul>
 
         <div class="hero-socials">
@@ -126,7 +123,7 @@
 
           <article class="step">
             <div class="step-badge">2</div>
-            <h3>We reply, qualify & offer times</h3>
+            <h3>We reply, qualify &amp; offer times</h3>
             <p>
               FlowSync replies instantly with your tone of voice, answers basic questions
               and offers real-time appointment slots from your calendar.
@@ -177,6 +174,26 @@
       </div>
     </section>
 
+    <!-- FREE SETUP CALL (CALENDLY SECTION) -->
+    <section id="call" class="section section-call">
+      <div class="shell">
+        <div class="section-label">Free setup call</div>
+        <h2 class="section-title">See how FlowSync would work for your clinic</h2>
+        <p class="call-copy">
+          Jump on a short call, walk through your current booking flow and
+          see exactly how FlowSync can plug in without breaking anything you already use.
+        </p>
+        <a
+          href="https://calendly.com/flowsyncsystem/30min"
+          target="_blank"
+          rel="noreferrer"
+          class="btn btn-primary"
+        >
+          Book a free setup
+        </a>
+      </div>
+    </section>
+
     <!-- GAP / PRICING -->
     <section id="pricing" class="section">
       <div class="shell">
@@ -184,7 +201,7 @@
         <h2 class="section-title">Start free. No contract. Cancel anytime.</h2>
 
         <div class="pricing-grid">
-          <!-- MAIN PLAN ONLY (removed £400 card) -->
+          <!-- MAIN PLAN ONLY (REMOVED £400 PLAN) -->
           <article class="price-card price-card-main">
             <div class="price-badge">Most clinics start here</div>
 
@@ -200,10 +217,10 @@
 
             <ul class="price-feats">
               <li><span class="dot"></span>7-day fully managed free trial</li>
-              <li><span class="dot"></span>Instagram, WhatsApp & website enquiries connected</li>
-              <li><span class="dot"></span>Instant replies, booking & rescheduling</li>
+              <li><span class="dot"></span>Instagram, WhatsApp &amp; website enquiries connected</li>
+              <li><span class="dot"></span>Instant replies, booking &amp; rescheduling</li>
               <li><span class="dot"></span>No-show reduction with smart reminders</li>
-              <li><span class="dot"></span>Support & ongoing tweaks included</li>
+              <li><span class="dot"></span>Support &amp; ongoing tweaks included</li>
             </ul>
 
             <a
@@ -218,17 +235,51 @@
             <p class="price-footnote">
               We set everything up for you during the trial. Pay nothing if you don’t continue.
             </p>
-
-            <!-- neat Calendly link under the main CTA -->
-            <a
-              class="price-calendly"
-              href="https://calendly.com/flowsyncsystem/30min"
-              target="_blank"
-              rel="noreferrer"
-            >
-              Or book a 30-minute call first →
-            </a>
           </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section id="faq" class="section">
+      <div class="shell">
+        <div class="section-label">FAQ</div>
+        <h2 class="section-title">Questions clinics usually ask</h2>
+
+        <div class="faq-list">
+          <details class="faq-item" open>
+            <summary>Do I need to change my current booking system?</summary>
+            <p>
+              No. We plug FlowSync into what you already use (Fresha, Calendly, in-house
+              calendar, etc.) and keep your existing setup. We just make sure more clients
+              actually get booked into it.
+            </p>
+          </details>
+
+          <details class="faq-item">
+            <summary>What happens during the 7-day free trial?</summary>
+            <p>
+              We connect your channels, set up your flows and monitor performance.
+              You see real enquiries being handled. If you don’t continue after the
+              trial, we simply switch FlowSync off.
+            </p>
+          </details>
+
+          <details class="faq-item">
+            <summary>Is this suitable for small clinics or solo practitioners?</summary>
+            <p>
+              Yes. FlowSync works especially well for busy solo owners who can’t
+              reply to every DM instantly but still want a full calendar.
+            </p>
+          </details>
+
+          <details class="faq-item">
+            <summary>Can I cancel if it’s not right for us?</summary>
+            <p>
+              Absolutely. There’s no contract. You can cancel anytime before the next
+              billing date and we’ll switch FlowSync off cleanly.
+            </p>
+          </details>
         </div>
       </div>
     </section>
@@ -241,8 +292,8 @@
           Book your free setup call. We’ll connect FlowSync to your clinic,
           run your 7-day trial and show you the before/after numbers.
         </p>
-        <a href="#pricing" class="btn btn-primary btn-wide">
-          Start my 7-day free trial
+        <a href="#call" class="btn btn-primary btn-wide">
+          Book my free setup
         </a>
       </div>
     </section>
@@ -255,33 +306,29 @@
     </div>
   </footer>
 
+  <!-- NAV + YEAR + SMOOTH NAV CLOSE -->
   <script>
-    // year
+    // current year in footer
     document.getElementById('year').textContent = new Date().getFullYear();
 
     // mobile nav
-    const navToggle  = document.querySelector(".nav-burger");
-    const navDrawer  = document.getElementById("navDrawer");
+    const navToggle = document.getElementById("navToggle");
+    const navDrawer = document.getElementById("navDrawer");
     const navOverlay = document.getElementById("navOverlay");
-    const navLinks   = document.querySelectorAll(".nav-link");
+    const navLinks = document.querySelectorAll(".nav-link");
 
     function closeNav() {
       navDrawer.classList.remove("open");
       navOverlay.classList.remove("active");
     }
 
-    if (navToggle) {
-      navToggle.addEventListener("click", () => {
-        const isOpen = navDrawer.classList.toggle("open");
-        navOverlay.classList.toggle("active", isOpen);
-      });
-    }
+    navToggle.addEventListener("click", () => {
+      const isOpen = navDrawer.classList.toggle("open");
+      navOverlay.classList.toggle("active", isOpen);
+    });
 
-    if (navOverlay) {
-      navOverlay.addEventListener("click", closeNav);
-    }
-
-    navLinks.forEach(link =>
+    navOverlay.addEventListener("click", closeNav);
+    navLinks.forEach((link) =>
       link.addEventListener("click", closeNav)
     );
   </script>
