@@ -2,856 +2,230 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>FlowSync – Turn DMs & Missed Calls Into a Fully Booked Calendar</title>
+  <title>FlowSync – Automation for Beauty & Aesthetics Clinics</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="description" content="FlowSync automates DMs, missed calls and bookings for beauty & aesthetics clinics – filling your calendar without your team touching the phone." />
-
-  <!-- Fonts -->
+  <link rel="stylesheet" href="style.css" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-
-  <!-- Calendly styles -->
-  <link href="https://assets.calendly.com/assets/external/widget.css" rel="stylesheet">
-  
-  <style>
-    :root {
-      --bg: #020716;
-      --bg-alt: #050b1f;
-      --card: #050c22;
-      --text-main: #f5f7ff;
-      --text-muted: #a4b0d0;
-      --accent-teal: #00e0ff;
-      --accent-green: #27f58b;
-      --accent-purple: #7b5cff;
-      --accent-pill: linear-gradient(90deg, #0da36a, #27f58b);
-      --border-soft: rgba(255,255,255,0.08);
-      --radius-xl: 32px;
-      --radius-lg: 24px;
-      --radius-pill: 999px;
-      --shadow-soft: 0 22px 45px rgba(0,0,0,0.55);
-    }
-
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    html {
-      scroll-behavior: smooth; /* smooth scroll between sections */
-    }
-
-    body {
-      font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-      background: radial-gradient(circle at top, #121933 0, #020513 55%, #000 100%);
-      color: var(--text-main);
-      -webkit-font-smoothing: antialiased;
-    }
-
-    a {
-      color: inherit;
-      text-decoration: none;
-    }
-
-    .page {
-      min-height: 100vh;
-      color: var(--text-main);
-      background: radial-gradient(circle at 0 0, #1b2348 0, #020513 55%, #000 100%);
-    }
-
-    /* === Top navigation === */
-
-    .nav-shell {
-      position: fixed;
-      inset-inline: 0;
-      top: 0;
-      z-index: 50;
-      display: flex;
-      justify-content: center;
-      pointer-events: none;
-    }
-
-    .nav {
-      width: 100%;
-      max-width: 1120px;
-      margin: 12px 16px 0;
-      padding: 10px 18px;
-      border-radius: 999px;
-      background: rgba(3, 7, 23, 0.82);
-      backdrop-filter: blur(22px);
-      border: 1px solid rgba(255,255,255,0.06);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      pointer-events: auto;
-      box-shadow: 0 16px 35px rgba(0,0,0,0.6);
-    }
-
-    .nav-left {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .nav-logo {
-      width: 32px;
-      height: 32px;
-      border-radius: 50%;
-      overflow: hidden;
-      flex-shrink: 0;
-    }
-
-    .nav-logo img {
-      display: block;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-
-    .nav-name {
-      font-weight: 600;
-      letter-spacing: 0.02em;
-      font-size: 16px;
-    }
-
-    .nav-links {
-      display: none;
-      gap: 20px;
-      font-size: 14px;
-      color: var(--text-muted);
-    }
-
-    .nav-links a {
-      position: relative;
-      padding-bottom: 2px;
-    }
-
-    .nav-links a::after {
-      content: "";
-      position: absolute;
-      left: 0;
-      bottom: 0;
-      width: 0;
-      height: 2px;
-      border-radius: 999px;
-      background: linear-gradient(90deg, var(--accent-teal), var(--accent-green));
-      transition: width 0.2s ease-out;
-    }
-
-    .nav-links a:hover::after {
-      width: 100%;
-    }
-
-    .nav-burger {
-      width: 38px;
-      height: 38px;
-      border-radius: 999px;
-      border: 1px solid rgba(255,255,255,0.1);
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      background: radial-gradient(circle at 0 0, rgba(0, 224, 255, 0.15), rgba(0,0,0,0.95));
-      cursor: pointer;
-    }
-
-    .nav-burger-lines {
-      width: 18px;
-      height: 14px;
-      position: relative;
-    }
-
-    .nav-burger-lines span {
-      position: absolute;
-      left: 0;
-      right: 0;
-      height: 2px;
-      border-radius: 999px;
-      background: #f6f8ff;
-      transition: transform 0.2s ease, opacity 0.2s ease, top 0.2s ease, bottom 0.2s ease;
-    }
-
-    .nav-burger-lines span:nth-child(1) { top: 0; }
-    .nav-burger-lines span:nth-child(2) { top: 6px; }
-    .nav-burger-lines span:nth-child(3) { bottom: 0; }
-
-    .nav-burger.is-open .nav-burger-lines span:nth-child(1) {
-      top: 6px;
-      transform: rotate(45deg);
-    }
-
-    .nav-burger.is-open .nav-burger-lines span:nth-child(2) {
-      opacity: 0;
-    }
-
-    .nav-burger.is-open .nav-burger-lines span:nth-child(3) {
-      bottom: 6px;
-      transform: rotate(-45deg);
-    }
-
-    .nav-menu {
-      position: fixed;
-      inset-inline: 16px;
-      top: 64px;
-      border-radius: 24px;
-      padding: 14px 18px 16px;
-      border: 1px solid rgba(255,255,255,0.1);
-      background: rgba(3, 7, 23, 0.96);
-      backdrop-filter: blur(30px);
-      box-shadow: var(--shadow-soft);
-      display: none;
-      flex-direction: column;
-      gap: 10px;
-      z-index: 40;
-    }
-
-    .nav-menu a {
-      font-size: 15px;
-      color: var(--text-muted);
-      padding: 8px 10px;
-      border-radius: 12px;
-    }
-
-    .nav-menu a:hover {
-      background: rgba(255,255,255,0.06);
-      color: var(--text-main);
-    }
-
-    .nav-menu.open {
-      display: flex;
-    }
-
-    @media (min-width: 800px) {
-      .nav {
-        padding-inline: 24px;
-      }
-      .nav-links {
-        display: flex;
-      }
-      .nav-burger {
-        display: none;
-      }
-      .nav-menu {
-        display: none !important;
-      }
-    }
-
-    /* === Layout containers === */
-
-    .shell {
-      max-width: 1120px;
-      margin: 0 auto;
-      padding: 96px 16px 80px; /* 96px top = nav height + breathing space */
-    }
-
-    section {
-      margin-top: 72px;
-    }
-
-    /* === HERO === */
-
-    .hero {
-      padding-top: 120px; /* ensures no empty gap and hero tucked right under nav */
-    }
-
-    .pill {
-      display: inline-flex;
-      align-items: center;
-      padding: 6px 18px;
-      border-radius: var(--radius-pill);
-      border: 1px solid rgba(167, 243, 208, 0.35);
-      background: radial-gradient(circle at 0 0, rgba(34,197,94,0.38), rgba(17,24,39,0.96));
-      color: #c9fdd9;
-      font-size: 11px;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      margin-bottom: 22px;
-    }
-
-    .hero-title {
-      font-size: clamp(32px, 4.3vw, 46px);
-      line-height: 1.12;
-      letter-spacing: -0.03em;
-      margin-bottom: 18px;
-    }
-
-    .hero-title span.highlight-teal {
-      background: linear-gradient(90deg, var(--accent-teal), var(--accent-green));
-      -webkit-background-clip: text;
-      color: transparent;
-    }
-
-    .hero-copy {
-      max-width: 640px;
-      color: var(--text-muted);
-      font-size: 15px;
-      line-height: 1.6;
-      margin-bottom: 28px;
-    }
-
-    .hero-ctas {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 12px;
-      margin-bottom: 18px;
-    }
-
-    .btn-primary {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      padding: 13px 26px;
-      border-radius: var(--radius-pill);
-      border: none;
-      font-weight: 600;
-      font-size: 15px;
-      cursor: pointer;
-      background-image: linear-gradient(135deg, var(--accent-purple), var(--accent-teal));
-      color: #f7fbff;
-      box-shadow: 0 12px 28px rgba(88, 101, 242, 0.65);
-      transition: filter 0.16s ease-out, transform 0.16s ease-out, box-shadow 0.16s ease-out;
-    }
-
-    .btn-primary:hover {
-      filter: brightness(1.05);
-      transform: translateY(-1px);
-      box-shadow: 0 18px 36px rgba(88, 101, 242, 0.9);
-    }
-
-    .btn-ghost {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      padding: 13px 22px;
-      border-radius: var(--radius-pill);
-      border: 1px solid rgba(148, 163, 184, 0.65);
-      font-weight: 500;
-      font-size: 15px;
-      color: var(--text-main);
-      background: rgba(15,23,42,0.9);
-      cursor: pointer;
-      transition: background 0.16s ease-out, border-color 0.16s ease-out;
-    }
-
-    .btn-ghost:hover {
-      background: rgba(30,64,175,0.75);
-      border-color: rgba(191, 219, 254, 0.9);
-    }
-
-    .hero-subnote {
-      font-size: 13px;
-      color: var(--text-muted);
-      margin-bottom: 18px;
-    }
-
-    .hero-points {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      margin-bottom: 26px;
-    }
-
-    .hero-point {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      font-size: 14px;
-      color: var(--text-muted);
-    }
-
-    /* breathing green dots */
-    .status-dot {
-      width: 11px;
-      height: 11px;
-      border-radius: 999px;
-      background: var(--accent-green);
-      box-shadow: 0 0 0 0 rgba(39, 245, 139, 0.8);
-      animation: breathe 2.4s ease-in-out infinite;
-      flex-shrink: 0;
-    }
-
-    @keyframes breathe {
-      0% {
-        transform: scale(1);
-        box-shadow: 0 0 0 0 rgba(39, 245, 139, 0.7);
-      }
-      50% {
-        transform: scale(1.16);
-        box-shadow: 0 0 0 10px rgba(39, 245, 139, 0);
-      }
-      100% {
-        transform: scale(1);
-        box-shadow: 0 0 0 0 rgba(39, 245, 139, 0);
-      }
-    }
-
-    /* Social icons row */
-    .hero-social {
-      display: flex;
-      gap: 16px;
-      margin-top: 4px;
-    }
-
-    .social-pill {
-      width: 44px;
-      height: 44px;
-      border-radius: 18px;
-      border: 1px solid rgba(148, 163, 184, 0.5);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: rgba(15,23,42,0.9);
-      cursor: pointer;
-      transition: border-color 0.18s ease, background 0.18s ease, transform 0.18s ease;
-    }
-
-    .social-pill:hover {
-      border-color: rgba(56, 189, 248, 1);
-      background: rgba(15,23,42,1);
-      transform: translateY(-1px);
-    }
-
-    /* === “How it works” === */
-
-    .section-title {
-      font-size: 24px;
-      letter-spacing: -0.02em;
-      margin-bottom: 10px;
-    }
-
-    .section-subtitle {
-      color: var(--text-muted);
-      font-size: 14px;
-      margin-bottom: 26px;
-    }
-
-    .steps-grid {
-      display: grid;
-      grid-template-columns: minmax(0,1fr);
-      gap: 18px;
-    }
-
-    @media (min-width: 830px) {
-      .steps-grid {
-        grid-template-columns: repeat(3,minmax(0,1fr));
-      }
-    }
-
-    .step-card {
-      border-radius: var(--radius-lg);
-      padding: 18px 18px 20px;
-      background: radial-gradient(circle at top left, rgba(79,70,229,0.25), rgba(15,23,42,0.98));
-      border: 1px solid rgba(148,163,184,0.3);
-      box-shadow: 0 14px 30px rgba(15,23,42,0.75);
-    }
-
-    .step-label {
-      font-size: 11px;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      color: rgba(191,219,254,0.9);
-      margin-bottom: 8px;
-    }
-
-    .step-title {
-      font-size: 16px;
-      margin-bottom: 6px;
-    }
-
-    .step-body {
-      font-size: 14px;
-      color: var(--text-muted);
-      line-height: 1.5;
-    }
-
-    /* === Pricing === */
-
-    .pricing-section {
-      margin-top: 80px;
-    }
-
-    .pricing-grid {
-      display: grid;
-      grid-template-columns: minmax(0,1fr);
-      gap: 18px;
-    }
-
-    .plan-card {
-      border-radius: 30px;
-      padding: 20px 20px 22px;
-      background: radial-gradient(circle at top left, rgba(59,130,246,0.2), rgba(15,23,42,0.98));
-      border: 1px solid rgba(148,163,184,0.45);
-      box-shadow: 0 20px 40px rgba(15,23,42,0.9);
-    }
-
-    .plan-badge {
-      display: inline-flex;
-      padding: 5px 12px;
-      border-radius: 999px;
-      font-size: 11px;
-      text-transform: uppercase;
-      letter-spacing: 0.16em;
-      background: radial-gradient(circle at top left, rgba(56,189,248,0.25), rgba(15,23,42,0.95));
-      border: 1px solid rgba(125,211,252,0.7);
-      color: rgba(224,242,254,0.96);
-      margin-bottom: 12px;
-    }
-
-    .plan-price-row {
-      display: flex;
-      align-items: baseline;
-      gap: 8px;
-      margin-bottom: 4px;
-    }
-
-    .plan-price {
-      font-size: 30px;
-      font-weight: 700;
-    }
-
-    .plan-price span {
-      font-size: 18px;
-      font-weight: 600;
-    }
-
-    .plan-caption {
-      font-size: 13px;
-      color: var(--text-muted);
-      margin-bottom: 14px;
-    }
-
-    .plan-list {
-      display: flex;
-      flex-direction: column;
-      gap: 9px;
-      margin: 12px 0 18px;
-    }
-
-    .plan-cta {
-      width: 100%;
-      justify-content: center;
-    }
-
-    /* === Calendly section === */
-
-    .calendly-wrap {
-      border-radius: var(--radius-lg);
-      border: 1px solid rgba(148,163,184,0.5);
-      background: radial-gradient(circle at top left, rgba(59,130,246,0.22), rgba(15,23,42,0.98));
-      padding: 18px 16px 8px;
-      box-shadow: var(--shadow-soft);
-    }
-
-    .calendly-copy {
-      font-size: 14px;
-      color: var(--text-muted);
-      margin-bottom: 12px;
-      max-width: 620px;
-    }
-
-    .calendly-inline-widget {
-      min-width: 280px;
-      height: 520px;
-    }
-
-    /* === Footer === */
-
-    footer {
-      padding: 40px 16px 28px;
-      border-top: 1px solid rgba(30,64,175,0.7);
-      margin-top: 72px;
-      background: radial-gradient(circle at top, rgba(15,23,42,0.9), rgba(3,7,18,1));
-    }
-
-    .footer-inner {
-      max-width: 1120px;
-      margin: 0 auto;
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-      font-size: 13px;
-      color: var(--text-muted);
-    }
-
-    .footer-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 12px;
-      flex-wrap: wrap;
-    }
-
-    .footer-brand {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-  </style>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet"
+  >
 </head>
-
 <body>
-  <div class="page">
-    
-    <!-- Fixed blur nav -->
-    <div class="nav-shell">
-      <header class="nav">
-        <div class="nav-left">
-          <div class="nav-logo">
-            <!-- transparent background logo here -->
-            <img src="assets/flowsync-logo.png" alt="FlowSync logo">
-          </div>
-          <div class="nav-name">FlowSync</div>
+  <!-- GLASS / BLURRED NAV -->
+  <header class="nav">
+    <div class="nav-inner">
+      <a href="#hero" class="nav-logo">
+        <div class="nav-logo-mark">FS</div>
+        <span class="nav-logo-text">FlowSync</span>
+      </a>
+
+      <nav class="nav-links">
+        <a href="#how">How it works</a>
+        <a href="#pricing">Pricing</a>
+        <a href="#results">Results</a>
+      </nav>
+
+      <a href="#pricing" class="nav-cta">Start 7-day free trial</a>
+
+      <!-- mobile burger -->
+      <button class="nav-burger" aria-label="Open menu">
+        <span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <div class="page-bg"></div>
+
+  <main>
+    <!-- HERO -->
+    <section id="hero" class="section hero">
+      <div class="shell">
+        <div class="hero-pill">Built for beauty & aesthetics clinics</div>
+
+        <h1 class="hero-title">
+          Turn DMs & missed calls into a
+          <span class="hero-gradient">fully booked calendar.</span>
+        </h1>
+
+        <p class="hero-sub">
+          FlowSync captures enquiries from Instagram, WhatsApp & your website,
+          replies instantly and books clients straight into your calendar —
+          without your team touching the phone.
+        </p>
+
+        <div class="hero-cta-row">
+          <a href="#pricing" class="btn btn-primary">
+            Start 7-day free trial
+          </a>
+          <a href="#pricing" class="btn btn-ghost">
+            View pricing
+          </a>
         </div>
 
-        <nav class="nav-links">
-          <a href="#how-it-works">How it works</a>
-          <a href="#pricing">Pricing</a>
-          <a href="#setup-call">Book a call</a>
-        </nav>
+        <p class="hero-trial-note">
+          No contract. No setup fee. Cancel anytime.
+        </p>
 
-        <button class="nav-burger" id="navBurger" aria-label="Open menu">
-          <div class="nav-burger-lines">
-            <span></span>
-            <span></span>
-            <span></span>
+        <ul class="hero-bullets">
+          <li><span class="dot"></span>Instant replies to DMs, WhatsApp & forms</li>
+          <li><span class="dot"></span>Automatic booking, rescheduling & reminders</li>
+          <li><span class="dot"></span>No-shows cut with smart reminder flows</li>
+          <li><span class="dot"></span>Done-for-you setup & ongoing tweaks included</li>
+        </ul>
+
+        <div class="hero-socials">
+          <a class="social" href="https://www.instagram.com/flowsyncsystem" target="_blank" rel="noreferrer">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5zm0 2a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V7a3 3 0 0 0-3-3H7zm5 3.5A4.5 4.5 0 1 1 7.5 12 4.5 4.5 0 0 1 12 7.5zm0 2A2.5 2.5 0 1 0 14.5 12 2.5 2.5 0 0 0 12 9.5zM17.75 6a1.25 1.25 0 1 1-1.25 1.25A1.25 1.25 0 0 1 17.75 6z"/>
+            </svg>
+          </a>
+          <a class="social" href="https://www.tiktok.com/@flowsyncsystem" target="_blank" rel="noreferrer">
+            <svg viewBox="0 0 48 48" aria-hidden="true">
+              <path d="M31 6.5c1.3 2.3 3.6 3.9 6.2 4.3v6a11 11 0 0 1-6.5-2.1V30a11.5 11.5 0 1 1-9.8-11.4v6.1a4.7 4.7 0 1 0 3.3 4.5V6.5z"/>
+            </svg>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- GAP / HOW IT WORKS -->
+    <section id="how" class="section">
+      <div class="shell">
+        <div class="section-label">How FlowSync works</div>
+        <h2 class="section-title">From missed messages to booked treatments in 3 steps</h2>
+
+        <div class="steps">
+          <article class="step">
+            <div class="step-badge">1</div>
+            <h3>Connect your inboxes</h3>
+            <p>
+              We plug into your Instagram DMs, WhatsApp and website forms so every enquiry
+              flows into one place — no more screenshots and chasing messages.
+            </p>
+          </article>
+
+          <article class="step">
+            <div class="step-badge">2</div>
+            <h3>We reply, qualify & offer times</h3>
+            <p>
+              FlowSync replies instantly with your tone of voice, answers basic questions
+              and offers real-time appointment slots from your calendar.
+            </p>
+          </article>
+
+          <article class="step">
+            <div class="step-badge">3</div>
+            <h3>Bookings auto-sync to your calendar</h3>
+            <p>
+              Confirmed bookings, reschedules and cancellations sync straight into your
+              diary. Clients receive reminders so they show up on time — and more often.
+            </p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- GAP / RESULTS -->
+    <section id="results" class="section section-alt">
+      <div class="shell">
+        <div class="section-label">Why clinics use FlowSync</div>
+        <h2 class="section-title">Built to handle the reality of busy beauty clinics</h2>
+
+        <div class="results-grid">
+          <div class="result-card">
+            <h3>Stop losing DM enquiries</h3>
+            <p>
+              Most clinics reply hours later — if at all. FlowSync replies in seconds,
+              keeps the conversation alive and pushes every warm lead toward a booking.
+            </p>
           </div>
-        </button>
-      </header>
-    </div>
+          <div class="result-card">
+            <h3>No more admin evenings</h3>
+            <p>
+              Your team focuses on treatments, not typing. FlowSync handles the boring
+              part: back-and-forth, reminders, reschedules and follow-ups.
+            </p>
+          </div>
+          <div class="result-card">
+            <h3>Cleaner calendar, fewer gaps</h3>
+            <p>
+              Smart reminder flows reduce no-shows and last-minute cancellations, so
+              your chair time is actually filled with paying clients.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
 
-    <!-- mobile dropdown -->
-    <nav class="nav-menu" id="navMenu">
-      <a href="#how-it-works" data-menu-link>How it works</a>
-      <a href="#pricing" data-menu-link>Pricing</a>
-      <a href="#setup-call" data-menu-link>Book a call</a>
-    </nav>
+    <!-- GAP / PRICING -->
+    <section id="pricing" class="section">
+      <div class="shell">
+        <div class="section-label">Pricing</div>
+        <h2 class="section-title">Start free. No contract. Cancel anytime.</h2>
 
-    <main>
-      <div class="shell hero" id="top">
-        <!-- HERO -->
-        <section aria-labelledby="hero-title">
-          <div class="pill">BUILT FOR BEAUTY &amp; AESTHETICS CLINICS</div>
+        <div class="pricing-grid">
+          <!-- MAIN PLAN -->
+          <article class="price-card price-card-main">
+            <div class="price-badge">Most popular</div>
 
-          <h1 class="hero-title" id="hero-title">
-            Turn DMs &amp; missed calls into a
-            <span class="highlight-teal">fully booked calendar.</span>
-          </h1>
+            <h3 class="plan-name">FlowSync Automation</h3>
 
-          <p class="hero-copy">
-            FlowSync captures enquiries from Instagram, WhatsApp &amp; your website, replies instantly and
-            books clients straight into your calendar — without your team touching the phone.
-          </p>
+            <div class="price-row">
+              <span class="price-amount">£269.99</span>
+              <span class="price-copy">
+                /month<br />
+                <span class="price-sub">after 7-day free trial</span>
+              </span>
+            </div>
 
-          <div class="hero-ctas">
-            <a class="btn-primary"
-               href="https://buy.stripe.com/5kQ8wPfAy4vi0gz6B8eZ200"
-               target="_blank" rel="noopener">
+            <ul class="price-feats">
+              <li><span class="dot"></span>7-day fully managed free trial</li>
+              <li><span class="dot"></span>Instagram, WhatsApp & website enquiries connected</li>
+              <li><span class="dot"></span>Instant replies, booking & rescheduling</li>
+              <li><span class="dot"></span>No-show reduction with smart reminders</li>
+              <li><span class="dot"></span>Support & ongoing tweaks included</li>
+            </ul>
+
+            <a
+              class="btn btn-primary btn-wide"
+              href="https://buy.stripe.com/5kQ8wPfAy4vi0gz6B8eZ200"
+              target="_blank"
+              rel="noreferrer"
+            >
               Start 7-day free trial
             </a>
-            <a class="btn-ghost" href="#pricing">
-              View pricing
-            </a>
-          </div>
 
-          <p class="hero-subnote">
-            No contract. No setup fee. Cancel anytime.
-          </p>
-
-          <div class="hero-points">
-            <div class="hero-point">
-              <span class="status-dot"></span>
-              <span>Instant replies to DMs, WhatsApp &amp; forms</span>
-            </div>
-            <div class="hero-point">
-              <span class="status-dot"></span>
-              <span>Automatic booking, rescheduling &amp; reminders</span>
-            </div>
-            <div class="hero-point">
-              <span class="status-dot"></span>
-              <span>No-shows cut with smart reminder flows</span>
-            </div>
-            <div class="hero-point">
-              <span class="status-dot"></span>
-              <span>Done-for-you setup &amp; ongoing tweaks included</span>
-            </div>
-          </div>
-
-          <div class="hero-social">
-            <a class="social-pill" href="https://www.instagram.com/flowsyncsystem?igsh=bmF3MDQybXVuMm91&utm_source=qr" target="_blank" rel="noopener" aria-label="FlowSync Instagram">
-              <span style="font-size:18px;">📸</span>
-            </a>
-            <a class="social-pill" href="https://www.tiktok.com/@flowsyncsystem" target="_blank" rel="noopener" aria-label="FlowSync TikTok">
-              <span style="font-size:18px;">🎵</span>
-            </a>
-          </div>
-        </section>
-
-        <!-- HOW IT WORKS -->
-        <section id="how-it-works" aria-labelledby="how-title">
-          <h2 class="section-title" id="how-title">How FlowSync works for your clinic</h2>
-          <p class="section-subtitle">
-            No extra staff. No complicated software. Just a simple automation layer that keeps your diary full while you focus on clients.
-          </p>
-
-          <div class="steps-grid">
-            <article class="step-card">
-              <div class="step-label">Step 1</div>
-              <div class="step-title">Connect your inboxes</div>
-              <p class="step-body">
-                We plug FlowSync into your Instagram DMs, WhatsApp and website forms so every enquiry is captured in one place.
-              </p>
-            </article>
-
-            <article class="step-card">
-              <div class="step-label">Step 2</div>
-              <div class="step-title">We build your booking flows</div>
-              <p class="step-body">
-                We map out your services, availability and rules, then set up smart flows that reply, qualify and book straight into your calendar.
-              </p>
-            </article>
-
-            <article class="step-card">
-              <div class="step-label">Step 3</div>
-              <div class="step-title">Clients get booked, you get peace of mind</div>
-              <p class="step-body">
-                Every new enquiry is replied to instantly, nudged to book, reminded before their appointment and followed up if they don’t show.
-              </p>
-            </article>
-          </div>
-        </section>
-
-        <!-- PRICING -->
-        <section id="pricing" class="pricing-section" aria-labelledby="pricing-title">
-          <h2 class="section-title" id="pricing-title">Pricing</h2>
-          <p class="section-subtitle">
-            Start free. No contract. Cancel anytime.
-          </p>
-
-          <div class="pricing-grid">
-            <!-- Single main plan -->
-            <article class="plan-card">
-              <div class="plan-badge">Most popular</div>
-
-              <h3 class="step-title" style="margin-bottom:2px;">FlowSync Automation</h3>
-
-              <div class="plan-price-row">
-                <div class="plan-price">
-                  <span>£</span>269.99
-                </div>
-                <div style="font-size:14px; color:var(--text-muted);">
-                  /month after 7-day free trial
-                </div>
-              </div>
-
-              <p class="plan-caption">
-                7-day fully managed free trial. We set everything up for you, prove the value, then you decide if you want to continue.
-              </p>
-
-              <div class="plan-list">
-                <div class="hero-point">
-                  <span class="status-dot"></span>
-                  <span>Instant replies to Instagram, WhatsApp &amp; web enquiries</span>
-                </div>
-                <div class="hero-point">
-                  <span class="status-dot"></span>
-                  <span>Done-for-you setup of booking, rescheduling &amp; reminder flows</span>
-                </div>
-                <div class="hero-point">
-                  <span class="status-dot"></span>
-                  <span>No-show reduction with smart reminders &amp; follow-ups</span>
-                </div>
-                <div class="hero-point">
-                  <span class="status-dot"></span>
-                  <span>Ongoing tweaks &amp; support included — we optimise as you grow</span>
-                </div>
-              </div>
-
-              <a class="btn-primary plan-cta"
-                 href="https://buy.stripe.com/5kQ8wPfAy4vi0gz6B8eZ200"
-                 target="_blank" rel="noopener">
-                Start 7-day free trial
-              </a>
-
-              <p class="hero-subnote" style="margin-top:10px;">
-                No contract. Cancel anytime with one click.
-              </p>
-            </article>
-          </div>
-        </section>
-
-        <!-- CALENDLY / BOOK A CALL -->
-        <section id="setup-call" aria-labelledby="setup-title" style="margin-top:80px;">
-          <h2 class="section-title" id="setup-title">Book your free setup call</h2>
-          <p class="section-subtitle">
-            Prefer to talk it through first? Book a 30-minute call and we’ll map out how FlowSync would plug into your clinic — zero pressure.
-          </p>
-
-          <div class="calendly-wrap">
-            <p class="calendly-copy">
-              On this call we’ll review your current booking process, show you how the automations work behind the scenes, and answer any questions before you start your free trial.
+            <p class="price-footnote">
+              We set everything up for you during the trial. Pay nothing if you don’t continue.
             </p>
+          </article>
+    </section>
 
-            <div class="calendly-inline-widget"
-                 data-url="https://calendly.com/flowsyncsystem/30min"
-                 style="min-width:280px;height:520px;"></div>
-          </div>
-        </section>
+    <!-- GAP / FINAL CTA -->
+    <section class="section section-alt">
+      <div class="shell final-cta">
+        <h2>Ready to stop losing DMs and start filling your calendar?</h2>
+        <p>
+          Book your free setup call. We’ll connect FlowSync to your clinic,
+          run your 7-day trial and show you the before/after numbers.
+        </p>
+        <a href="#pricing" class="btn btn-primary btn-wide">
+          Start my 7-day free trial
+        </a>
       </div>
-    </main>
+    </section>
+  </main>
 
-    <!-- FOOTER -->
-    <footer>
-      <div class="footer-inner">
-        <div class="footer-row">
-          <div class="footer-brand">
-            <div class="nav-logo">
-              <img src="assets/flowsync-logo.png" alt="FlowSync logo">
-            </div>
-            <span>FlowSync</span>
-          </div>
-          <div class="hero-social">
-            <a class="social-pill" href="https://www.instagram.com/flowsyncsystem?igsh=bmF3MDQybXVuMm91&utm_source=qr" target="_blank" rel="noopener">
-              <span style="font-size:18px;">📸</span>
-            </a>
-            <a class="social-pill" href="https://www.tiktok.com/@flowsyncsystem" target="_blank" rel="noopener">
-              <span style="font-size:18px;">🎵</span>
-            </a>
-          </div>
-        </div>
-        <div class="footer-row" style="justify-content:space-between;">
-          <span>© <span id="year"></span> FlowSync. All rights reserved.</span>
-          <span>Built for beauty &amp; aesthetics clinics.</span>
-        </div>
-      </div>
-    </footer>
-  </div>
+  <footer class="footer">
+    <div class="shell footer-inner">
+      <span>© <span id="year"></span> FlowSync System. All rights reserved.</span>
+      <a href="mailto:info@flowsyncsystem.com">info@flowsyncsystem.com</a>
+    </div>
+  </footer>
 
-  <!-- Calendly script -->
-  <script src="https://assets.calendly.com/assets/external/widget.js" type="text/javascript" async></script>
-
-  <!-- Small JS for mobile nav + dynamic year -->
   <script>
-    const burger = document.getElementById('navBurger');
-    const menu = document.getElementById('navMenu');
-    const menuLinks = document.querySelectorAll('[data-menu-link]');
-
-    function closeMenu() {
-      menu.classList.remove('open');
-      burger.classList.remove('is-open');
-    }
-
-    burger.addEventListener('click', () => {
-      menu.classList.toggle('open');
-      burger.classList.toggle('is-open');
-    });
-
-    menuLinks.forEach(link => {
-      link.addEventListener('click', () => {
-        closeMenu();
-      });
-    });
-
-    // footer year
     document.getElementById('year').textContent = new Date().getFullYear();
   </script>
 </body>
