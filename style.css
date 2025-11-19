@@ -687,3 +687,13 @@ body {
     border-radius: 22px;
   }
 }
+/* Force burger icon to be visible on all screens */
+.nav-burger {
+  display: inline-flex !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+.nav-burger span {
+  background: #e5e7eb !important;
+}
