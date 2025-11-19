@@ -1,284 +1,300 @@
-<!doctype html>
-<html lang="en" id="top">
+<!DOCTYPE html>
+<html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>FlowSync</title>
-  <link rel="preload" href="logo.png" as="image">
+  <meta charset="UTF-8" />
+  <title>FlowSync — Fully Booked Beauty & Aesthetic Clinics</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <link rel="stylesheet" href="style.css" />
 </head>
-<body>
+<body id="top">
+  <!-- HEADER -->
+  <header class="header">
+    <a href="#top" class="brand">
+      <img src="logo.png" alt="FlowSync" class="brand-logo" />
+      <span class="brand-name">FlowSync</span>
+    </a>
 
-  <!-- Header -->
-<header class="site-header">
-  <a href="#top" class="brand">
-    <img src="logo.png" alt="FlowSync logo" class="brand-logo" />
-    <span class="brand-name">FlowSync</span>
-  </a>
+    <button class="burger" id="navToggle" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </header>
 
-  <!-- Menu button (3 dots) -->
-  <button id="nav-toggle" class="menu-dots" aria-expanded="false">
-    <span></span><span></span><span></span>
-  </button>
-</header>
+  <!-- MOBILE NAV -->
+  <div class="nav-overlay" id="navOverlay"></div>
+  <nav class="nav-drawer" id="navDrawer">
+    <a href="#how" class="nav-link">How it works</a>
+    <a href="#pricing" class="nav-link">Pricing</a>
+    <a href="#book" class="nav-link">Book a call</a>
+    <a href="#faq" class="nav-link">FAQ</a>
+  </nav>
 
-<!-- Overlay + Drawer (ONE copy only) -->
-<div id="nav-overlay" aria-hidden="true"></div>
-
-<nav id="nav-drawer" class="nav-drawer" aria-hidden="true">
-  <a class="nav-item" href="#how">How it works</a>
-  <a class="nav-item" href="#pricing">Pricing</a>
-  <a class="nav-item" href="#book">Book</a>
-  <a class="nav-item" href="#why">Why us?</a>
-  <a class="nav-item" href="#top">Back to top</a>
-</nav>
-
+  <!-- HERO -->
   <main>
-    <section class="hero" id="home">
-      <p class="pill">No ads. No code. Live in days.</p>
+    <section class="hero">
+      <div class="badge">Built for beauty & aesthetics clinics</div>
 
-      <h1 class="hero-title">
-        Turn missed<br />
-        messages into<br />
-        <span class="gradient-move">booked customers.</span>
+      <h1>
+        Turn DMs & missed calls<br />
+        into a <span class="gradient-text">fully booked calendar.</span>
       </h1>
 
       <p class="hero-sub">
-        Instant reply, auto-booking, and no-show reduction — so every enquiry becomes an appointment.
+        FlowSync captures enquiries from Instagram, WhatsApp & your website,
+        replies instantly, and fills your diary with clients — without you
+        touching the phone.
       </p>
 
-      <div class="hero-ctas">
-        <a href="#book" class="btn btn-gradient">Book a free setup</a>
-        <a href="#pricing" class="btn btn-dark">See pricing</a>
+      <div class="hero-cta">
+        <a href="#book" class="btn btn-primary">Book a free setup call</a>
+        <a href="#pricing" class="btn btn-ghost">View pricing</a>
       </div>
 
-      <ul class="features">
-        <li><span class="dot"></span>Instant reply on Instagram, WhatsApp &amp; SMS.</li>
-        <li><span class="dot"></span>Auto-booking straight into your calendar.</li>
-        <li><span class="dot"></span>No-shows cut by smart reminders.</li>
+      <ul class="hero-points">
+        <li><span class="dot"></span>Instant replies to DMs, WhatsApp & forms</li>
+        <li><span class="dot"></span>Automatic booking & rescheduling</li>
+        <li><span class="dot"></span>Less no-shows with smart reminders</li>
       </ul>
 
-      <div class="socials">
-  <a class="social"
-     href="https://www.instagram.com/flowsyncsystem?igsh=bmF3MDQybXVuMm91&utm_source=qr"
-     target="_blank" rel="noopener noreferrer" aria-label="Instagram">
-    <svg viewBox="0 0 24 24" width="24" height="24" role="img">
-      <path fill="currentColor"
-        d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5zm5 5a5 5 0 1 0 0 10 5 5 0 0 0 0-10zm6.5-.25a1.25 1.25 0 1 0 0-2.5 1.25 1.25 0 0 0 0 2.5z"/>
-    </svg>
-  </a>
+      <div class="social-row">
+        <a
+          href="https://www.instagram.com/flowsyncsystem?igsh=bmF3MDQybXVuMm91&utm_source=qr"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="social-btn"
+          aria-label="FlowSync on Instagram"
+        >
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path
+              d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5zm5 5a5 5 0 1 0 0 10 5 5 0 0 0 0-10zm6.5-.25a1.25 1.25 0 1 0 0-2.5 1.25 1.25 0 0 0 0 2.5z"
+            />
+          </svg>
+        </a>
 
-  <a class="social"
-     href="https://www.tiktok.com/@flowsyncsystem"
-     target="_blank" rel="noopener noreferrer" aria-label="TikTok">
-    <svg viewBox="0 0 48 48" width="24" height="24" role="img">
-      <path fill="currentColor"
-        d="M31.6 4v7.6c2.6 2.1 5.8 3.3 9.4 3.4v8.1c-3.4-.2-6.6-1.1-9.4-2.9v13.4c0 8.8-7.1 16-16 16S0 42.4 0 33.6c0-8.8 7.1-16 16-16 1.4 0 2.8.2 4.1.6v8.5a7.8 7.8 0 0 0-4.1-1.1c-4.4 0-8 3.6-8 8s3.6 8 8 8 8-3.6 8-8V4h7.6z"/>
-    </svg>
-  </a>
-</div>
-    </section>
-
-    <!-- How it works -->
-    <section id="how" class="section">
-      <h2>How it works</h2>
-      <div class="card">
-        <h3>1) Connect your inboxes</h3>
-        <p>We connect Instagram DMs, WhatsApp and SMS.</p>
-      </div>
-      <div class="card">
-        <h3>2) Auto-reply &amp; qualify</h3>
-        <p>Replies go out instantly and gather details so you don’t have to.</p>
-      </div>
-      <div class="card">
-        <h3>3) Book &amp; remind</h3>
-        <p>Smart confirmations &amp; reminders keep revenue on the calendar.</p>
+        <a
+          href="https://www.tiktok.com/@flowsyncsystem"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="social-btn"
+          aria-label="FlowSync on TikTok"
+        >
+          <svg viewBox="0 0 48 48" aria-hidden="true">
+            <path
+              d="M31.6 4v7.6c2.6 2.1 5.8 3.3 9.4 3.4v8.1c-3.4-.2-6.6-1.1-9.4-2.9v13.4c0 8.8-7.1 16-16 16S0 42.4 0 33.6c0-8.8 7.1-16 16-16 1.4 0 2.8.2 4.1.6v8.5a7.8 7.8 0 0 0-4.1-1.1c-4.4 0-8 3.6-8 8s3.6 8 8 8 8-3.6 8-8V4h7.6z"
+            />
+          </svg>
+        </a>
       </div>
     </section>
-    
-   <!-- Why FlowSync -->
-<section id="why" class="section why-section">
-  <h2>Why FlowSync</h2>
 
-  <div class="why-card">
-    <h3>Never miss a DM</h3>
-    <p>Instant replies on Instagram, WhatsApp & SMS so every enquiry gets answered fast.</p>
-  </div>
-
-  <div class="why-card">
-    <h3>Qualify automatically</h3>
-    <p>We collect name, service, availability and notes — ready for booking.</p>
-  </div>
-
-  <div class="why-card">
-    <h3>Auto-book to your calendar</h3>
-    <p>Confirmed slots go straight into your calendar with details attached.</p>
-  </div>
-
-  <div class="why-card">
-    <h3>Cut no-shows</h3>
-    <p>Smart reminders keep revenue on the calendar.</p>
-  </div>
-
-  <!-- quick proof row -->
-  <ul class="why-proof">
-    <li><span class="kpi">3–5×</span> more bookings from DMs</li>
-    <li><span class="kpi">60%+</span> faster first response</li>
-    <li><span class="kpi">-35%</span> fewer no-shows</li>
-  </ul>
-</section>
-
-   <!-- ===== PRICING ===== -->
-<section id="pricing" class="section">
-  <h2>Pricing</h2>
-  <p class="muted">Start free. No contract. Cancel anytime.</p>
-
-  <div class="price-grid">
-
-    <!-- Single main plan -->
-    <article class="price-card glow">
-      <span class="badge">Start free</span>
-
-      <h3 class="plan">FlowSync Automation</h3>
-
-      <div class="money">
-        <span class="big">£269.99</span>
-        <span class="per">/month after 7-day free trial</span>
+    <!-- HOW IT WORKS -->
+    <section class="section" id="how">
+      <div class="section-header">
+        <h2>How FlowSync works for your clinic</h2>
+        <p>
+          Simple system. No new app to learn. We plug into what you already use
+          and quietly run everything in the background.
+        </p>
       </div>
 
-      <ul class="price-feats">
-        <li><span class="dot"></span>7-day fully managed free trial</li>
-        <li><span class="dot"></span>Instant reply &amp; auto-booking</li>
-        <li><span class="dot"></span>Instagram / WhatsApp / SMS</li>
-        <li><span class="dot"></span>No-show reduction with smart reminders</li>
-        <li><span class="dot"></span>Support &amp; tweaks included</li>
-      </ul>
-
-      <a class="btn btn-gradient wide"
-         href="https://buy.stripe.com/5kQ8wPfAy4vi0gz6B8eZ200"
-         target="_blank" rel="noopener">
-        Start 7-day free trial
-      </a>
-    </article>
-
-  </div>
-</section>
-
+      <div class="steps-grid">
+        <article class="step-card">
+          <div class="step-label">Step 1</div>
+          <h3>Connect your channels</h3>
+          <p>
+            We link Instagram DMs, WhatsApp, your website form and booking
+            calendar (Fresha, Calendly, Timely, etc.).
+          </p>
         </article>
 
+        <article class="step-card">
+          <div class="step-label">Step 2</div>
+          <h3>We design your flows</h3>
+          <p>
+            We map how you like to book clients, deposits, patch tests and
+            consultation questions — then build it into automation.
+          </p>
+        </article>
 
-    <!-- Book -->
-  <section id="book" class="book-section">
-    <h2>Book your free setup call</h2>
-    <p>Pick a time — we’ll connect FlowSync, import your message templates and go live.</p>
-    
-<p class="book-cta">
-  <a class="book-btn" href="https://calendly.com/flowsyncsystem/30min" target="_blank" rel="noopener">
-    Book Now
-  </a>
-</p>
-  
-</section>
+        <article class="step-card">
+          <div class="step-label">Step 3</div>
+          <h3>FlowSync runs 24/7</h3>
+          <p>
+            New enquiries get instant replies, are qualified and booked into
+            your diary with reminders — even while you’re in back-to-back
+            treatments.
+          </p>
+        </article>
+      </div>
+    </section>
 
-    <!-- Calendly inline embed -->
-    <div class="calendly-inline-widget"
-         data-url="https://calendly.com/flowsyncsystem/30min"
-         style="min-width:320px;height:700px;border-radius:16px;overflow:hidden;"></div>
-    <script type="text/javascript"
-      src="https://assets.calendly.com/assets/external/widget.js" async></script>
-  </div>
-</section>
+    <!-- WHAT WE AUTOMATE -->
+    <section class="section" id="features">
+      <div class="section-header">
+        <h2>What we automate for beauty & aesthetics clinics</h2>
+        <p>
+          No more chasing DMs or losing clients because you couldn’t reply fast
+          enough.
+        </p>
+      </div>
+
+      <div class="feature-grid">
+        <article class="feature-card">
+          <h3>DM & WhatsApp replies</h3>
+          <p>
+            New enquiries get an instant, professional response with your tone
+            of voice and FAQs.
+          </p>
+        </article>
+
+        <article class="feature-card">
+          <h3>Auto-booking & rescheduling</h3>
+          <p>
+            Qualified clients are sent your live availability and booked in
+            without back-and-forth.
+          </p>
+        </article>
+
+        <article class="feature-card">
+          <h3>No-show & late reminder texts</h3>
+          <p>
+            Smart reminder flows reduce no-shows and give clients an easy way to
+            reschedule.
+          </p>
+        </article>
+
+        <article class="feature-card">
+          <h3>Lead capture from your bio</h3>
+          <p>
+            Your “Book now” link leads into a system that actually captures,
+            replies and books – not just a dead form.
+          </p>
+        </article>
+      </div>
+    </section>
+
+    <!-- PRICING -->
+    <section class="section" id="pricing">
+      <div class="section-header">
+        <h2>Pricing</h2>
+        <p>
+          One simple plan. No setup fee. Cancel anytime if FlowSync doesn’t earn
+          its place in your clinic.
+        </p>
+      </div>
+
+      <div class="pricing-wrap">
+        <article class="pricing-card">
+          <div class="tag">For clinics ready to stop missing bookings</div>
+
+          <h3>FlowSync Clinic Plan</h3>
+
+          <div class="price-row">
+            <span class="price-main">£269.99</span>
+            <span class="price-sub">per month · no setup fee</span>
+          </div>
+
+          <ul class="price-points">
+            <li><span class="dot"></span>Done-for-you setup & onboarding</li>
+            <li><span class="dot"></span>DM, WhatsApp & form automation</li>
+            <li><span class="dot"></span>Calendar & reminder integration</li>
+            <li><span class="dot"></span>Ongoing tweaks as your clinic grows</li>
+          </ul>
+
+          <a
+            href="https://buy.stripe.com/5kQ8wPfAy4vi0gz6B8eZ200"
+            class="btn btn-full"
+          >
+            Start FlowSync for £269.99/month
+          </a>
+
+          <p class="pricing-note">
+            Prefer to talk first? You can also
+            <a href="#book">book a free setup call</a> before subscribing.
+          </p>
+        </article>
+      </div>
+    </section>
+
+    <!-- BOOK CALL -->
+    <section class="section section-book" id="book">
+      <div class="section-header">
+        <h2>Book your free setup call</h2>
+        <p>
+          15–20 minutes on Zoom. We look at how your clinic currently handles
+          enquiries and map the quickest way to plug in FlowSync.
+        </p>
+      </div>
+
+      <div class="book-cta">
+        <a
+          href="https://calendly.com/flowsyncsystem/30min"
+          target="_blank"
+          rel="noopener"
+          class="btn btn-outline"
+        >
+          Open booking in a new tab
+        </a>
+      </div>
+
+      <div class="calendly-wrap">
+        <iframe
+          src="https://calendly.com/flowsyncsystem/30min"
+          frameborder="0"
+          class="calendly-frame"
+          title="FlowSync booking"
+        ></iframe>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="section" id="faq">
+      <div class="section-header">
+        <h2>FAQ</h2>
+        <p>Short answers to the questions clinics usually ask us.</p>
+      </div>
+
+      <div class="faq-list">
+        <details class="faq-item">
+          <summary>Do I need to change my current booking system?</summary>
+          <p>
+            No. We plug into what you already use (Fresha, Timely, Calendly,
+            etc.) and build FlowSync around it.
+          </p>
+        </details>
+
+        <details class="faq-item">
+          <summary>Can you match my clinic’s tone of voice?</summary>
+          <p>
+            Yes. We use your wording, policies and brand style so it sounds like
+            your clinic, not a robot.
+          </p>
+        </details>
+
+        <details class="faq-item">
+          <summary>What if I don’t get many enquiries yet?</summary>
+          <p>
+            Automation helps your existing traffic convert better. It also means
+            when you do get busy, you won’t drown in DMs and missed calls.
+          </p>
+        </details>
+
+        <details class="faq-item">
+          <summary>Is there a contract?</summary>
+          <p>
+            No long contracts. It’s a rolling monthly subscription. If FlowSync
+            isn’t valuable, you can cancel.
+          </p>
+        </details>
+      </div>
+    </section>
   </main>
-<section id="faq" class="section faq">
-  <div class="container">
-    <h2>FAQ</h2>
 
-    <details class="faq-item">
-      <summary>What channels does FlowSync reply on?</summary>
-      <p>Instagram DMs, WhatsApp and SMS out of the box.</p>
-    </details>
-
-    <details class="faq-item">
-      <summary>Can you auto-book into my calendar?</summary>
-      <p>Yes. We connect to your calendar and place bookings automatically.</p>
-    </details>
-
-    <details class="faq-item">
-      <summary>How do you reduce no-shows?</summary>
-      <p>Smart reminders are sent automatically and rescheduling is handled for you.</p>
-    </details>
-
-    <details class="faq-item">
-      <summary>Is there a setup fee or long contract?</summary>
-      <p>No setup fee and you can cancel anytime.</p>
-    </details>
-  </div>
-</section>
   <footer class="footer">
-    © 2025 FlowSync. All rights reserved.
+    <div class="footer-inner">
+      <span>© FlowSync System</span>
+      <span>info@flowsyncsystem.com</span>
+    </div>
   </footer>
-<script>
-(() => {
-  const btn     = document.getElementById('nav-toggle');
-  const overlay = document.getElementById('nav-overlay');
-  const drawer  = document.getElementById('nav-drawer');
-
-  const openNav = () => {
-    document.body.classList.add('nav-open');
-    btn.classList.add('is-open');
-    btn.setAttribute('aria-expanded','true');
-
-    overlay.style.opacity = "1";
-    overlay.style.pointerEvents = "auto";
-
-    drawer.setAttribute('aria-expanded','true');
-    drawer.style.transform = "translateX(0)";
-  };
-
-  const closeNav = () => {
-    document.body.classList.remove('nav-open');
-    btn.classList.remove('is-open');
-    btn.setAttribute('aria-expanded','false');
-
-    overlay.style.opacity = "0";
-    overlay.style.pointerEvents = "none";
-
-    drawer.removeAttribute('aria-expanded');
-    drawer.style.transform = "translateX(100%)";
-  };
-
-  // ✅ Toggle the drawer when the button is pressed
-  btn.addEventListener('click', () => {
-    if (document.body.classList.contains('nav-open')) closeNav();
-    else openNav();
-  });
-
-  // ✅ Tap ANYWHERE on overlay to close
-  overlay.addEventListener('click', closeNav);
-
-  // ✅ Close on ESC key
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') closeNav();
-  });
-
-  // ✅ Smooth scrolling for your existing menu links (unchanged)
-  const HEADER_OFFSET = 88;
-  document.querySelectorAll('#nav-drawer a').forEach(a => {
-    a.addEventListener('click', (e) => {
-      const href = a.getAttribute('href') || '';
-      if (href.startsWith('#')) {
-        e.preventDefault();
-        const target = document.querySelector(href);
-        if (target) {
-          const y = target.getBoundingClientRect().top + window.pageYOffset - HEADER_OFFSET;
-          window.scrollTo({ top: y, behavior: 'smooth' });
-        }
-      }
-      closeNav();
-    });
-  });
-})();
-</script>
 
   <script src="script.js"></script>
 </body>
