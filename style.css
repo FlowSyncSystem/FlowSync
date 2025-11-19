@@ -697,3 +697,12 @@ body {
 .nav-burger span {
   background: #e5e7eb !important;
 }
+/* move burger icon to the far right + make it fully visible */
+.nav-burger {
+  display: inline-flex;
+  flex-direction: column;
+  margin-left: auto;
+  margin-right: 4px; /* pushes it to the right edge */
+  position: relative;
+  z-index: 999; /* ensures visibility above gradient */
+}
