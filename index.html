@@ -13,30 +13,12 @@
   >
 </head>
 <body>
-  <script>
-const navToggle = document.querySelector(".nav-burger");
-const navDrawer = document.getElementById("navDrawer");
-const navOverlay = document.getElementById("navOverlay");
-const navLinks = document.querySelectorAll(".nav-link");
-
-function closeNav() {
-  navDrawer.classList.remove("open");
-  navOverlay.classList.remove("active");
-}
-
-navToggle.addEventListener("click", () => {
-  const isOpen = navDrawer.classList.toggle("open");
-  navOverlay.classList.toggle("active", isOpen);
-});
-
-navOverlay.addEventListener("click", closeNav);
-navLinks.forEach((link) => link.addEventListener("click", closeNav));
-</script>
   <!-- GLASS / BLURRED NAV -->
   <header class="nav">
     <div class="nav-inner">
+      <!-- logo (uses logo.png in the root of the repo) -->
       <a href="#hero" class="nav-logo">
-        <div class="nav-logo-mark">FS</div>
+        <img src="logo.png" alt="FlowSync logo" class="nav-logo-img">
         <span class="nav-logo-text">FlowSync</span>
       </a>
 
@@ -50,20 +32,27 @@ navLinks.forEach((link) => link.addEventListener("click", closeNav));
 
       <!-- mobile burger -->
       <button class="nav-burger" aria-label="Open menu">
-        <span></span><span></span>
+        <span></span><span></span><span></span>
       </button>
     </div>
   </header>
-  <!-- MOBILE MENU DRAWER -->
-<div id="navOverlay" class="nav-overlay"></div>
 
-<nav id="navDrawer" class="nav-drawer">
-  <a class="nav-link" href="#hero">Home</a>
-  <a class="nav-link" href="#how">How it works</a>
-  <a class="nav-link" href="#pricing">Pricing</a>
-  <a class="nav-link" href="#results">Results</a>
-  <a class="nav-link special" href="https://calendly.com/flowsyncsystem/30min" target="_blank">Book a call</a>
-</nav>
+  <!-- MOBILE MENU DRAWER -->
+  <div id="navOverlay" class="nav-overlay"></div>
+  <nav id="navDrawer" class="nav-drawer">
+    <a class="nav-link" href="#hero">Home</a>
+    <a class="nav-link" href="#how">How it works</a>
+    <a class="nav-link" href="#pricing">Pricing</a>
+    <a class="nav-link" href="#results">Results</a>
+    <a
+      class="nav-link nav-link-special"
+      href="https://calendly.com/flowsyncsystem/30min"
+      target="_blank"
+      rel="noreferrer"
+    >
+      Book a call
+    </a>
+  </nav>
 
   <div class="page-bg"></div>
 
@@ -195,7 +184,7 @@ navLinks.forEach((link) => link.addEventListener("click", closeNav));
         <h2 class="section-title">Start free. No contract. Cancel anytime.</h2>
 
         <div class="pricing-grid">
-          <!-- MAIN PLAN -->
+          <!-- MAIN PLAN ONLY (removed £400 card) -->
           <article class="price-card price-card-main">
             <div class="price-badge">Most clinics start here</div>
 
@@ -229,33 +218,15 @@ navLinks.forEach((link) => link.addEventListener("click", closeNav));
             <p class="price-footnote">
               We set everything up for you during the trial. Pay nothing if you don’t continue.
             </p>
-          </article>
 
-          <!-- ONE-TIME OPTION (OPTIONAL, CAN REMOVE) -->
-          <article class="price-card">
-            <h3 class="plan-name">Done-for-you setup only</h3>
-
-            <p class="plan-tagline">
-              For clinics that want us to build the system, then run it themselves.
-            </p>
-
-            <div class="price-row">
-              <span class="price-amount">£400</span>
-              <span class="price-copy">
-                one-time<br />
-                <span class="price-sub">own your setup</span>
-              </span>
-            </div>
-
-            <ul class="price-feats">
-              <li><span class="dot"></span>Full FlowSync automation built for your clinic</li>
-              <li><span class="dot"></span>Integration with your calendar & reminders</li>
-              <li><span class="dot"></span>Handover training for your team</li>
-              <li><span class="dot"></span>30 days of email support</li>
-            </ul>
-
-            <a href="#hero" class="btn btn-ghost btn-wide">
-              Talk to us about setup
+            <!-- neat Calendly link under the main CTA -->
+            <a
+              class="price-calendly"
+              href="https://calendly.com/flowsyncsystem/30min"
+              target="_blank"
+              rel="noreferrer"
+            >
+              Or book a 30-minute call first →
             </a>
           </article>
         </div>
@@ -285,7 +256,34 @@ navLinks.forEach((link) => link.addEventListener("click", closeNav));
   </footer>
 
   <script>
+    // year
     document.getElementById('year').textContent = new Date().getFullYear();
+
+    // mobile nav
+    const navToggle  = document.querySelector(".nav-burger");
+    const navDrawer  = document.getElementById("navDrawer");
+    const navOverlay = document.getElementById("navOverlay");
+    const navLinks   = document.querySelectorAll(".nav-link");
+
+    function closeNav() {
+      navDrawer.classList.remove("open");
+      navOverlay.classList.remove("active");
+    }
+
+    if (navToggle) {
+      navToggle.addEventListener("click", () => {
+        const isOpen = navDrawer.classList.toggle("open");
+        navOverlay.classList.toggle("active", isOpen);
+      });
+    }
+
+    if (navOverlay) {
+      navOverlay.addEventListener("click", closeNav);
+    }
+
+    navLinks.forEach(link =>
+      link.addEventListener("click", closeNav)
+    );
   </script>
 </body>
 </html>
