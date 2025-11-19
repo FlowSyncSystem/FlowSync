@@ -13,83 +13,139 @@
   >
 </head>
 <body>
-  <!-- GLASS / BLURRED NAV -->
-  <header class="nav">
-    <div class="nav-inner">
-      <a href="#hero" class="nav-logo">
-        <div class="nav-logo-mark">FS</div>
-        <span class="nav-logo-text">FlowSync</span>
-      </a>
+  <header class="navbar">
+  <div class="navbar-inner">
+    <a href="#hero" class="logo">
+      <img src="assets/logo.png" alt="FlowSync Logo" class="logo-img">
+    </a>
 
-      <nav class="nav-links">
-        <a href="#how">How it works</a>
-        <a href="#pricing">Pricing</a>
-        <a href="#results">Results</a>
-      </nav>
+    <button class="menu-btn" id="menuBtn">
+      <span></span><span></span><span></span>
+    </button>
 
-      <a href="#pricing" class="nav-cta">Start 7-day free trial</a>
+    <nav class="mobile-menu" id="mobileMenu">
+      <a href="#hero">Home</a>
+      <a href="#how-it-works">How it works</a>
+      <a href="#pricing">Pricing</a>
+      <a href="#book">Book a call</a>
+    </nav>
+  </div>
+</header>
 
-      <!-- mobile burger -->
-      <button class="nav-burger" aria-label="Open menu">
-        <span></span><span></span>
-      </button>
-    </div>
-  </header>
+<style>
+.navbar {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  backdrop-filter: blur(14px);
+  background: rgba(0,0,0,0.35);
+  z-index: 9999;
+  padding: 14px 22px;
+}
 
-  <div class="page-bg"></div>
+.logo-img {
+  height: 42px;
+  width: auto;
+}
 
-  <main>
+.menu-btn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.menu-btn span {
+  display: block;
+  width: 25px;
+  height: 3px;
+  background: white;
+  margin: 4px 0;
+  border-radius: 4px;
+}
+
+.mobile-menu {
+  display: none;
+}
+
+.mobile-menu.open {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  background: rgba(0,0,0,0.7);
+  padding: 20px;
+  margin-top: 12px;
+  border-radius: 12px;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+</style>
+
+<script>
+document.getElementById("menuBtn").addEventListener("click", () => {
+  document.getElementById("mobileMenu").classList.toggle("open");
+});
+</script>
     <!-- HERO -->
-    <section id="hero" class="section hero">
-      <div class="shell">
-        <div class="hero-pill">Built for beauty & aesthetics clinics</div>
+    <section id="hero" class="hero">
+  <div class="niche-badge">
+    BUILT FOR BEAUTY & AESTHETICS CLINICS
+  </div>
 
-        <h1 class="hero-title">
-          Turn DMs & missed calls into a
-          <span class="hero-gradient">fully booked calendar.</span>
-        </h1>
+  <h1>Turn DMs & missed calls into a <span class="gradient">fully booked calendar.</span></h1>
 
-        <p class="hero-sub">
-          FlowSync captures enquiries from Instagram, WhatsApp & your website,
-          replies instantly and books clients straight into your calendar —
-          without your team touching the phone.
-        </p>
+  <p class="hero-sub">
+    FlowSync captures enquiries from Instagram, WhatsApp & your website, 
+    replies instantly and books clients straight into your calendar — 
+    without your team touching the phone.
+  </p>
+  
+  <div class="hero-buttons">
+    <a href="#pricing" class="btn-primary">Start 7-day free trial</a>
+    <a href="#pricing" class="btn-secondary">View pricing</a>
+  </div>
 
-        <div class="hero-cta-row">
-          <a href="#pricing" class="btn btn-primary">
-            Start 7-day free trial
-          </a>
-          <a href="#pricing" class="btn btn-ghost">
-            View pricing
-          </a>
-        </div>
+  <p class="small-note">No contract. No setup fee. Cancel anytime.</p>
 
-        <p class="hero-trial-note">
-          No contract. No setup fee. Cancel anytime.
-        </p>
+  <ul class="features">
+    <li><span class="pulse-dot"></span>Instant replies to DMs, WhatsApp & forms</li>
+    <li><span class="pulse-dot"></span>Automatic booking, rescheduling & reminders</li>
+    <li><span class="pulse-dot"></span>No-shows cut with smart reminder flows</li>
+    <li><span class="pulse-dot"></span>Done-for-you setup & ongoing tweaks included</li>
+  </ul>
+</section>
 
-        <ul class="hero-bullets">
-          <li><span class="dot"></span>Instant replies to DMs, WhatsApp & forms</li>
-          <li><span class="dot"></span>Automatic booking, rescheduling & reminders</li>
-          <li><span class="dot"></span>No-shows cut with smart reminder flows</li>
-          <li><span class="dot"></span>Done-for-you setup & ongoing tweaks included</li>
-        </ul>
+<style>
+.niche-badge {
+  display: inline-block;
+  padding: 8px 18px;
+  border-radius: 30px;
+  border: 1px solid rgba(0,255,120,0.35);
+  color: #d3ffdf;
+  margin-bottom: 28px;
+  font-weight: 500;
+  font-size: 13px;
+  letter-spacing: .6px;
+  background: rgba(0,255,120,0.06);
+}
 
-        <div class="hero-socials">
-          <a class="social" href="https://www.instagram.com/flowsyncsystem" target="_blank" rel="noreferrer">
-            <svg viewBox="0 0 24 24" aria-hidden="true">
-              <path d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5zm0 2a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V7a3 3 0 0 0-3-3H7zm5 3.5A4.5 4.5 0 1 1 7.5 12 4.5 4.5 0 0 1 12 7.5zm0 2A2.5 2.5 0 1 0 14.5 12 2.5 2.5 0 0 0 12 9.5zM17.75 6a1.25 1.25 0 1 1-1.25 1.25A1.25 1.25 0 0 1 17.75 6z"/>
-            </svg>
-          </a>
-          <a class="social" href="https://www.tiktok.com/@flowsyncsystem" target="_blank" rel="noreferrer">
-            <svg viewBox="0 0 48 48" aria-hidden="true">
-              <path d="M31 6.5c1.3 2.3 3.6 3.9 6.2 4.3v6a11 11 0 0 1-6.5-2.1V30a11.5 11.5 0 1 1-9.8-11.4v6.1a4.7 4.7 0 1 0 3.3 4.5V6.5z"/>
-            </svg>
-          </a>
-        </div>
-      </div>
-    </section>
+/* breathing green dots */
+.pulse-dot {
+  height: 12px;
+  width: 12px;
+  background: #1fcf5f;
+  border-radius: 50%;
+  display: inline-block;
+  animation: pulse 1.9s infinite ease-in-out;
+}
 
+@keyframes pulse {
+  0% { transform: scale(1); opacity: .7; }
+  50% { transform: scale(1.25); opacity: 1; }
+  100% { transform: scale(1); opacity: .7; }
+}
+</style>
     <!-- GAP / HOW IT WORKS -->
     <section id="how" class="section">
       <div class="shell">
@@ -203,6 +259,18 @@
             </p>
           </article>
     </section>
+    
+    <section id="book" class="book-section">
+  <h2>Book a free setup call</h2>
+
+  <div class="calendly-inline-widget"
+       data-url="https://calendly.com/flowsyncsystem/30min"
+       style="min-width:320px; height:700px;">
+  </div>
+
+  <script type="text/javascript" src="https://assets.calendly.com/assets/external/widget.js"></script>
+</section>
+
     <!-- GAP / FINAL CTA -->
     <section class="section section-alt">
       <div class="shell final-cta">
