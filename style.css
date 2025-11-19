@@ -706,3 +706,25 @@ body {
   position: relative;
   z-index: 999; /* ensures visibility above gradient */
 }
+/* --------------------------------------- */
+/* SMOOTH SLOW BREATHING ANIMATION FOR DOT */
+/* --------------------------------------- */
+
+@keyframes dotBreathing {
+  0% {
+    transform: scale(1);
+    box-shadow: 0 0 0 4px rgba(34, 197, 94, 0.16);
+  }
+  50% {
+    transform: scale(1.18);
+    box-shadow: 0 0 0 6px rgba(34, 197, 94, 0.10);
+  }
+  100% {
+    transform: scale(1);
+    box-shadow: 0 0 0 4px rgba(34, 197, 94, 0.16);
+  }
+}
+
+.dot {
+  animation: dotBreathing 4s ease-in-out infinite;
+}
