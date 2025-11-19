@@ -16,7 +16,7 @@
   <!-- GLASS / BLURRED NAV -->
   <header class="nav">
     <div class="nav-inner">
-      <!-- LOGO (uses logo.png in your repo) -->
+      <!-- LOGO (uses logo.png in the root of the repo) -->
       <a href="#hero" class="nav-logo">
         <img src="logo.png" alt="FlowSync logo" class="nav-logo-img">
         <span class="nav-logo-text">FlowSync</span>
@@ -26,27 +26,27 @@
         <a href="#how">How it works</a>
         <a href="#pricing">Pricing</a>
         <a href="#results">Results</a>
+        <a href="#setup">Book a free setup</a>
         <a href="#faq">FAQ</a>
       </nav>
 
-      <!-- TOP CTA -> BOOK FREE SETUP (SCROLLS TO CALL SECTION) -->
-      <a href="#call" class="nav-cta">Book a free setup</a>
+      <a href="#setup" class="nav-cta">Book a free setup</a>
 
       <!-- mobile burger -->
-      <button id="navToggle" class="nav-burger" aria-label="Open menu">
-        <span></span><span></span>
+      <button class="nav-burger" id="navToggle" aria-label="Open menu">
+        <span></span><span></span><span></span>
       </button>
     </div>
   </header>
 
-  <!-- MOBILE MENU DRAWER + OVERLAY -->
+  <!-- MOBILE MENU DRAWER -->
   <div id="navOverlay" class="nav-overlay"></div>
   <nav id="navDrawer" class="nav-drawer">
     <a class="nav-link" href="#hero">Home</a>
     <a class="nav-link" href="#how">How it works</a>
     <a class="nav-link" href="#pricing">Pricing</a>
     <a class="nav-link" href="#results">Results</a>
-    <a class="nav-link" href="#call">Book a free setup</a>
+    <a class="nav-link" href="#setup">Book a free setup</a>
     <a class="nav-link" href="#faq">FAQ</a>
   </nav>
 
@@ -70,8 +70,8 @@
         </p>
 
         <div class="hero-cta-row">
-          <!-- PRIMARY CTA GOES TO CALL SECTION -->
-          <a href="#call" class="btn btn-primary">
+          <!-- top CTA now Book a free setup -> scroll to setup section -->
+          <a href="#setup" class="btn btn-primary">
             Book a free setup
           </a>
           <a href="#pricing" class="btn btn-ghost">
@@ -174,22 +174,23 @@
       </div>
     </section>
 
-    <!-- FREE SETUP CALL (CALENDLY SECTION) -->
-    <section id="call" class="section section-call">
-      <div class="shell">
+    <!-- FREE SETUP CALL (Calendly) -->
+    <section id="setup" class="section">
+      <div class="shell final-cta">
         <div class="section-label">Free setup call</div>
         <h2 class="section-title">See how FlowSync would work for your clinic</h2>
-        <p class="call-copy">
+        <p>
           Jump on a short call, walk through your current booking flow and
           see exactly how FlowSync can plug in without breaking anything you already use.
         </p>
+        <!-- middle button text now Book here -->
         <a
           href="https://calendly.com/flowsyncsystem/30min"
           target="_blank"
           rel="noreferrer"
-          class="btn btn-primary"
+          class="btn btn-primary btn-wide"
         >
-          Book a free setup
+          Book here
         </a>
       </div>
     </section>
@@ -201,7 +202,7 @@
         <h2 class="section-title">Start free. No contract. Cancel anytime.</h2>
 
         <div class="pricing-grid">
-          <!-- MAIN PLAN ONLY (REMOVED £400 PLAN) -->
+          <!-- MAIN PLAN ONLY -->
           <article class="price-card price-card-main">
             <div class="price-badge">Most clinics start here</div>
 
@@ -241,50 +242,53 @@
     </section>
 
     <!-- FAQ -->
-    <section id="faq" class="section">
+    <section id="faq" class="section section-alt">
       <div class="shell">
         <div class="section-label">FAQ</div>
         <h2 class="section-title">Questions clinics usually ask</h2>
 
         <div class="faq-list">
-          <details class="faq-item" open>
-            <summary>Do I need to change my current booking system?</summary>
-            <p>
+          <button class="faq-item" type="button">
+            <span class="faq-q">Do I need to change my current booking system?</span>
+            <span class="faq-toggle">+</span>
+            <div class="faq-a">
               No. We plug FlowSync into what you already use (Fresha, Calendly, in-house
               calendar, etc.) and keep your existing setup. We just make sure more clients
               actually get booked into it.
-            </p>
-          </details>
+            </div>
+          </button>
 
-          <details class="faq-item">
-            <summary>What happens during the 7-day free trial?</summary>
-            <p>
-              We connect your channels, set up your flows and monitor performance.
-              You see real enquiries being handled. If you don’t continue after the
-              trial, we simply switch FlowSync off.
-            </p>
-          </details>
+          <button class="faq-item" type="button">
+            <span class="faq-q">What happens during the 7-day free trial?</span>
+            <span class="faq-toggle">+</span>
+            <div class="faq-a">
+              We connect FlowSync to your clinic, set up your flows and run everything for you.
+              You see the extra enquiries, bookings and show-up rate before you decide to continue.
+            </div>
+          </button>
 
-          <details class="faq-item">
-            <summary>Is this suitable for small clinics or solo practitioners?</summary>
-            <p>
-              Yes. FlowSync works especially well for busy solo owners who can’t
-              reply to every DM instantly but still want a full calendar.
-            </p>
-          </details>
+          <button class="faq-item" type="button">
+            <span class="faq-q">Is this suitable for small clinics or solo practitioners?</span>
+            <span class="faq-toggle">+</span>
+            <div class="faq-a">
+              Yes. FlowSync works especially well for small teams where the owner is
+              still replying to DMs and messages themselves. It takes that off your plate.
+            </div>
+          </button>
 
-          <details class="faq-item">
-            <summary>Can I cancel if it’s not right for us?</summary>
-            <p>
-              Absolutely. There’s no contract. You can cancel anytime before the next
-              billing date and we’ll switch FlowSync off cleanly.
-            </p>
-          </details>
+          <button class="faq-item" type="button">
+            <span class="faq-q">Can I cancel if it’s not right for us?</span>
+            <span class="faq-toggle">+</span>
+            <div class="faq-a">
+              Absolutely. There’s no contract. If you don’t feel the system is a fit,
+              you can cancel before the end of the billing period with no penalties.
+            </div>
+          </button>
         </div>
       </div>
     </section>
 
-    <!-- GAP / FINAL CTA -->
+    <!-- FINAL CTA -->
     <section class="section section-alt">
       <div class="shell final-cta">
         <h2>Ready to stop losing DMs and start filling your calendar?</h2>
@@ -292,8 +296,8 @@
           Book your free setup call. We’ll connect FlowSync to your clinic,
           run your 7-day trial and show you the before/after numbers.
         </p>
-        <a href="#call" class="btn btn-primary btn-wide">
-          Book my free setup
+        <a href="#setup" class="btn btn-primary btn-wide">
+          Book a free setup
         </a>
       </div>
     </section>
@@ -306,10 +310,21 @@
     </div>
   </footer>
 
-  <!-- NAV + YEAR + SMOOTH NAV CLOSE -->
   <script>
-    // current year in footer
+    // year in footer
     document.getElementById('year').textContent = new Date().getFullYear();
+
+    // smooth scroll for all on-page links
+    document.querySelectorAll('a[href^="#"]').forEach(link => {
+      link.addEventListener('click', e => {
+        const targetId = link.getAttribute('href').substring(1);
+        const target = document.getElementById(targetId);
+        if (!target) return;
+        e.preventDefault();
+        const y = target.getBoundingClientRect().top + window.pageYOffset - 80;
+        window.scrollTo({ top: y, behavior: 'smooth' });
+      });
+    });
 
     // mobile nav
     const navToggle = document.getElementById("navToggle");
@@ -328,9 +343,21 @@
     });
 
     navOverlay.addEventListener("click", closeNav);
-    navLinks.forEach((link) =>
-      link.addEventListener("click", closeNav)
-    );
+    navLinks.forEach(link => link.addEventListener("click", closeNav));
+
+    // FAQ accordion (all closed by default)
+    document.querySelectorAll('.faq-item').forEach(item => {
+      const answer = item.querySelector('.faq-a');
+      answer.style.maxHeight = '0px';
+      item.addEventListener('click', () => {
+        const isOpen = item.classList.toggle('open');
+        if (isOpen) {
+          answer.style.maxHeight = answer.scrollHeight + 'px';
+        } else {
+          answer.style.maxHeight = '0px';
+        }
+      });
+    });
   </script>
 </body>
 </html>
