@@ -739,3 +739,23 @@ body {
     transform: scale(1);
   }
 }
+/* ------------------------------------------ */
+/* PRICING SECTION — PROFESSIONAL BULLET POINTS */
+/* ------------------------------------------ */
+
+.price-feats.bullet-style li {
+  position: relative;
+  padding-left: 22px;
+  line-height: 1.45;
+  color: #e5e7eb;
+}
+
+.price-feats.bullet-style li::before {
+  content: "•";
+  position: absolute;
+  left: 0;
+  top: 0;
+  font-size: 20px;
+  color: #22c55e; /* polished green */
+  line-height: 14px;
+}
