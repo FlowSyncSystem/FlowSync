@@ -865,3 +865,12 @@ body {
     border-radius: 22px;
   }
 }
+/* move burger icon to the far right + make it fully visible */
+.nav-burger {
+  display: inline-flex;
+  flex-direction: column;
+  margin-left: auto;
+  margin-right: 4px;
+  position: relative;
+  z-index: 999;
+}
