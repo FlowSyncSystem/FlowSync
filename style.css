@@ -126,8 +126,7 @@ body {
   background: rgba(148, 163, 184, 0.2);
 }
 
-/* BURGER */
-
+/* BURGER – base */
 .nav-burger {
   margin-left: 8px;
   width: 34px;
@@ -135,7 +134,7 @@ body {
   border-radius: 999px;
   border: 1px solid rgba(148, 163, 184, 0.6);
   background: rgba(15, 23, 42, 0.95);
-  display: none;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;
@@ -144,6 +143,7 @@ body {
   cursor: pointer;
 }
 
+/* burger lines */
 .nav-burger span {
   display: block;
   width: 16px;
@@ -153,17 +153,19 @@ body {
   transition: transform 0.2s ease, opacity 0.2s ease;
 }
 
+/* when menu is open → turn into X */
 .nav-burger.open span:nth-child(1) {
-  transform: translateY(3px) rotate(45deg);
+  transform: translateY(4px) rotate(45deg);
 }
 
 .nav-burger.open span:nth-child(2) {
-  transform: translateY(-3px) rotate(-45deg);
+  transform: translateY(-4px) rotate(-45deg);
 }
 
 .nav-burger.open span:nth-child(3) {
   opacity: 0;
 }
+
 
 /* MOBILE NAV */
 
