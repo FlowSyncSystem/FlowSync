@@ -875,3 +875,14 @@ body {
   position: relative;
   z-index: 999;
 }
+/* === FINAL GREEN DOT STYLE — CONSISTENT, NO LAG === */
+.dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 999px;              /* perfect circle */
+  background: #22c55e;               /* same green everywhere */
+  box-shadow: 0 0 0 4px rgba(34, 197, 94, 0.18);
+  flex-shrink: 0;                    /* stops it squashing on some lines */
+  animation: none !important;        /* kills old breathing animations */
+  transform: none !important;        /* stops any leftover scaling */
+}
