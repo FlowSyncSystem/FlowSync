@@ -1,84 +1,153 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Privacy Policy – FlowSync System</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="style.css">
+  <!-- FAVICONS -->
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48.png">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <link rel="shortcut icon" href="/favicon.ico">
+
+  <meta charset="UTF-8" />
+  <title>Privacy Policy – FlowSync</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet"
+  >
 </head>
-
 <body>
+  <div class="page-bg"></div>
 
-  <!-- NAVBAR -->
-  <header class="navbar">
-    <div class="logo">FlowSync</div>
+  <!-- SAME NAVBAR -->
+  <header class="nav">
+    <div class="nav-inner">
+      <a href="index.html#hero" class="nav-logo nav-link">
+        <img src="logo.png" alt="FlowSync logo" class="nav-logo-img" />
+        <span class="nav-logo-text">FlowSync</span>
+      </a>
 
-    <div id="navToggle">
-      <span></span>
-      <span></span>
-      <span></span>
+      <nav class="nav-links">
+        <a href="index.html#hero" class="nav-link">Home</a>
+        <a href="index.html#how" class="nav-link">How it works</a>
+        <a href="index.html#results" class="nav-link">Results</a>
+        <a href="index.html#pricing" class="nav-link">Pricing</a>
+        <a href="index.html#about" class="nav-link">About</a>
+        <a href="index.html#faq" class="nav-link">FAQ</a>
+      </nav>
+
+      <a href="index.html#book" class="nav-cta nav-link">Book a free setup</a>
+
+      <button class="nav-burger" id="navToggle" aria-label="Open menu">
+        <span></span><span></span><span></span>
+      </button>
     </div>
   </header>
 
-  <!-- DRAWER -->
-  <div id="navDrawer" class="drawer">
-    <a class="nav-link" href="index.html">Home</a>
-    <a class="nav-link" href="how-it-works.html">How it works</a>
-    <a class="nav-link" href="results.html">Results</a>
-    <a class="nav-link" href="pricing.html">Pricing</a>
-    <a class="nav-link" href="faq.html">FAQ</a>
-    <a class="nav-link" href="about.html">About</a>
+  <!-- Mobile drawer -->
+  <div class="nav-overlay" id="navOverlay"></div>
+  <div class="nav-drawer" id="navDrawer">
+    <a href="index.html#hero" class="nav-link drawer-link">Home</a>
+    <a href="index.html#how" class="nav-link drawer-link">How it works</a>
+    <a href="index.html#results" class="nav-link drawer-link">Results</a>
+    <a href="index.html#pricing" class="nav-link drawer-link">Pricing</a>
+    <a href="index.html#about" class="nav-link drawer-link">About</a>
+    <a href="index.html#faq" class="nav-link drawer-link">FAQ</a>
+    <a href="index.html#book" class="nav-link drawer-link drawer-cta">
+      Book a free setup
+    </a>
   </div>
 
-  <div id="navOverlay"></div>
+  <main>
+    <section class="section">
+      <div class="shell">
+        <div class="section-label">Privacy Policy</div>
+        <h1 class="section-title">How we handle data at FlowSync</h1>
 
-  <!-- PAGE CONTENT -->
-  <section class="page-content" style="max-width:800px; margin:80px auto; padding:20px; color:white;">
-    <h1>Privacy Policy</h1>
-    <p><strong>Last updated:</strong> January 2025</p>
+        <div class="privacy-card">
+          <p class="privacy-meta">Last updated: 2025</p>
 
-    <p>
-      FlowSync System (“we”, “our”, “us”) is committed to protecting your personal data.
-      This Privacy Policy explains what information we collect, how we use it, 
-      and your rights under applicable data protection laws including the GDPR.
-    </p>
+          <h2>1. Who we are</h2>
+          <p>
+            FlowSync (“we”, “us”) provides automation and operations services for
+            beauty & aesthetics clinics. This policy explains how we collect, use and
+            protect personal data when you visit our website or work with us as a client.
+          </p>
 
-    <h2>1. Information We Collect</h2>
-    <ul>
-      <li><strong>Identity data:</strong> name, email, phone number.</li>
-      <li><strong>Social media enquiry data:</strong> messages sent through Instagram, WhatsApp, website forms.</li>
-      <li><strong>Booking data:</strong> information submitted via Calendly when scheduling calls.</li>
-      <li><strong>Technical data:</strong> IP address, browser type, device information, analytics.</li>
-      <li><strong>Payment data:</strong> securely handled by Stripe — we do not store card details.</li>
-    </ul>
+          <h2>2. What data we collect</h2>
+          <p>We may collect:</p>
+          <ul>
+            <li>Contact details you submit (name, email, phone number).</li>
+            <li>Business information you share during onboarding.</li>
+            <li>Technical data such as IP address and basic analytics (via standard tools).</li>
+          </ul>
 
-    <h2>2. How We Use Your Information</h2>
-    <ul>
-      <li>To respond to enquiries.</li>
-      <li>To schedule and manage appointments.</li>
-      <li>To operate FlowSync automation services.</li>
-      <li>To improve our website and services.</li>
-      <li>To comply with legal obligations.</li>
-    </ul>
+          <h2>3. How we use your data</h2>
+          <p>We use your data to:</p>
+          <ul>
+            <li>Respond to enquiries and provide our services.</li>
+            <li>Set up and manage your FlowSync automations.</li>
+            <li>Send important service updates and account information.</li>
+          </ul>
 
-    <h2>3. Data Sharing</h2>
-    <p>
-      We may share data with trusted processors such as:
-      Stripe, Calendly, Google Analytics, and social media messaging APIs.
-    </p>
+          <h2>4. Sharing your data</h2>
+          <p>
+            We only share data with trusted service providers we use to run FlowSync
+            (for example, calendar tools or communication platforms) and only when
+            necessary to deliver the service. We do not sell your data.
+          </p>
 
-    <h2>4. Your Rights</h2>
-    <p>You have the right to access, correct, or request deletion of your personal data.</p>
+          <h2>5. Data retention</h2>
+          <p>
+            We keep personal data only for as long as it is needed for the purposes
+            described above or as required by law.
+          </p>
 
-    <h2>5. Contact Us</h2>
-    <p>Email: info@flowsyncsystem.com</p>
-  </section>
+          <h2>6. Your rights</h2>
+          <p>You can contact us to:</p>
+          <ul>
+            <li>Request access to the data we hold about you.</li>
+            <li>Ask us to correct or delete your data where appropriate.</li>
+            <li>Ask questions about how your data is used.</li>
+          </ul>
 
-  <!-- FOOTER -->
-  <footer style="text-align:center; padding:40px 0; color:#888;">
-    © 2025 FlowSync System. All rights reserved.  
-    <br>
-    <a href="privacy.html" style="color:#888; text-decoration:none;">Privacy Policy</a>
+          <h2>7. Contact</h2>
+          <p>
+            If you have any questions about this policy, you can email us at
+            <a href="mailto:info@flowsyncsystem.com">info@flowsyncsystem.com</a>.
+          </p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="shell footer-inner">
+      <span>© <span id="year"></span> FlowSync System. All rights reserved.</span>
+      <div class="footer-links">
+        <a href="mailto:info@flowsyncsystem.com">info@flowsyncsystem.com</a>
+        <span class="footer-dot">•</span>
+        <a
+          href="https://www.instagram.com/flowsyncsystem?igsh=bmF3MDQybXVuMm91&utm_source=qr"
+          target="_blank"
+          rel="noreferrer"
+        >
+          Instagram
+        </a>
+        <span class="footer-dot">•</span>
+        <a
+          href="https://www.tiktok.com/@flowsyncsystem"
+          target="_blank"
+          rel="noreferrer"
+        >
+          TikTok
+        </a>
+        <span class="footer-dot">•</span>
+        <a href="privacy.html" class="footer-privacy-link">Privacy Policy</a>
+      </div>
+    </div>
   </footer>
 
   <script src="script.js"></script>
