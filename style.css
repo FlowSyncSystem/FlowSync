@@ -515,6 +515,125 @@ body {
   margin: 0 0 28px;
 }
 
+/* PRIVACY */
+
+.policy-shell {
+  max-width: 980px;
+}
+
+.policy-intro {
+  background: var(--card);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: 22px 22px 20px;
+  box-shadow: var(--shadow-soft);
+  margin-bottom: 22px;
+  position: relative;
+  overflow: hidden;
+}
+
+.policy-intro::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 15% 20%, rgba(99, 102, 241, 0.08), transparent 45%),
+    radial-gradient(circle at 85% 20%, rgba(34, 197, 94, 0.08), transparent 45%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.policy-intro > * {
+  position: relative;
+  z-index: 1;
+}
+
+.policy-title {
+  margin: 6px 0 10px;
+  font-size: clamp(24px, 4vw, 28px);
+}
+
+.policy-lead {
+  margin: 0 0 12px;
+  max-width: 680px;
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--text-soft);
+}
+
+.policy-meta {
+  font-size: 12px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: rgba(148, 163, 184, 0.9);
+  margin: 0;
+}
+
+.policy-grid {
+  display: grid;
+  gap: 14px;
+}
+
+@media (min-width: 880px) {
+  .policy-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.policy-card {
+  background: var(--card);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: 18px 18px 16px;
+  box-shadow: var(--shadow-soft);
+}
+
+.policy-card h2 {
+  margin: 0 0 10px;
+  font-size: 17px;
+}
+
+.policy-card p {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.55;
+  color: var(--text-soft);
+}
+
+.policy-card + .policy-card p {
+  margin-top: 4px;
+}
+
+.policy-list {
+  list-style: none;
+  padding: 0;
+  margin: 10px 0 0;
+  display: grid;
+  gap: 8px;
+  font-size: 14px;
+  color: var(--text-soft);
+}
+
+.policy-list li {
+  position: relative;
+  padding-left: 18px;
+}
+
+.policy-list li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 6px;
+  width: 8px;
+  height: 8px;
+  border-radius: 3px;
+  background: var(--gradient);
+}
+
+.policy-contact {
+  grid-column: 1 / -1;
+  border-color: rgba(99, 102, 241, 0.4);
+}
+
 /* STEPS */
 
 .steps {
