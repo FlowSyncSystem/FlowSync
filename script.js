@@ -29,3 +29,22 @@ const yearEl = document.getElementById("year");
 if (yearEl) {
   yearEl.textContent = new Date().getFullYear();
 }
+
+// FAQ TOGGLE
+const faqItems = document.querySelectorAll(".faq-item");
+
+faqItems.forEach((item) => {
+  const answer = item.querySelector(".faq-a");
+
+  if (answer) {
+    answer.style.maxHeight = 0;
+  }
+
+  item.addEventListener("click", () => {
+    const isOpen = item.classList.toggle("open");
+
+    if (answer) {
+      answer.style.maxHeight = isOpen ? `${answer.scrollHeight}px` : 0;
+    }
+  });
+});
