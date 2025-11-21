@@ -296,6 +296,30 @@ body {
   font-size: 14px;
 }
 
+.legal-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 8px;
+}
+
+.legal-list li {
+  position: relative;
+  padding-left: 18px;
+}
+
+.legal-list li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 7px;
+  width: 8px;
+  height: 8px;
+  border-radius: 3px;
+  background: var(--gradient);
+}
+
 .legal-stack {
   display: grid;
   gap: 18px;
