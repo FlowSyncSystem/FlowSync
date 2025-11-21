@@ -129,41 +129,45 @@ body {
 /* BURGER – base */
 .nav-burger {
   margin-left: 8px;
-  width: 34px;
-  height: 34px;
-  border-radius: 999px;
-  border: 1px solid rgba(148, 163, 184, 0.6);
-  background: rgba(15, 23, 42, 0.95);
-  display: inline-flex;
+  width: 32px;
+  height: 24px;
+  display: none; /* shown on mobile via media query */
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  gap: 4px;
+  gap: 5px;
   padding: 0;
   cursor: pointer;
+  border: none;
+  background: transparent; /* no circle */
 }
-
-/* burger lines */
 .nav-burger span {
   display: block;
-  width: 16px;
+  width: 18px;
   height: 2px;
   border-radius: 999px;
   background: #e5e7eb;
-  transition: transform 0.2s ease, opacity 0.2s ease;
+  transition:
+    transform 0.22s ease,
+    opacity 0.18s ease,
+    width 0.18s ease;
 }
 
-/* when menu is open → turn into X */
+/* top line -> / */
 .nav-burger.open span:nth-child(1) {
   transform: translateY(4px) rotate(45deg);
+  width: 18px;
 }
 
+/* middle line fades out */
 .nav-burger.open span:nth-child(2) {
-  transform: translateY(-4px) rotate(-45deg);
+  opacity: 0;
 }
 
+/* bottom line -> \ */
 .nav-burger.open span:nth-child(3) {
-  opacity: 0;
+  transform: translateY(-4px) rotate(-45deg);
+  width: 18px;
 }
 
 
