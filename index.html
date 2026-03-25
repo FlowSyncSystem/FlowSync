@@ -1,420 +1,1397 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <!-- FAVICONS -->
-  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
-  <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48.png">
-  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
-  <link rel="shortcut icon" href="/favicon.ico">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FlowSync — AI Receptionist</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Cormorant+Garamond:ital,wght@1,400;1,500&family=Outfit:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #06060E;
+  --surface: #0C0C1A;
+  --cream: #EAE6DF;
+  --cream-mid: rgba(234,230,223,0.55);
+  --cream-dim: rgba(234,230,223,0.32);
+  --teal: #00E8C4;
+  --teal-dim: rgba(0,232,196,0.12);
+  --blue: #4D7FFF;
+  --border: rgba(255,255,255,0.065);
+  --border-hover: rgba(255,255,255,0.14);
+  --syne: 'Syne', sans-serif;
+  --serif: 'Cormorant Garamond', serif;
+  --body: 'Outfit', sans-serif;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { font-size: 16px; }
+body {
+  font-family: var(--body);
+  background: var(--bg);
+  color: var(--cream);
+  overflow-x: hidden;
+  cursor: none;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
 
-  <!-- SCHEMA.ORG ORGANIZATION -->
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "Organization",
-    "name": "FlowSync",
-    "url": "https://flowsyncsystem.com",
-    "logo": "https://flowsyncsystem.com/logo.png",
-    "sameAs": [
-      "https://www.instagram.com/flowsyncsystem",
-      "https://www.tiktok.com/@flowsyncsystem"
-    ]
-  }
-  </script>
+/* ── GRAIN OVERLAY ── */
+body::after {
+  content: '';
+  position: fixed; inset: -50%;
+  width: 200%; height: 200%;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
+  opacity: 0.028;
+  pointer-events: none;
+  z-index: 9997;
+  animation: grain 9s steps(12) infinite;
+}
+@keyframes grain {
+  0%,100%{transform:translate(0,0)} 10%{transform:translate(-2%,-2%)} 20%{transform:translate(2%,2%)}
+  30%{transform:translate(-1%,1%)} 40%{transform:translate(1%,-1%)} 50%{transform:translate(-2%,1%)}
+  60%{transform:translate(2%,-2%)} 70%{transform:translate(-1%,-1%)} 80%{transform:translate(1%,2%)}
+  90%{transform:translate(-2%,2%)}
+}
 
-  <meta charset="UTF-8" />
-  <title>FlowSync – Automation for Beauty & Aesthetics Clinics</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta
-    name="description"
-    content="FlowSync turns DMs and missed calls into a fully booked calendar for beauty & aesthetics clinics with done-for-you automation."
-  />
-  <link rel="stylesheet" href="style.css" />
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link
-    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
-    rel="stylesheet"
-  >
+/* ── CUSTOM CURSOR ── */
+#cursor-dot {
+  width: 6px; height: 6px;
+  background: var(--teal);
+  border-radius: 50%;
+  position: fixed; top: 0; left: 0;
+  pointer-events: none; z-index: 99999;
+  transform: translate(-50%,-50%);
+  transition: transform 0.08s ease;
+}
+#cursor-ring {
+  width: 34px; height: 34px;
+  border: 1px solid rgba(0,232,196,0.35);
+  border-radius: 50%;
+  position: fixed; top: 0; left: 0;
+  pointer-events: none; z-index: 99998;
+  transform: translate(-50%,-50%);
+  transition: width 0.25s ease, height 0.25s ease,
+              border-color 0.25s ease, background 0.25s ease;
+}
+#cursor-ring.hovered {
+  width: 52px; height: 52px;
+  border-color: rgba(0,232,196,0.6);
+  background: rgba(0,232,196,0.04);
+}
+#cursor-dot.hovered { transform: translate(-50%,-50%) scale(1.5); }
+
+/* ── NAV ── */
+#site-nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 28px 64px;
+  transition: padding 0.4s ease, background 0.4s ease, border-color 0.4s ease;
+  border-bottom: 1px solid transparent;
+}
+#site-nav.scrolled {
+  padding: 16px 64px;
+  background: rgba(6,6,14,0.82);
+  backdrop-filter: blur(28px);
+  -webkit-backdrop-filter: blur(28px);
+  border-bottom-color: var(--border);
+}
+.logo {
+  font-family: var(--syne);
+  font-weight: 800; font-size: 19px;
+  letter-spacing: -0.045em;
+  color: var(--cream); text-decoration: none; cursor: none;
+}
+.logo span { color: var(--teal); }
+.nav-links { display: flex; align-items: center; gap: 44px; list-style: none; }
+.nav-links a {
+  font-family: var(--body); font-size: 13.5px; font-weight: 400;
+  letter-spacing: 0.01em; color: var(--cream-dim);
+  text-decoration: none; cursor: none; position: relative;
+  transition: color 0.25s;
+}
+.nav-links a::after {
+  content: ''; position: absolute; bottom: -4px; left: 0; right: 0; height: 1px;
+  background: var(--teal); transform: scaleX(0); transform-origin: left;
+  transition: transform 0.3s cubic-bezier(0.16,1,0.3,1);
+}
+.nav-links a:hover, .nav-links a.active { color: var(--cream); }
+.nav-links a:hover::after, .nav-links a.active::after { transform: scaleX(1); }
+.nav-btn {
+  font-family: var(--body); font-size: 13.5px; font-weight: 500;
+  background: var(--teal); color: #06060E;
+  padding: 11px 26px; border-radius: 100px; cursor: none;
+  text-decoration: none; letter-spacing: -0.01em;
+  display: inline-flex; align-items: center; gap: 8px;
+  transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+}
+.nav-btn:hover {
+  background: #00FFD9;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 32px rgba(0,232,196,0.3);
+}
+
+/* ── PAGE SYSTEM ── */
+.page { display: none; }
+.page.active { display: block; }
+.page-enter { animation: pgEnter 0.55s cubic-bezier(0.16,1,0.3,1) both; }
+@keyframes pgEnter {
+  from { opacity: 0; transform: translateY(18px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ── HERO ── */
+#hero {
+  min-height: 100vh;
+  max-width: 1360px; margin: 0 auto;
+  display: grid; grid-template-columns: 1fr 1fr;
+  align-items: center;
+  padding: 150px 64px 80px;
+  gap: 0;
+}
+.hero-left { padding-right: 60px; }
+
+.hero-badge {
+  display: inline-flex; align-items: center; gap: 9px;
+  border: 1px solid rgba(0,232,196,0.22);
+  padding: 7px 16px; border-radius: 100px;
+  font-size: 11px; letter-spacing: 0.09em; text-transform: uppercase;
+  color: rgba(0,232,196,0.75); margin-bottom: 40px;
+  animation: fadeUp 0.8s cubic-bezier(0.16,1,0.3,1) 0.1s both;
+}
+.badge-dot {
+  width: 5px; height: 5px; border-radius: 50%; background: var(--teal);
+  animation: pulseDot 2s ease-in-out infinite;
+}
+@keyframes pulseDot {
+  0%,100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.3; transform: scale(0.5); }
+}
+
+h1.hero-h1 {
+  font-family: var(--syne);
+  font-size: clamp(58px, 5.8vw, 90px);
+  font-weight: 800; line-height: 0.96;
+  letter-spacing: -0.048em;
+  margin-bottom: 32px;
+  animation: fadeUp 0.9s cubic-bezier(0.16,1,0.3,1) 0.22s both;
+}
+.typing-line {
+  display: block; color: var(--teal); min-height: 1.05em;
+}
+#typing-word { display: inline; }
+.type-cursor {
+  display: inline-block; width: 3px; height: 0.82em;
+  background: var(--teal); margin-left: 3px;
+  vertical-align: middle;
+  animation: blink 0.65s step-end infinite;
+}
+@keyframes blink {
+  0%,100% { opacity: 1; } 50% { opacity: 0; }
+}
+.h1-static {
+  display: block; color: rgba(234,230,223,0.88);
+}
+.h1-serif {
+  display: block;
+  font-family: var(--serif); font-style: italic; font-weight: 400;
+  font-size: 0.88em; letter-spacing: -0.01em;
+  color: var(--cream-dim);
+}
+
+.hero-body {
+  font-size: 17px; line-height: 1.72; font-weight: 300;
+  color: var(--cream-mid); max-width: 460px; margin-bottom: 52px;
+  animation: fadeUp 0.9s cubic-bezier(0.16,1,0.3,1) 0.38s both;
+}
+
+.hero-actions {
+  display: flex; align-items: center; gap: 28px;
+  animation: fadeUp 0.9s cubic-bezier(0.16,1,0.3,1) 0.52s both;
+}
+
+.btn-primary {
+  font-family: var(--body); font-size: 15px; font-weight: 500;
+  background: var(--cream); color: var(--bg);
+  padding: 15px 34px; border-radius: 100px; cursor: none;
+  text-decoration: none; display: inline-flex; align-items: center; gap: 10px;
+  letter-spacing: -0.01em;
+  transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+}
+.btn-primary:hover {
+  background: #fff; transform: translateY(-2px);
+  box-shadow: 0 14px 44px rgba(234,230,223,0.18);
+}
+.btn-primary svg { transition: transform 0.22s; }
+.btn-primary:hover svg { transform: translateX(4px); }
+
+.btn-ghost {
+  font-family: var(--body); font-size: 14px; font-weight: 400;
+  color: var(--cream-dim); text-decoration: none; cursor: none;
+  display: inline-flex; align-items: center; gap: 6px;
+  transition: color 0.22s;
+}
+.btn-ghost:hover { color: var(--cream); }
+
+/* ── 3D CANVAS ── */
+.hero-right {
+  position: relative; display: flex;
+  align-items: center; justify-content: flex-end;
+  height: 620px;
+  animation: fadeUp 1s cubic-bezier(0.16,1,0.3,1) 0.3s both;
+}
+.canvas-glow {
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse 60% 60% at 50% 50%,
+    rgba(77,127,255,0.12) 0%, rgba(0,232,196,0.06) 40%, transparent 70%);
+  pointer-events: none; border-radius: 50%;
+}
+#hero-canvas { width: 100%; height: 100%; display: block; position: relative; z-index: 1; }
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(28px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ── TICKER ── */
+.ticker {
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  padding: 14px 0; overflow: hidden;
+  position: relative;
+}
+.ticker::before, .ticker::after {
+  content: ''; position: absolute; top: 0; bottom: 0; width: 80px; z-index: 1;
+  pointer-events: none;
+}
+.ticker::before { left: 0; background: linear-gradient(to right, var(--bg), transparent); }
+.ticker::after { right: 0; background: linear-gradient(to left, var(--bg), transparent); }
+.ticker-track {
+  display: flex; gap: 0; white-space: nowrap;
+  animation: ticker 22s linear infinite;
+}
+.ticker-item {
+  display: inline-flex; align-items: center; gap: 24px;
+  font-family: var(--syne); font-size: 11px; font-weight: 700;
+  letter-spacing: 0.14em; text-transform: uppercase;
+  color: rgba(234,230,223,0.2); padding: 0 32px; flex-shrink: 0;
+}
+.ticker-item span { color: var(--teal); font-size: 8px; }
+@keyframes ticker {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+/* ── STATS ── */
+.stats-section {
+  border-bottom: 1px solid var(--border);
+}
+.stats-inner {
+  max-width: 1360px; margin: 0 auto; padding: 0 64px;
+  display: grid; grid-template-columns: repeat(4,1fr);
+}
+.stat-item {
+  padding: 64px 0 64px 0;
+  border-right: 1px solid var(--border);
+  padding-left: 56px;
+}
+.stat-item:first-child { padding-left: 0; }
+.stat-item:last-child { border-right: none; }
+.stat-num {
+  font-family: var(--syne);
+  font-size: 60px; font-weight: 800;
+  letter-spacing: -0.055em; line-height: 1;
+  margin-bottom: 10px; color: var(--cream);
+  display: flex; align-items: baseline; gap: 4px;
+}
+.stat-num .sfx { font-size: 32px; color: var(--teal); }
+.stat-lbl {
+  font-size: 14px; line-height: 1.55;
+  color: var(--cream-dim); font-weight: 300;
+}
+
+/* ── SECTION BASE ── */
+.section {
+  max-width: 1360px; margin: 0 auto; padding: 130px 64px;
+}
+.eyebrow {
+  font-size: 11px; font-weight: 500; letter-spacing: 0.12em;
+  text-transform: uppercase; color: var(--teal); margin-bottom: 24px;
+}
+h2.sh {
+  font-family: var(--syne);
+  font-size: clamp(38px, 4.2vw, 64px);
+  font-weight: 800; line-height: 1.02; letter-spacing: -0.048em;
+  margin-bottom: 20px;
+}
+h2.sh em {
+  font-family: var(--serif); font-style: italic;
+  font-weight: 400; color: rgba(234,230,223,0.28);
+  font-size: 1.05em;
+}
+.section-body {
+  font-size: 17px; line-height: 1.72; color: var(--cream-mid);
+  font-weight: 300; max-width: 500px;
+}
+
+/* ── HOME: FEATURES GRID ── */
+.feat-grid {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 2px; margin-top: 72px;
+}
+.feat-card {
+  background: rgba(255,255,255,0.022);
+  border: 1px solid var(--border);
+  padding: 52px 48px; position: relative; overflow: hidden;
+  cursor: none; transition: background 0.35s;
+  transform-style: preserve-3d;
+}
+.feat-card:nth-child(1) { border-radius: 20px 4px 4px 4px; }
+.feat-card:nth-child(2) { border-radius: 4px 20px 4px 4px; }
+.feat-card:nth-child(3) { border-radius: 4px 4px 4px 20px; }
+.feat-card:nth-child(4) { border-radius: 4px 4px 20px 4px; }
+.feat-card::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
+  background: linear-gradient(90deg, transparent, var(--teal), transparent);
+  opacity: 0; transition: opacity 0.35s;
+}
+.feat-card:hover { background: rgba(255,255,255,0.04); }
+.feat-card:hover::before { opacity: 1; }
+.fc-num {
+  font-family: var(--syne); font-size: 11px; font-weight: 700;
+  letter-spacing: 0.1em; color: rgba(0,232,196,0.4); margin-bottom: 36px;
+}
+.feat-card h3 {
+  font-family: var(--syne); font-size: 22px; font-weight: 700;
+  letter-spacing: -0.03em; margin-bottom: 14px;
+}
+.feat-card p {
+  font-size: 15px; line-height: 1.72; color: var(--cream-dim); font-weight: 300;
+}
+
+/* ── HOME: PAGE CARDS ── */
+.page-cards {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 2px; margin-top: 80px;
+}
+.pg-card {
+  background: rgba(255,255,255,0.02);
+  border: 1px solid var(--border);
+  padding: 60px 52px; cursor: none;
+  display: flex; flex-direction: column; justify-content: space-between;
+  min-height: 300px;
+  transition: background 0.3s;
+  position: relative; overflow: hidden;
+}
+.pg-card:first-child { border-radius: 20px 4px 4px 20px; }
+.pg-card:last-child  { border-radius: 4px 20px 20px 4px; }
+.pg-card:hover { background: rgba(255,255,255,0.04); }
+.pg-card::after {
+  content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(0,232,196,0.3), transparent);
+  opacity: 0; transition: opacity 0.35s;
+}
+.pg-card:hover::after { opacity: 1; }
+.pg-card h3 {
+  font-family: var(--syne); font-size: 30px; font-weight: 800;
+  letter-spacing: -0.04em; margin-bottom: 12px;
+}
+.pg-card p {
+  font-size: 15px; color: var(--cream-dim);
+  font-weight: 300; line-height: 1.65; margin-bottom: 36px;
+}
+.arrow-circle {
+  width: 50px; height: 50px; border-radius: 50%;
+  border: 1px solid rgba(255,255,255,0.1);
+  display: flex; align-items: center; justify-content: center;
+  align-self: flex-start;
+  transition: background 0.25s, border-color 0.25s, transform 0.25s;
+}
+.pg-card:hover .arrow-circle {
+  background: var(--teal); border-color: var(--teal);
+  transform: rotate(-45deg);
+}
+.pg-card:hover .arrow-circle svg { stroke: #06060E; }
+.arrow-circle svg { stroke: var(--cream-dim); transition: stroke 0.25s; }
+
+/* ── FOOTER ── */
+.site-footer {
+  border-top: 1px solid var(--border);
+  max-width: 1360px; margin: 0 auto;
+  padding: 40px 64px;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.footer-logo {
+  font-family: var(--syne); font-weight: 800; font-size: 17px;
+  letter-spacing: -0.04em; color: var(--cream);
+  text-decoration: none; cursor: none;
+}
+.footer-logo span { color: var(--teal); }
+.footer-links { display: flex; gap: 32px; list-style: none; }
+.footer-links a {
+  font-size: 13px; color: rgba(234,230,223,0.3);
+  text-decoration: none; cursor: none; transition: color 0.2s;
+}
+.footer-links a:hover { color: var(--cream-mid); }
+.footer-copy { font-size: 12px; color: rgba(234,230,223,0.18); }
+
+/* ── PAGE: HOW IT WORKS ── */
+.page-banner {
+  max-width: 1360px; margin: 0 auto; padding: 160px 64px 80px;
+  display: grid; grid-template-columns: 1fr 1fr; align-items: end; gap: 60px;
+}
+.page-banner-right p {
+  font-size: 17px; line-height: 1.72; color: var(--cream-mid);
+  font-weight: 300; max-width: 400px; text-align: right;
+  margin-left: auto;
+}
+
+.steps-wrap {
+  max-width: 1360px; margin: 0 auto; padding: 0 64px 140px;
+}
+.step-row {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 80px; align-items: center;
+  padding: 90px 0;
+  border-top: 1px solid var(--border);
+}
+.step-row:last-child { border-bottom: 1px solid var(--border); }
+.step-row.flip { direction: rtl; }
+.step-row.flip > * { direction: ltr; }
+.step-label {
+  font-size: 11px; font-weight: 500; letter-spacing: 0.1em;
+  text-transform: uppercase; color: rgba(0,232,196,0.55); margin-bottom: 10px;
+}
+.step-ghost-num {
+  font-family: var(--syne); font-size: 130px; font-weight: 800;
+  letter-spacing: -0.06em; line-height: 1;
+  color: rgba(255,255,255,0.035); margin-bottom: -24px;
+  user-select: none;
+}
+.step-row h3 {
+  font-family: var(--syne); font-size: 38px; font-weight: 800;
+  letter-spacing: -0.045em; margin-bottom: 22px; line-height: 1.08;
+}
+.step-row > div > p {
+  font-size: 16px; line-height: 1.78;
+  color: var(--cream-mid); font-weight: 300; margin-bottom: 32px;
+}
+.step-row ul { list-style: none; display: flex; flex-direction: column; gap: 12px; }
+.step-row li {
+  font-size: 14px; color: rgba(234,230,223,0.5);
+  display: flex; align-items: center; gap: 12px;
+}
+.step-row li::before {
+  content: ''; width: 4px; height: 4px; border-radius: 50%;
+  background: var(--teal); flex-shrink: 0;
+}
+
+/* Step visual cards */
+.sv {
+  border-radius: 20px; background: rgba(255,255,255,0.022);
+  border: 1px solid var(--border); padding: 48px;
+  min-height: 320px; display: flex; align-items: center; justify-content: center;
+  flex-direction: column; gap: 20px; overflow: hidden;
+  transition: transform 0.5s cubic-bezier(0.16,1,0.3,1),
+              box-shadow 0.5s ease;
+  transform-style: preserve-3d;
+  cursor: none;
+}
+.sv:hover {
+  transform: perspective(1100px) rotateX(-4deg) rotateY(4deg) translateY(-4px);
+  box-shadow: 0 30px 80px rgba(0,0,0,0.35), 0 0 0 1px var(--border-hover);
+}
+
+/* Phone visual */
+.phone-shell {
+  width: 170px; height: 290px; border-radius: 26px;
+  background: #0C0C1A; border: 1.5px solid rgba(255,255,255,0.1);
+  padding: 18px 14px;
+  box-shadow: 0 40px 80px rgba(0,0,0,0.5), 0 0 40px rgba(0,232,196,0.04);
+  display: flex; flex-direction: column; align-items: center;
+}
+.phone-notch {
+  width: 56px; height: 4px; background: rgba(255,255,255,0.08);
+  border-radius: 2px; margin-bottom: 20px;
+}
+.phone-line {
+  width: 100%; height: 7px; border-radius: 4px;
+  background: rgba(255,255,255,0.05); margin-bottom: 7px;
+}
+.phone-line.accent { background: rgba(0,232,196,0.25); width: 58%; }
+.phone-line.short { width: 72%; }
+.waveform {
+  display: flex; align-items: center; gap: 3px; margin-top: 22px;
+}
+.wv-bar {
+  width: 3px; border-radius: 2px; background: var(--teal);
+  animation: wvAnim 1.1s ease-in-out infinite;
+}
+.wv-bar:nth-child(1){height:10px;animation-delay:0s}
+.wv-bar:nth-child(2){height:18px;animation-delay:0.08s}
+.wv-bar:nth-child(3){height:30px;animation-delay:0.16s}
+.wv-bar:nth-child(4){height:22px;animation-delay:0.08s}
+.wv-bar:nth-child(5){height:14px;animation-delay:0.24s}
+.wv-bar:nth-child(6){height:26px;animation-delay:0.12s}
+.wv-bar:nth-child(7){height:10px;animation-delay:0.04s}
+.wv-bar:nth-child(8){height:18px;animation-delay:0.2s}
+@keyframes wvAnim {
+  0%,100%{transform:scaleY(1);opacity:.7} 50%{transform:scaleY(1.45);opacity:1}
+}
+
+/* Config visual */
+.cfg-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; width: 100%; }
+.cfg-chip {
+  background: rgba(255,255,255,0.04); border: 1px solid var(--border);
+  border-radius: 12px; padding: 14px 16px;
+}
+.cfg-chip.lit {
+  background: rgba(0,232,196,0.07); border-color: rgba(0,232,196,0.18);
+}
+.cfg-chip-lbl {
+  font-size: 10px; letter-spacing: 0.06em; text-transform: uppercase;
+  color: rgba(234,230,223,0.3); margin-bottom: 5px;
+}
+.cfg-chip.lit .cfg-chip-lbl { color: rgba(0,232,196,0.55); }
+.cfg-chip-val {
+  font-family: var(--syne); font-size: 17px; font-weight: 700;
+  letter-spacing: -0.03em; color: var(--cream);
+}
+.cfg-chip.lit .cfg-chip-val { color: var(--teal); }
+
+/* Dashboard visual */
+.dash-row {
+  width: 100%; background: rgba(255,255,255,0.03);
+  border: 1px solid var(--border); border-radius: 12px;
+  padding: 14px 18px; margin-bottom: 8px;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.dash-row.lit { background: rgba(0,232,196,0.06); border-color: rgba(0,232,196,0.15); }
+.dash-row-lbl {
+  font-size: 12px; color: var(--cream-dim);
+}
+.dash-row.lit .dash-row-lbl { color: rgba(0,232,196,0.6); }
+.dash-row-val {
+  font-family: var(--syne); font-size: 22px; font-weight: 700;
+  letter-spacing: -0.04em; color: var(--cream);
+}
+.dash-row.lit .dash-row-val { color: var(--teal); }
+
+/* ── PAGE: WHY FLOWSYNC ── */
+.why-banner {
+  max-width: 1360px; margin: 0 auto; padding: 160px 64px 80px;
+}
+.why-sub { margin-top: 20px; }
+
+.prob-sol {
+  background: rgba(255,255,255,0.018);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  padding: 100px 0;
+}
+.ps-inner {
+  max-width: 1360px; margin: 0 auto; padding: 0 64px;
+  display: grid; grid-template-columns: 1fr 1fr; gap: 80px;
+}
+.ps-col h3 {
+  font-family: var(--syne); font-size: 26px; font-weight: 800;
+  letter-spacing: -0.04em; margin-bottom: 36px; padding-bottom: 20px;
+  border-bottom: 1px solid var(--border);
+}
+.ps-col.prob h3 { color: rgba(234,230,223,0.28); }
+.ps-col.sol h3 { color: var(--cream); }
+.ps-item {
+  display: flex; gap: 16px; margin-bottom: 30px; align-items: flex-start;
+}
+.ps-ico {
+  width: 30px; height: 30px; border-radius: 8px; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center; margin-top: 2px;
+}
+.ps-col.prob .ps-ico {
+  background: rgba(255,60,60,0.07); border: 1px solid rgba(255,60,60,0.1);
+  color: rgba(255,80,80,0.55);
+}
+.ps-col.sol .ps-ico {
+  background: rgba(0,232,196,0.08); border: 1px solid rgba(0,232,196,0.15);
+  color: var(--teal);
+}
+.ps-item strong {
+  display: block; font-size: 15px; font-weight: 500; margin-bottom: 5px;
+}
+.ps-col.prob .ps-item strong { color: rgba(234,230,223,0.35); }
+.ps-col.sol .ps-item strong { color: rgba(234,230,223,0.85); }
+.ps-item span {
+  font-size: 13.5px; color: var(--cream-dim); line-height: 1.65; font-weight: 300;
+}
+
+.ben-list {
+  max-width: 1360px; margin: 0 auto; padding: 0 64px 40px;
+}
+.ben-list h2 { font-family: var(--syne); font-size: clamp(36px,4vw,58px);
+  font-weight: 800; letter-spacing: -0.048em; margin-bottom: 48px; line-height: 1.04; }
+.ben-list h2 em {
+  font-family: var(--serif); font-style: italic; font-weight: 400;
+  color: rgba(234,230,223,0.28);
+}
+.ben-rows { display: flex; flex-direction: column; gap: 2px; }
+.ben-row {
+  display: grid; grid-template-columns: 100px 1fr 1fr;
+  border: 1px solid var(--border); border-radius: 4px;
+  padding: 36px 44px; background: rgba(255,255,255,0.018);
+  align-items: center; transition: background 0.3s; cursor: none;
+}
+.ben-row:first-child { border-radius: 20px 20px 4px 4px; }
+.ben-row:last-child  { border-radius: 4px 4px 20px 20px; }
+.ben-row:hover { background: rgba(255,255,255,0.04); }
+.ben-idx {
+  font-family: var(--syne); font-size: 44px; font-weight: 800;
+  letter-spacing: -0.05em; color: rgba(255,255,255,0.05); user-select: none;
+}
+.ben-row h4 {
+  font-family: var(--syne); font-size: 19px; font-weight: 700;
+  letter-spacing: -0.03em; color: var(--cream);
+}
+.ben-row p {
+  font-size: 14.5px; color: var(--cream-dim); font-weight: 300;
+  line-height: 1.68; padding-left: 44px;
+  border-left: 1px solid var(--border);
+}
+
+/* ── CTA BLOCK ── */
+.cta-block {
+  max-width: 1360px; margin: 0 auto; padding: 100px 64px 140px;
+  text-align: center;
+}
+.cta-block h2 {
+  font-family: var(--syne);
+  font-size: clamp(44px,5.5vw,78px); font-weight: 800;
+  letter-spacing: -0.05em; line-height: 1; margin-bottom: 22px;
+}
+.cta-block h2 em {
+  font-family: var(--serif); font-style: italic; font-weight: 400;
+  color: rgba(234,230,223,0.28); font-size: 1.05em;
+}
+.cta-block > p {
+  font-size: 17px; color: var(--cream-dim); font-weight: 300; margin-bottom: 52px;
+}
+.cta-acts { display: flex; align-items: center; justify-content: center; gap: 24px; }
+
+/* ── SCROLL REVEAL ── */
+.rv {
+  opacity: 0; transform: translateY(30px);
+  transition: opacity 0.85s cubic-bezier(0.16,1,0.3,1),
+              transform 0.85s cubic-bezier(0.16,1,0.3,1);
+}
+.rv.in { opacity: 1; transform: translateY(0); }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 960px) {
+  #site-nav { padding: 18px 24px; }
+  #site-nav.scrolled { padding: 14px 24px; }
+  .nav-links { display: none; }
+  #hero { grid-template-columns: 1fr; padding: 120px 24px 60px; }
+  .hero-left { padding-right: 0; }
+  .hero-right { height: 280px; margin-top: 48px; justify-content: center; }
+  .stats-inner { grid-template-columns: 1fr 1fr; padding: 0 24px; }
+  .stat-item { padding: 40px 0 40px 24px; border-right: none; border-bottom: 1px solid var(--border); }
+  .stat-item:nth-child(odd) { padding-left: 0; }
+  .stat-item:last-child { border-bottom: none; }
+  .section { padding: 80px 24px; }
+  .feat-grid, .page-cards { grid-template-columns: 1fr; }
+  .feat-card:nth-child(n) { border-radius: 16px; }
+  .pg-card:first-child, .pg-card:last-child { border-radius: 16px; }
+  .page-banner, .why-banner { grid-template-columns: 1fr; padding: 120px 24px 60px; }
+  .page-banner-right p { text-align: left; margin-left: 0; }
+  .steps-wrap { padding: 0 24px 80px; }
+  .step-row { grid-template-columns: 1fr; gap: 40px; padding: 60px 0; }
+  .step-row.flip { direction: ltr; }
+  .ps-inner { grid-template-columns: 1fr; padding: 0 24px; gap: 40px; }
+  .ben-list { padding: 0 24px 40px; }
+  .ben-row { grid-template-columns: 60px 1fr; }
+  .ben-row p { display: none; }
+  .cta-block { padding: 80px 24px 100px; }
+  .cta-acts { flex-direction: column; }
+  .site-footer { flex-direction: column; gap: 20px; text-align: center; padding: 32px 24px; }
+  .footer-links { flex-wrap: wrap; justify-content: center; }
+}
+</style>
 </head>
 <body>
-  <!-- BACKGROUND GRADIENT -->
-  <div class="page-bg"></div>
 
-  <!-- NAVBAR -->
-  <header class="nav">
-    <div class="nav-inner">
-      <a href="#hero" class="nav-logo nav-link">
-        <img src="logo.png" alt="FlowSync logo" class="nav-logo-img" />
-        <span class="nav-logo-text">FlowSync</span>
-      </a>
+<div id="cursor-dot"></div>
+<div id="cursor-ring"></div>
 
-      <nav class="nav-links">
-        <a href="#hero" class="nav-link">Home</a>
-        <a href="#how" class="nav-link">How it works</a>
-        <a href="#results" class="nav-link">Results</a>
-        <a href="#pricing" class="nav-link">Pricing</a>
-        <a href="about.html" class="nav-link">About</a>
-        <a href="#faq" class="nav-link">FAQ</a>
-      </nav>
+<!-- ── NAV ── -->
+<nav id="site-nav">
+  <a class="logo" href="#" onclick="nav('home',event)">flow<span>sync</span></a>
+  <ul class="nav-links">
+    <li><a href="#" id="lnk-how" onclick="nav('how',event)">How it works</a></li>
+    <li><a href="#" id="lnk-why" onclick="nav('why',event)">Why FlowSync</a></li>
+    <li><a href="mailto:info@flowsyncsystem.com" style="cursor:none">Contact</a></li>
+  </ul>
+  <a class="nav-btn" href="https://calendly.com" target="_blank">
+    Book a demo
+    <svg width="13" height="13" viewBox="0 0 13 13" fill="none" stroke="#06060E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 6.5h9M7.5 3l3.5 3.5L7.5 10"/></svg>
+  </a>
+</nav>
 
-      <a href="#book" class="nav-cta nav-link">Book a free setup</a>
+<!-- ════ HOME ════ -->
+<div class="page active" id="pg-home">
 
-      <!-- Mobile burger -->
-      <button class="nav-burger" id="navToggle" aria-label="Open menu">
-        <span></span><span></span><span></span>
-      </button>
+  <!-- HERO -->
+  <section id="hero">
+    <div class="hero-left">
+      <div class="hero-badge"><div class="badge-dot"></div>AI-Powered Receptionist</div>
+      <h1 class="hero-h1">
+        <span class="typing-line"><span id="typing-word"></span><span class="type-cursor"></span></span>
+        <span class="h1-static">your business,</span>
+        <span class="h1-serif">never silent.</span>
+      </h1>
+      <p class="hero-body">FlowSync deploys a conversational AI receptionist that answers every inbound call, books appointments, and qualifies leads — with the fluency and warmth of your best employee.</p>
+      <div class="hero-actions">
+        <a class="btn-primary" href="https://calendly.com" target="_blank">
+          Book a demo
+          <svg width="15" height="15" viewBox="0 0 15 15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 7.5h11M9 3l4.5 4.5L9 12"/></svg>
+        </a>
+        <a class="btn-ghost" href="mailto:info@flowsyncsystem.com">info@flowsyncsystem.com &rarr;</a>
+      </div>
     </div>
-  </header>
+    <div class="hero-right">
+      <div class="canvas-glow"></div>
+      <canvas id="hero-canvas"></canvas>
+    </div>
+  </section>
 
-  <!-- Mobile drawer + overlay -->
-  <div class="nav-overlay" id="navOverlay"></div>
-  <div class="nav-drawer" id="navDrawer">
-    <a href="#hero" class="nav-link drawer-link">Home</a>
-    <a href="#how" class="nav-link drawer-link">How it works</a>
-    <a href="#results" class="nav-link drawer-link">Results</a>
-    <a href="#pricing" class="nav-link drawer-link">Pricing</a>
-    <a href="about.html" class="nav-link drawer-link">About</a>
-    <a href="#faq" class="nav-link drawer-link">FAQ</a>
-    <a href="#book" class="nav-link drawer-link drawer-cta">Book a free setup</a>
+  <!-- TICKER -->
+  <div class="ticker">
+    <div class="ticker-track" id="ticker-track"></div>
   </div>
 
-  <main>
-    <!-- HERO -->
-    <section id="hero" class="section hero">
-      <div class="shell hero-grid">
-        <div class="hero-main">
-          <div class="hero-pill">Built for beauty & aesthetics clinics</div>
-
-          <h1 class="hero-title">
-            Turn DMs & missed calls into a
-            <span class="hero-gradient">fully booked calendar.</span>
-          </h1>
-
-          <p class="hero-sub">
-            FlowSync captures enquiries from Instagram, WhatsApp & your website,
-            replies instantly and books clients straight into your calendar —
-            while your team stays focused on treatments.
-          </p>
-
-          <div class="hero-cta-row">
-            <a href="#book" class="btn btn-primary nav-link">
-              Book a free setup
-            </a>
-            <a href="#how" class="btn btn-ghost nav-link">
-              See how it works
-            </a>
-          </div>
-
-          <p class="hero-trial-note">
-            7-day fully managed free trial · No contract · Cancel anytime
-          </p>
-
-          <ul class="hero-bullets">
-            <li><span class="dot"></span>Instant replies to Instagram DMs, WhatsApp & forms</li>
-            <li><span class="dot"></span>Automatic booking, rescheduling & reminders</li>
-            <li><span class="dot"></span>Fewer no-shows with smart reminder flows</li>
-            <li><span class="dot"></span>Done-for-you setup & ongoing optimisation</li>
-          </ul>
-
-          <div class="hero-socials">
-            <a
-              class="social"
-              href="https://www.instagram.com/flowsyncsystem?igsh=bmF3MDQybXVuMm91&utm_source=qr"
-              target="_blank"
-              rel="noreferrer"
-            >
-              <svg viewBox="0 0 24 24" aria-hidden="true">
-                <path d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5zm0 2a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V7a3 3 0 0 0-3-3H7zm5 3.5A4.5 4.5 0 1 1 7.5 12 4.5 4.5 0 0 1 12 7.5zm0 2A2.5 2.5 0 1 0 14.5 12 2.5 2.5 0 0 0 12 9.5zM17.75 6a1.25 1.25 0 1 1-1.25 1.25A1.25 1.25 0 0 1 17.75 6z"/>
-              </svg>
-            </a>
-            <a
-              class="social"
-              href="https://www.tiktok.com/@flowsyncsystem"
-              target="_blank"
-              rel="noreferrer"
-            >
-              <svg viewBox="0 0 48 48" aria-hidden="true">
-                <path d="M31 6.5c1.3 2.3 3.6 3.9 6.2 4.3v6a11 11 0 0 1-6.5-2.1V30a11.5 11.5 0 1 1-9.8-11.4v6.1a4.7 4.7 0 1 0 3.3 4.5V6.5z"/>
-              </svg>
-            </a>
-          </div>
-        </div>
-
-        <!-- HERO SIDE CARD -->
-        <div class="hero-panel">
-          <div class="hero-card">
-            <div class="hero-card-label">Live in your clinic</div>
-            <h3>DM & WhatsApp concierge</h3>
-            <p>
-              Every new enquiry is greeted, answered and pushed toward a booking —
-              without you opening Instagram once.
-            </p>
-            <ul class="hero-panel-list">
-              <li><span class="dot dot-small"></span>Ready in 7 days or less</li>
-              <li><span class="dot dot-small"></span>Calendar-synced availability</li>
-              <li><span class="dot dot-small"></span>Human review before go-live</li>
-            </ul>
-            <div class="hero-panel-footer">
-              <span class="hero-panel-note">Built for beauty & aesthetics, not every niche.</span>
-            </div>
-          </div>
-        </div>
+  <!-- STATS -->
+  <div class="stats-section">
+    <div class="stats-inner">
+      <div class="stat-item rv">
+        <div class="stat-num"><span class="cu" data-to="24">0</span><span class="sfx">/7</span></div>
+        <div class="stat-lbl">Always on. Never misses<br>a call or opportunity.</div>
       </div>
-    </section>
-
-    <!-- HOW IT WORKS -->
-    <section id="how" class="section">
-      <div class="shell">
-        <div class="section-label">How FlowSync works</div>
-        <h2 class="section-title">From missed messages to booked treatments in 3 steps</h2>
-
-        <div class="steps">
-          <article class="step">
-            <div class="step-badge">1</div>
-            <h3>Connect your inboxes</h3>
-            <p>
-              We plug into your Instagram DMs, WhatsApp and website forms so every enquiry
-              flows into one simple dashboard — no more screenshots and chasing messages.
-            </p>
-          </article>
-
-          <article class="step">
-            <div class="step-badge">2</div>
-            <h3>We reply, qualify & offer times</h3>
-            <p>
-              FlowSync replies instantly in your tone of voice, answers basic questions
-              and offers real-time appointment slots from your calendar.
-            </p>
-          </article>
-
-          <article class="step">
-            <div class="step-badge">3</div>
-            <h3>Bookings auto-sync to your diary</h3>
-            <p>
-              Confirmed bookings, reschedules and cancellations sync straight into your
-              calendar. Clients receive reminders so they show up on time — and more often.
-            </p>
-          </article>
-        </div>
+      <div class="stat-item rv" style="transition-delay:.1s">
+        <div class="stat-num"><span class="cu" data-to="3">0</span><span class="sfx">s</span></div>
+        <div class="stat-lbl">Average response time<br>to any inbound call.</div>
       </div>
-    </section>
-
-    <!-- RESULTS -->
-    <section id="results" class="section section-alt">
-      <div class="shell">
-        <div class="section-label">Why clinics use FlowSync</div>
-        <h2 class="section-title">Designed around the realities of busy beauty clinics</h2>
-
-        <div class="results-grid">
-          <div class="result-card">
-            <h3>Stop losing hot DM enquiries</h3>
-            <p>
-              Most clinics reply hours later — if at all. FlowSync replies in seconds,
-              keeps the conversation alive and nudges every warm lead toward a booking.
-            </p>
-          </div>
-          <div class="result-card">
-            <h3>No more admin evenings</h3>
-            <p>
-              Your team focuses on treatments, not typing. FlowSync handles back-and-forth,
-              reminders, reschedules and follow-ups for you.
-            </p>
-          </div>
-          <div class="result-card">
-            <h3>Cleaner calendar, fewer gaps</h3>
-            <p>
-              Smart reminder flows reduce no-shows and last-minute cancellations, so your
-              chair time is actually filled with paying clients.
-            </p>
-          </div>
-        </div>
+      <div class="stat-item rv" style="transition-delay:.2s">
+        <div class="stat-num"><span class="cu" data-to="90">0</span><span class="sfx">%</span></div>
+        <div class="stat-lbl">Of calls resolved without<br>human intervention.</div>
       </div>
-    </section>
-
-    <!-- PRICING -->
-    <section id="pricing" class="section">
-      <div class="shell">
-        <div class="section-label">Pricing</div>
-        <h2 class="section-title">Start free. No contract. Cancel anytime.</h2>
-
-        <div class="pricing-grid">
-          <article class="price-card price-card-main">
-            <div class="price-badge">Most clinics start here</div>
-
-            <h3 class="plan-name">FlowSync Automation</h3>
-            <p class="plan-tagline">
-              Done-for-you automation for beauty & aesthetics clinics that are serious
-              about filling their calendar.
-            </p>
-
-            <div class="price-row">
-              <span class="price-amount">£269.99</span>
-              <span class="price-copy">
-                /month<br />
-                <span class="price-sub">after 7-day free trial</span>
-              </span>
-            </div>
-
-            <ul class="price-feats">
-              <li><span class="dot"></span>7-day fully managed free trial</li>
-              <li><span class="dot"></span>Instagram, WhatsApp & website enquiries connected</li>
-              <li><span class="dot"></span>Instant replies, booking & rescheduling</li>
-              <li><span class="dot"></span>No-show reduction with smart reminders</li>
-              <li><span class="dot"></span>Ongoing optimisation & support included</li>
-            </ul>
-
-            <a
-              class="btn btn-primary btn-wide"
-              href="https://buy.stripe.com/5kQ8wPfAy4vi0gz6B8eZ200"
-              target="_blank"
-              rel="noreferrer"
-            >
-              Start 7-day free trial
-            </a>
-
-            <p class="price-footnote">
-              We set everything up for you during the trial. Pay nothing if you don’t continue.
-            </p>
-          </article>
-        </div>
-      </div>
-    </section>
-
-    
-    <!-- BOOK / CALENDLY -->
-    <section id="book" class="section section-alt">
-      <div class="shell">
-        <div class="section-label">Book a free setup</div>
-        <h2 class="section-title">See how FlowSync would plug into your clinic</h2>
-        <p class="book-sub">
-          On this call we’ll map your current enquiries, show you how FlowSync fits into your
-          existing tools and, if it’s a match, plan your 7-day free trial.
-        </p>
-
-        <div class="book-grid">
-          <div class="book-card">
-            <h3>What we’ll cover</h3>
-            <ul class="book-list">
-              <li><span class="dot dot-small"></span>Your current DM, WhatsApp & booking flow</li>
-              <li><span class="dot dot-small"></span>Where enquiries are being lost</li>
-              <li><span class="dot dot-small"></span>How FlowSync would plug into your tools</li>
-              <li><span class="dot dot-small"></span>Timeline for a full 7-day test</li>
-            </ul>
-            <a
-              href="https://calendly.com/flowsyncsystem/30min"
-              target="_blank"
-              rel="noreferrer"
-              class="btn btn-primary btn-wide nav-link"
-            >
-              Book here
-            </a>
-          </div>
-
-          <div class="book-calendly">
-            <div
-              class="calendly-inline-widget"
-              data-url="https://calendly.com/flowsyncsystem/30min"
-              style="min-width: 320px; height: 580px;"
-            ></div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- FAQ -->
-    <section id="faq" class="section">
-      <div class="shell">
-        <div class="section-label">FAQ</div>
-        <h2 class="section-title">Questions clinics ask before starting</h2>
-
-        <div class="faq-list">
-          <button class="faq-item">
-            <div class="faq-q">Is FlowSync only for beauty & aesthetics clinics?</div>
-            <div class="faq-toggle">+</div>
-            <div class="faq-a">
-              Yes — we’re focused on beauty, aesthetics and similar clinics so the flows,
-              language and automations are built around your exact type of enquiries.
-            </div>
-          </button>
-
-          <button class="faq-item">
-            <div class="faq-q">Do I need to change my booking system?</div>
-            <div class="faq-toggle">+</div>
-            <div class="faq-a">
-              No. We plug into the calendar and tools you already use wherever possible.
-              The goal is to automate the admin, not force you to rebuild your stack.
-            </div>
-          </button>
-
-          <button class="faq-item">
-            <div class="faq-q">What happens during the 7-day free trial?</div>
-            <div class="faq-toggle">+</div>
-            <div class="faq-a">
-              We connect FlowSync to your clinic, monitor conversations together and make
-              adjustments. At the end of the week you’ll see the before/after numbers and
-              decide if you want to continue.
-            </div>
-          </button>
-
-          <button class="faq-item">
-            <div class="faq-q">Can I cancel if it’s not a fit?</div>
-            <div class="faq-toggle">+</div>
-            <div class="faq-a">
-              Yes. There’s no contract. If you don’t want to continue after the trial,
-              you pay nothing and we disconnect everything cleanly.
-            </div>
-          </button>
-        </div>
-      </div>
-    </section>
-
-    <!-- FINAL CTA -->
-    <section class="section section-alt final-cta-wrap">
-      <div class="shell final-cta">
-        <h2>Ready to stop losing DMs and start filling your calendar?</h2>
-        <p>
-          Book your free setup call. We’ll map your clinic, connect FlowSync and run a
-          7-day trial so you can see the impact before committing.
-        </p>
-        <a href="#book" class="btn btn-primary btn-wide nav-link">
-          Book a free setup
-        </a>
-      </div>
-    </section>
-  </main>
-
-  <footer class="footer">
-    <div class="shell footer-inner">
-      <span>© <span id="year"></span> FlowSync System. All rights reserved.</span>
-      <div class="footer-links">
-        <a href="mailto:info@flowsyncsystem.com">info@flowsyncsystem.com</a>
-        <span class="footer-dot">•</span>
-        <a
-          href="https://www.instagram.com/flowsyncsystem?igsh=bmF3MDQybXVuMm91&utm_source=qr"
-          target="_blank"
-          rel="noreferrer"
-        >
-          Instagram
-        </a>
-        <span class="footer-dot">•</span>
-        <a
-          href="https://www.tiktok.com/@flowsyncsystem"
-          target="_blank"
-          rel="noreferrer"
-        >
-          TikTok
-        </a>
-        <span class="footer-dot">•</span>
-        <a href="privacy.html" class="footer-privacy-link">Privacy Policy</a>
-<span class="footer-dot">•</span>
-<a href="terms.html" class="footer-privacy-link">Terms of Service</a>
+      <div class="stat-item rv" style="transition-delay:.3s">
+        <div class="stat-num"><span class="cu" data-to="100">0</span><span class="sfx">%</span></div>
+        <div class="stat-lbl">Of leads captured,<br>logged, and followed up.</div>
       </div>
     </div>
-  </footer>
+  </div>
 
-  <!-- JS -->
-  <script src="https://assets.calendly.com/assets/external/widget.js" async></script>
-  <script src="script.js"></script>
+  <!-- FEATURES -->
+  <div class="section">
+    <div class="rv">
+      <div class="eyebrow">What it does</div>
+      <h2 class="sh">An employee that <em>never</em><br>needs a day off</h2>
+    </div>
+    <div class="feat-grid">
+      <div class="feat-card rv" style="transition-delay:.0s">
+        <div class="fc-num">01</div>
+        <h3>Answers every call</h3>
+        <p>No voicemail. No hold music. Every call is answered within seconds, at any hour, with the professionalism your brand demands.</p>
+      </div>
+      <div class="feat-card rv" style="transition-delay:.08s">
+        <div class="fc-num">02</div>
+        <h3>Books appointments</h3>
+        <p>Synced to your calendar in real time. Clients can book, reschedule, or cancel — the system handles it entirely without your team.</p>
+      </div>
+      <div class="feat-card rv" style="transition-delay:.16s">
+        <div class="fc-num">03</div>
+        <h3>Qualifies leads</h3>
+        <p>Your AI asks the right questions, captures the right information, and delivers pre-qualified leads directly to your pipeline.</p>
+      </div>
+      <div class="feat-card rv" style="transition-delay:.24s">
+        <div class="fc-num">04</div>
+        <h3>Delivers intelligence</h3>
+        <p>Every conversation is logged, summarised, and analysed. Understand your customers and your call patterns — automatically.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- PAGE CARDS -->
+  <div class="section" style="padding-top:0">
+    <div class="page-cards">
+      <div class="pg-card rv" onclick="nav('how',event)">
+        <div>
+          <h3>How it works</h3>
+          <p>Three steps that take your business from missed calls to total coverage in under a day.</p>
+        </div>
+        <div class="arrow-circle">
+          <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9h12M10 4.5l5 4.5-5 4.5"/></svg>
+        </div>
+      </div>
+      <div class="pg-card rv" style="transition-delay:.1s" onclick="nav('why',event)">
+        <div>
+          <h3>Why FlowSync</h3>
+          <p>The cost of missed calls is invisible until you measure it. See exactly what your business stands to gain.</p>
+        </div>
+        <div class="arrow-circle">
+          <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9h12M10 4.5l5 4.5-5 4.5"/></svg>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer class="site-footer">
+    <a class="footer-logo" href="#" onclick="nav('home',event)">flow<span>sync</span></a>
+    <ul class="footer-links">
+      <li><a href="#" onclick="nav('how',event)">How it works</a></li>
+      <li><a href="#" onclick="nav('why',event)">Why FlowSync</a></li>
+      <li><a href="mailto:info@flowsyncsystem.com">info@flowsyncsystem.com</a></li>
+    </ul>
+    <p class="footer-copy">&copy; 2025 FlowSync</p>
+  </footer>
+</div>
+
+<!-- ════ HOW IT WORKS ════ -->
+<div class="page" id="pg-how">
+  <div class="page-banner rv">
+    <div>
+      <div class="eyebrow">How it works</div>
+      <h2 class="sh">Three steps.<br><em>Total coverage.</em></h2>
+    </div>
+    <div class="page-banner-right">
+      <p>FlowSync is built to be operational within hours. No complex integrations, no new software to learn — just intelligent, seamless call handling from day one.</p>
+    </div>
+  </div>
+
+  <div class="steps-wrap">
+    <div class="step-row rv">
+      <div>
+        <div class="step-label">Step one</div>
+        <div class="step-ghost-num">01</div>
+        <h3>Connect your number</h3>
+        <p>Forward your existing business number to FlowSync — or let us provision a dedicated one. The entire process takes under ten minutes with any provider, anywhere.</p>
+        <ul>
+          <li>Works with any existing phone number</li>
+          <li>Dedicated number available if preferred</li>
+          <li>Live in under 10 minutes</li>
+          <li>Zero technical knowledge required</li>
+        </ul>
+      </div>
+      <div class="sv">
+        <div class="phone-shell">
+          <div class="phone-notch"></div>
+          <div class="phone-line"></div>
+          <div class="phone-line short"></div>
+          <div class="phone-line accent"></div>
+          <div class="phone-line"></div>
+          <div class="phone-line short"></div>
+          <div class="waveform">
+            <div class="wv-bar"></div><div class="wv-bar"></div>
+            <div class="wv-bar"></div><div class="wv-bar"></div>
+            <div class="wv-bar"></div><div class="wv-bar"></div>
+            <div class="wv-bar"></div><div class="wv-bar"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="step-row flip rv">
+      <div>
+        <div class="step-label">Step two</div>
+        <div class="step-ghost-num">02</div>
+        <h3>Train on your business</h3>
+        <p>Share your services, FAQs, tone of voice, and booking rules. Your AI receptionist learns your business and speaks with confidence — exactly the way you would.</p>
+        <ul>
+          <li>Custom knowledge base for your exact services</li>
+          <li>Brand-matched tone and personality</li>
+          <li>Trained on your calendar rules and availability</li>
+          <li>Continuously refined from real conversations</li>
+        </ul>
+      </div>
+      <div class="sv">
+        <div class="cfg-grid">
+          <div class="cfg-chip lit"><div class="cfg-chip-lbl">Services</div><div class="cfg-chip-val">Loaded</div></div>
+          <div class="cfg-chip lit"><div class="cfg-chip-lbl">Tone</div><div class="cfg-chip-val">Set</div></div>
+          <div class="cfg-chip"><div class="cfg-chip-lbl">FAQs</div><div class="cfg-chip-val">48 added</div></div>
+          <div class="cfg-chip lit"><div class="cfg-chip-lbl">Calendar</div><div class="cfg-chip-val">Synced</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="step-row rv">
+      <div>
+        <div class="step-label">Step three</div>
+        <div class="step-ghost-num">03</div>
+        <h3>Go live. Grow faster.</h3>
+        <p>The moment you go live, every missed call becomes a captured opportunity. Your dashboard shows exactly what was discussed, what was booked, and where each lead stands.</p>
+        <ul>
+          <li>Every call answered from minute one</li>
+          <li>Real-time booking confirmation and CRM updates</li>
+          <li>Full call summaries delivered to your inbox</li>
+          <li>Escalation to your team for complex calls</li>
+        </ul>
+      </div>
+      <div class="sv">
+        <div style="width:100%">
+          <div class="dash-row lit">
+            <div class="dash-row-lbl">Calls handled today</div>
+            <div class="dash-row-val">24</div>
+          </div>
+          <div class="dash-row">
+            <div class="dash-row-lbl">Bookings confirmed</div>
+            <div class="dash-row-val">11</div>
+          </div>
+          <div class="dash-row">
+            <div class="dash-row-lbl">Leads qualified</div>
+            <div class="dash-row-val">7</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="cta-block">
+    <div class="rv">
+      <div class="eyebrow" style="margin-bottom:18px">Get started today</div>
+      <h2>Ready to <em>never miss</em><br>a call again?</h2>
+      <p>Book a 20-minute demo. See FlowSync handle a live call for your business.</p>
+      <div class="cta-acts">
+        <a class="btn-primary" href="https://calendly.com" target="_blank" style="padding:16px 40px;font-size:15.5px">
+          Book your free demo
+          <svg width="15" height="15" viewBox="0 0 15 15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 7.5h11M9 3l4.5 4.5L9 12"/></svg>
+        </a>
+        <a class="btn-ghost" href="mailto:info@flowsyncsystem.com">info@flowsyncsystem.com &rarr;</a>
+      </div>
+    </div>
+  </div>
+
+  <footer class="site-footer">
+    <a class="footer-logo" href="#" onclick="nav('home',event)">flow<span>sync</span></a>
+    <ul class="footer-links">
+      <li><a href="#" onclick="nav('how',event)">How it works</a></li>
+      <li><a href="#" onclick="nav('why',event)">Why FlowSync</a></li>
+      <li><a href="mailto:info@flowsyncsystem.com">info@flowsyncsystem.com</a></li>
+    </ul>
+    <p class="footer-copy">&copy; 2025 FlowSync</p>
+  </footer>
+</div>
+
+<!-- ════ WHY FLOWSYNC ════ -->
+<div class="page" id="pg-why">
+  <div class="why-banner">
+    <div class="rv">
+      <div class="eyebrow">Why FlowSync</div>
+      <h2 class="sh">The gap in your business<br>is <em>costing you daily.</em></h2>
+      <p class="section-body why-sub">Every unanswered call is a customer choosing your competitor. Every hold tone is trust, eroding. FlowSync closes that gap permanently — without adding headcount.</p>
+    </div>
+  </div>
+
+  <div class="prob-sol">
+    <div class="ps-inner">
+      <div class="ps-col prob rv">
+        <h3>Without FlowSync</h3>
+        <div class="ps-item">
+          <div class="ps-ico">
+            <svg width="13" height="13" viewBox="0 0 13 13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M1.5 1.5l10 10M11.5 1.5l-10 10"/></svg>
+          </div>
+          <div>
+            <strong>Calls go to voicemail</strong>
+            <span>Most callers hang up rather than leave a message. That lead is gone — permanently.</span>
+          </div>
+        </div>
+        <div class="ps-item">
+          <div class="ps-ico">
+            <svg width="13" height="13" viewBox="0 0 13 13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M1.5 1.5l10 10M11.5 1.5l-10 10"/></svg>
+          </div>
+          <div>
+            <strong>Staff distracted by routine calls</strong>
+            <span>Your team answers the same questions daily instead of focusing on high-value work.</span>
+          </div>
+        </div>
+        <div class="ps-item">
+          <div class="ps-ico">
+            <svg width="13" height="13" viewBox="0 0 13 13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M1.5 1.5l10 10M11.5 1.5l-10 10"/></svg>
+          </div>
+          <div>
+            <strong>Zero coverage after hours</strong>
+            <span>Customers call at 8pm, hear nothing, and book with whoever answers.</span>
+          </div>
+        </div>
+        <div class="ps-item">
+          <div class="ps-ico">
+            <svg width="13" height="13" viewBox="0 0 13 13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M1.5 1.5l10 10M11.5 1.5l-10 10"/></svg>
+          </div>
+          <div>
+            <strong>No data on missed opportunities</strong>
+            <span>You never know how many leads you lost this week, or why they didn't convert.</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="ps-col sol rv" style="transition-delay:.1s">
+        <h3>With FlowSync</h3>
+        <div class="ps-item">
+          <div class="ps-ico">
+            <svg width="13" height="13" viewBox="0 0 13 13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1.5 6.5l4 4 6-6"/></svg>
+          </div>
+          <div>
+            <strong>Every call answered instantly</strong>
+            <span>No voicemail, no hold music. A professional response within three seconds, every time.</span>
+          </div>
+        </div>
+        <div class="ps-item">
+          <div class="ps-ico">
+            <svg width="13" height="13" viewBox="0 0 13 13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1.5 6.5l4 4 6-6"/></svg>
+          </div>
+          <div>
+            <strong>Routine calls handled automatically</strong>
+            <span>90% of calls resolved without human input. Your team focuses on what drives growth.</span>
+          </div>
+        </div>
+        <div class="ps-item">
+          <div class="ps-ico">
+            <svg width="13" height="13" viewBox="0 0 13 13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1.5 6.5l4 4 6-6"/></svg>
+          </div>
+          <div>
+            <strong>True 24/7 availability</strong>
+            <span>Evenings, weekends, bank holidays — your AI receptionist never stops.</span>
+          </div>
+        </div>
+        <div class="ps-item">
+          <div class="ps-ico">
+            <svg width="13" height="13" viewBox="0 0 13 13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1.5 6.5l4 4 6-6"/></svg>
+          </div>
+          <div>
+            <strong>Full call intelligence dashboard</strong>
+            <span>Every conversation, every lead, every booking — logged with actionable insights.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="ben-list section" style="padding-top:100px">
+    <h2 class="rv">The return is <em>immediate</em></h2>
+    <div class="ben-rows">
+      <div class="ben-row rv">
+        <div class="ben-idx">01</div>
+        <h4>More revenue from existing traffic</h4>
+        <p>You already have people calling. FlowSync ensures none of them leave unanswered — converting traffic you're already paying for into confirmed revenue.</p>
+      </div>
+      <div class="ben-row rv" style="transition-delay:.07s">
+        <div class="ben-idx">02</div>
+        <h4>Lower operational cost</h4>
+        <p>Replace or reduce front-of-house receptionist costs. FlowSync handles the volume of multiple staff members simultaneously — without sick days, holidays, or turnover.</p>
+      </div>
+      <div class="ben-row rv" style="transition-delay:.14s">
+        <div class="ben-idx">03</div>
+        <h4>Superior customer experience</h4>
+        <p>Instant answers, zero hold time, consistent tone. Every caller feels valued from the very first second — which translates directly into retention and referrals.</p>
+      </div>
+      <div class="ben-row rv" style="transition-delay:.21s">
+        <div class="ben-idx">04</div>
+        <h4>A compounding competitive advantage</h4>
+        <p>While competitors miss calls after 5pm, you're booking clients. Over time, that gap becomes insurmountable for any business operating without AI coverage.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="cta-block">
+    <div class="rv">
+      <div class="eyebrow" style="margin-bottom:18px">Get started today</div>
+      <h2>Your business deserves<br><em>better than voicemail.</em></h2>
+      <p>Book a free 20-minute demo and see FlowSync handle a live call for your exact business.</p>
+      <div class="cta-acts">
+        <a class="btn-primary" href="https://calendly.com" target="_blank" style="padding:16px 40px;font-size:15.5px">
+          Book your free demo
+          <svg width="15" height="15" viewBox="0 0 15 15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 7.5h11M9 3l4.5 4.5L9 12"/></svg>
+        </a>
+        <a class="btn-ghost" href="mailto:info@flowsyncsystem.com">info@flowsyncsystem.com &rarr;</a>
+      </div>
+    </div>
+  </div>
+
+  <footer class="site-footer">
+    <a class="footer-logo" href="#" onclick="nav('home',event)">flow<span>sync</span></a>
+    <ul class="footer-links">
+      <li><a href="#" onclick="nav('how',event)">How it works</a></li>
+      <li><a href="#" onclick="nav('why',event)">Why FlowSync</a></li>
+      <li><a href="mailto:info@flowsyncsystem.com">info@flowsyncsystem.com</a></li>
+    </ul>
+    <p class="footer-copy">&copy; 2025 FlowSync</p>
+  </footer>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+/* ── CURSOR ── */
+const dot = document.getElementById('cursor-dot');
+const ring = document.getElementById('cursor-ring');
+let mx = 0, my = 0, rx = 0, ry = 0;
+
+document.addEventListener('mousemove', e => {
+  mx = e.clientX; my = e.clientY;
+  dot.style.left = mx + 'px'; dot.style.top = my + 'px';
+});
+(function animRing() {
+  rx += (mx - rx) * 0.11; ry += (my - ry) * 0.11;
+  ring.style.left = rx + 'px'; ring.style.top = ry + 'px';
+  requestAnimationFrame(animRing);
+})();
+function bindHover(el) {
+  if (el._hb) return; el._hb = true;
+  el.addEventListener('mouseenter', () => { ring.classList.add('hovered'); dot.classList.add('hovered'); });
+  el.addEventListener('mouseleave', () => { ring.classList.remove('hovered'); dot.classList.remove('hovered'); });
+}
+function bindHovers() {
+  document.querySelectorAll('a, button, .pg-card, .ben-row, .feat-card').forEach(bindHover);
+}
+bindHovers();
+
+/* ── NAV SCROLL ── */
+window.addEventListener('scroll', () => {
+  document.getElementById('site-nav').classList.toggle('scrolled', window.scrollY > 30);
+}, { passive: true });
+
+/* ── TICKER ── */
+const tickerItems = [
+  'AI Receptionist','24/7 Coverage','Zero Missed Calls',
+  'Instant Response','Lead Qualification','Auto Booking',
+  'Always Available','Real-Time Sync','Call Intelligence'
+];
+const track = document.getElementById('ticker-track');
+const full = [...tickerItems, ...tickerItems, ...tickerItems, ...tickerItems];
+full.forEach(t => {
+  const d = document.createElement('div');
+  d.className = 'ticker-item';
+  d.innerHTML = `${t}<span>&#9679;</span>`;
+  track.appendChild(d);
+});
+
+/* ── PAGE NAV ── */
+function nav(pg, e) {
+  if (e) { e.preventDefault(); e.stopPropagation(); }
+  ['home','how','why'].forEach(p => {
+    document.getElementById('pg-' + p).classList.remove('active');
+  });
+  ['lnk-how','lnk-why'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.classList.remove('active');
+  });
+  if (pg === 'how') { const el = document.getElementById('lnk-how'); if (el) el.classList.add('active'); }
+  if (pg === 'why') { const el = document.getElementById('lnk-why'); if (el) el.classList.add('active'); }
+  window.scrollTo({ top: 0, behavior: 'instant' });
+  const target = document.getElementById('pg-' + pg);
+  target.classList.add('active');
+  target.classList.remove('page-enter');
+  void target.offsetWidth;
+  target.classList.add('page-enter');
+  setTimeout(() => { initReveal(); initCountUps(); bindHovers(); }, 60);
+}
+
+/* ── SCROLL REVEAL ── */
+function initReveal() {
+  const els = document.querySelectorAll('.rv:not(.in)');
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('in'); });
+  }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+  els.forEach(el => obs.observe(el));
+}
+initReveal();
+
+/* ── COUNT-UP ── */
+function countUp(el, target, dur) {
+  if (el.dataset.done) return;
+  el.dataset.done = '1';
+  const start = performance.now();
+  (function tick(now) {
+    const t = Math.min((now - start) / dur, 1);
+    const ease = t < 0.5 ? 4*t*t*t : 1 - Math.pow(-2*t+2, 3) / 2;
+    el.textContent = Math.round(ease * target);
+    if (t < 1) requestAnimationFrame(tick);
+  })(start);
+}
+function initCountUps() {
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (!e.isIntersecting) return;
+      const target = parseInt(e.target.dataset.to);
+      countUp(e.target, target, 1400);
+      obs.unobserve(e.target);
+    });
+  }, { threshold: 0.5 });
+  document.querySelectorAll('.cu:not([data-done])').forEach(el => obs.observe(el));
+}
+initCountUps();
+
+/* ── TYPING ANIMATION ── */
+const WORDS = ['Intelligent.', 'Relentless.', 'Unstoppable.'];
+let wIdx = 0, tTimer = null, heroWasGone = false;
+const typEl = document.getElementById('typing-word');
+
+function typeWord(word, done) {
+  let i = 0; typEl.textContent = '';
+  (function t() {
+    typEl.textContent = word.slice(0, i++);
+    if (i <= word.length + 1) tTimer = setTimeout(t, 68 + Math.random() * 28);
+    else tTimer = setTimeout(() => delWord(word, done), 2400);
+  })();
+}
+function delWord(word, done) {
+  let i = word.length;
+  (function d() {
+    typEl.textContent = word.slice(0, i--);
+    if (i >= 0) tTimer = setTimeout(d, 38 + Math.random() * 18);
+    else { tTimer = setTimeout(done, 280); }
+  })();
+}
+function cycle() {
+  typeWord(WORDS[wIdx], () => { wIdx = (wIdx + 1) % WORDS.length; cycle(); });
+}
+setTimeout(cycle, 700);
+
+/* Hero scroll: instant word swap on return */
+const heroSection = document.getElementById('hero');
+new IntersectionObserver(entries => {
+  const e = entries[0];
+  if (!e.isIntersecting) { heroWasGone = true; }
+  else if (heroWasGone) {
+    heroWasGone = false;
+    clearTimeout(tTimer);
+    wIdx = (wIdx + 1) % WORDS.length;
+    typEl.textContent = WORDS[wIdx];
+    tTimer = setTimeout(() => {
+      delWord(WORDS[wIdx], () => {
+        wIdx = (wIdx + 1) % WORDS.length;
+        cycle();
+      });
+    }, 1600);
+  }
+}, { threshold: 0.35 }).observe(heroSection);
+
+/* ── THREE.JS ── */
+(function() {
+  if (typeof THREE === 'undefined') return;
+  const canvas = document.getElementById('hero-canvas');
+  const cont = canvas.parentElement;
+  const W = cont.clientWidth, H = cont.clientHeight;
+
+  const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
+  renderer.setSize(W, H);
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  renderer.setClearColor(0x000000, 0);
+
+  const scene = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(55, W / H, 0.1, 100);
+  camera.position.z = 6.5;
+
+  /* Outer wireframe icosahedron */
+  const outerMesh = new THREE.Mesh(
+    new THREE.IcosahedronGeometry(2.3, 2),
+    new THREE.MeshBasicMaterial({ color: 0x4D7FFF, wireframe: true, transparent: true, opacity: 0.16 })
+  );
+  scene.add(outerMesh);
+
+  /* Mid wireframe counter-rotating */
+  const midMesh = new THREE.Mesh(
+    new THREE.IcosahedronGeometry(1.65, 1),
+    new THREE.MeshBasicMaterial({ color: 0x00E8C4, wireframe: true, transparent: true, opacity: 0.2 })
+  );
+  scene.add(midMesh);
+
+  /* Core sphere — dark fill to hide back faces */
+  scene.add(new THREE.Mesh(
+    new THREE.SphereGeometry(1.1, 32, 32),
+    new THREE.MeshBasicMaterial({ color: 0x06060E, transparent: true, opacity: 0.97 })
+  ));
+
+  /* Orbiting torus ring */
+  const torus = new THREE.Mesh(
+    new THREE.TorusGeometry(1.85, 0.007, 16, 140),
+    new THREE.MeshBasicMaterial({ color: 0x00E8C4, transparent: true, opacity: 0.55 })
+  );
+  torus.rotation.x = Math.PI / 3;
+  scene.add(torus);
+
+  /* Second torus, different axis */
+  const torus2 = new THREE.Mesh(
+    new THREE.TorusGeometry(2.15, 0.005, 16, 140),
+    new THREE.MeshBasicMaterial({ color: 0x4D7FFF, transparent: true, opacity: 0.3 })
+  );
+  torus2.rotation.x = Math.PI / 1.5;
+  torus2.rotation.z = Math.PI / 4;
+  scene.add(torus2);
+
+  /* Particle cloud — blue */
+  const pc = 320;
+  const pos1 = new Float32Array(pc * 3);
+  for (let i = 0; i < pc; i++) {
+    const r = 3.0 + Math.random() * 1.2;
+    const theta = Math.random() * Math.PI * 2;
+    const phi = Math.acos(2 * Math.random() - 1);
+    pos1[i*3]   = r * Math.sin(phi) * Math.cos(theta);
+    pos1[i*3+1] = r * Math.sin(phi) * Math.sin(theta);
+    pos1[i*3+2] = r * Math.cos(phi);
+  }
+  const pg1 = new THREE.BufferGeometry();
+  pg1.setAttribute('position', new THREE.BufferAttribute(pos1, 3));
+  const particles = new THREE.Points(pg1, new THREE.PointsMaterial({ color: 0x4D7FFF, size: 0.024, transparent: true, opacity: 0.7 }));
+  scene.add(particles);
+
+  /* Particle cloud — teal, tighter */
+  const pc2 = 150;
+  const pos2 = new Float32Array(pc2 * 3);
+  for (let i = 0; i < pc2; i++) {
+    const r = 2.35 + Math.random() * 0.45;
+    const theta = Math.random() * Math.PI * 2;
+    const phi = Math.acos(2 * Math.random() - 1);
+    pos2[i*3]   = r * Math.sin(phi) * Math.cos(theta);
+    pos2[i*3+1] = r * Math.sin(phi) * Math.sin(theta);
+    pos2[i*3+2] = r * Math.cos(phi);
+  }
+  const pg2 = new THREE.BufferGeometry();
+  pg2.setAttribute('position', new THREE.BufferAttribute(pos2, 3));
+  const particles2 = new THREE.Points(pg2, new THREE.PointsMaterial({ color: 0x00E8C4, size: 0.018, transparent: true, opacity: 0.65 }));
+  scene.add(particles2);
+
+  /* Mouse parallax */
+  let tarX = 0, tarY = 0, curX = 0, curY = 0;
+  document.addEventListener('mousemove', e => {
+    tarX = (e.clientX / window.innerWidth - 0.5) * 0.5;
+    tarY = (e.clientY / window.innerHeight - 0.5) * 0.25;
+  });
+
+  let t = 0;
+  (function animate() {
+    requestAnimationFrame(animate);
+    t += 0.0045;
+    curX += (tarX - curX) * 0.045;
+    curY += (tarY - curY) * 0.045;
+
+    outerMesh.rotation.x = t * 0.28 + curY;
+    outerMesh.rotation.y = t * 0.48 + curX;
+    midMesh.rotation.x = -t * 0.42;
+    midMesh.rotation.y = -t * 0.28;
+    torus.rotation.z = t * 0.38;
+    torus.rotation.x = Math.PI / 3 + Math.sin(t * 0.6) * 0.1;
+    torus2.rotation.z = -t * 0.22;
+    torus2.rotation.y = t * 0.15;
+    particles.rotation.y = t * 0.09;
+    particles.rotation.x = t * 0.042;
+    particles2.rotation.y = -t * 0.14;
+    particles2.rotation.x = t * 0.076;
+    renderer.render(scene, camera);
+  })();
+
+  window.addEventListener('resize', () => {
+    const nW = cont.clientWidth, nH = cont.clientHeight;
+    camera.aspect = nW / nH;
+    camera.updateProjectionMatrix();
+    renderer.setSize(nW, nH);
+  });
+})();
+</script>
 </body>
 </html>
