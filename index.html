@@ -1,132 +1,243 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FlowSync | 24/7 AI Receptionist</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Inter', sans-serif; background-color: #050505; color: white; }
-        .glass-card { background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 24px; }
-        .gradient-text { background: linear-gradient(180deg, #FFFFFF 0%, #A1A1A1 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .hero-gradient { background: radial-gradient(circle at center, #1a1a2e 0%, #050505 100%); }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #030303;
+            color: #ffffff;
+            overflow-x: hidden;
+        }
+        
+        /* Custom Gradients and Glassmorphism */
+        .bg-radial-hero {
+            background: radial-gradient(circle at top center, #1a1b35 0%, #030303 60%);
+        }
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(12px);
+        }
+        .text-gradient {
+            background: linear-gradient(180deg, #ffffff 0%, #888888 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        /* Hide Scrollbar but keep functionality */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #030303; }
+        ::-webkit-scrollbar-thumb { background: #333; border-radius: 4px; }
+
+        /* FAQ Accordion Transitions */
+        details > summary { list-style: none; }
+        details > summary::-webkit-details-marker { display: none; }
+        details[open] summary ~ * { animation: sweep .3s ease-in-out; }
+        @keyframes sweep {
+            0%    {opacity: 0; transform: translateY(-10px)}
+            100%  {opacity: 1; transform: translateY(0)}
+        }
     </style>
 </head>
-<body class="selection:bg-blue-500/30">
+<body class="antialiased selection:bg-blue-600/30">
 
-    <section class="relative min-h-screen flex flex-col items-center justify-center text-center px-6 hero-gradient">
-        <div class="mb-8">
-            <div class="w-12 h-12 border border-white/20 rounded-xl flex items-center justify-center mx-auto mb-12">
-                <span class="text-xs font-bold">FS</span>
-            </div>
-            <h1 class="text-4xl md:text-6xl font-semibold tracking-tight leading-tight mb-8 max-w-2xl mx-auto">
-                The 24/7 AI receptionist for your business.
+    <nav class="fixed top-0 w-full z-50 glass-panel border-b-0 border-white/5 py-4 px-6 flex justify-between items-center">
+        <div class="font-bold tracking-tighter text-xl">FlowSync</div>
+        <button class="bg-white text-black px-5 py-2 rounded-full text-sm font-semibold hover:bg-gray-200 transition-colors">
+            Book a demo
+        </button>
+    </nav>
+
+    <section class="relative pt-40 pb-24 px-6 min-h-screen flex flex-col items-center justify-center text-center bg-radial-hero">
+        <div class="max-w-4xl mx-auto z-10">
+            <h1 class="text-5xl md:text-7xl font-semibold tracking-tight leading-[1.1] mb-8 text-gradient">
+                The 24/7 AI receptionist<br>for your business.
             </h1>
-            <button class="bg-white text-black px-8 py-3 rounded-full font-medium hover:bg-gray-200 transition-all">
+            <button class="bg-white text-black px-8 py-4 rounded-full text-lg font-semibold hover:bg-gray-200 transition-colors mb-16">
                 Book a demo
             </button>
         </div>
         
-        <div class="relative w-full max-w-4xl mt-12 overflow-hidden rounded-t-3xl border-t border-x border-white/10">
-            <div class="aspect-video bg-gradient-to-t from-blue-900/20 to-transparent flex items-end justify-center">
-                <div class="w-full h-px bg-gradient-to-r from-transparent via-blue-500 to-transparent opacity-50"></div>
-            </div>
+        <div class="relative w-full max-w-5xl aspect-video rounded-t-3xl glass-panel border-b-0 overflow-hidden flex items-center justify-center mt-8 shadow-[0_0_100px_rgba(59,130,246,0.15)]">
+            <div class="absolute inset-0 bg-gradient-to-t from-blue-900/20 to-transparent"></div>
+            <p class="text-gray-500 font-mono text-sm">[ Tablet Graphic Placeholder ]</p>
+            <div class="absolute bottom-0 w-full h-1/2" style="background-image: linear-gradient(to right, rgba(255,255,255,0.05) 1px, transparent 1px), linear-gradient(to top, rgba(255,255,255,0.05) 1px, transparent 1px); background-size: 40px 40px; transform: perspective(500px) rotateX(60deg);"></div>
         </div>
     </section>
 
-    <section class="py-24 px-6 max-w-5xl mx-auto">
-        <h2 class="text-3xl md:text-4xl font-semibold mb-4">Intelligence behind every interaction</h2>
-        <p class="text-gray-400 max-w-xl mb-12">FlowSync analyses every call to optimize your schedule, capture lead data, and eliminate booking gaps automatically.</p>
+    <section class="py-24 px-6 max-w-6xl mx-auto">
+        <div class="mb-16">
+            <h2 class="text-3xl md:text-5xl font-semibold mb-6">Intelligence behind<br>every interaction.</h2>
+            <p class="text-gray-400 text-lg max-w-xl">FlowSync analyses every call to optimize your schedule, capture lead data, and eliminate booking gaps automatically.</p>
+        </div>
         
-        <div class="space-y-4">
-            <div class="glass-card p-8 flex flex-col gap-4">
-                <div class="w-10 h-10 bg-white/5 rounded-lg flex items-center justify-center">🔍</div>
-                <h3 class="text-xl font-semibold">Smart Booking Flow</h3>
-                <p class="text-gray-400">The AI talks to your customers in real-time to find the perfect slot that fits your current availability.</p>
+        <div class="grid md:grid-cols-3 gap-6">
+            <div class="glass-panel p-8 rounded-2xl hover:bg-white/[0.05] transition-colors">
+                <div class="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center mb-6 text-xl">⚡</div>
+                <h3 class="text-xl font-semibold mb-3">Smart Booking Flow</h3>
+                <p class="text-gray-400">The AI talks to your customers in real-time to find the perfect slot that fits your schedule.</p>
             </div>
-            <div class="glass-card p-8 flex flex-col gap-4">
-                <div class="w-10 h-10 bg-white/5 rounded-lg flex items-center justify-center">🔄</div>
-                <h3 class="text-xl font-semibold">Auto-Rescheduling</h3>
-                <p class="text-gray-400">If a client needs to move an appointment, FlowSync handles the change instantly and updates your calendar in seconds.</p>
+            <div class="glass-panel p-8 rounded-2xl hover:bg-white/[0.05] transition-colors">
+                <div class="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center mb-6 text-xl">🔄</div>
+                <h3 class="text-xl font-semibold mb-3">Auto-Rescheduling</h3>
+                <p class="text-gray-400">If a client needs to move an appointment, FlowSync handles the change instantly.</p>
             </div>
-            <div class="glass-card p-8 flex flex-col gap-4">
-                <div class="w-10 h-10 bg-white/5 rounded-lg flex items-center justify-center">🚫</div>
-                <h3 class="text-xl font-semibold">Zero-Touch Cancellations</h3>
-                <p class="text-gray-400">Handle cancellations professionally and immediately open that time slot back up for new customers to book.</p>
+            <div class="glass-panel p-8 rounded-2xl hover:bg-white/[0.05] transition-colors">
+                <div class="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center mb-6 text-xl">✖️</div>
+                <h3 class="text-xl font-semibold mb-3">Zero-Touch Cancellations</h3>
+                <p class="text-gray-400">Handle cancellations professionally and immediately open that time slot back up.</p>
             </div>
         </div>
     </section>
 
-    <section class="py-24 px-6 max-w-5xl mx-auto border-t border-white/5">
-        <div class="grid md:grid-cols-2 gap-12">
+    <section class="py-24 px-6 max-w-6xl mx-auto flex flex-col md:flex-row gap-16 relative">
+        <div class="md:w-1/2">
+            <div class="sticky top-32 space-y-8">
+                <p class="text-blue-500 font-semibold tracking-wide uppercase text-sm">Your Front Desk, Evolved</p>
+                <h2 class="text-4xl md:text-5xl font-semibold leading-tight">FlowSync isn't just a bot—it's a full-service scheduling partner.</h2>
+                <p class="text-gray-400 text-lg">We don't just answer calls; we deliver a premium, 24/7 customer experience that drives revenue.</p>
+                <button class="bg-white text-black px-6 py-3 rounded-full text-sm font-semibold hover:bg-gray-200 transition-colors">
+                    Book a demo
+                </button>
+            </div>
+        </div>
+        <div class="md:w-1/2 space-y-32 py-32">
+            <div class="opacity-40 hover:opacity-100 transition-opacity duration-500">
+                <h3 class="text-5xl font-bold mb-4">Booking <span class="text-gray-600 text-3xl">(01)</span></h3>
+                <div class="glass-panel p-8 rounded-2xl mt-8">
+                    <p class="text-gray-300">Automate your entire booking flow with human-like precision and zero downtime.</p>
+                </div>
+            </div>
+            <div class="opacity-40 hover:opacity-100 transition-opacity duration-500">
+                <h3 class="text-5xl font-bold mb-4">Scheduling <span class="text-gray-600 text-3xl">(02)</span></h3>
+                <div class="glass-panel p-8 rounded-2xl mt-8">
+                    <p class="text-gray-300">Seamlessly sync with your existing calendar to prevent double bookings entirely.</p>
+                </div>
+            </div>
+            <div class="opacity-40 hover:opacity-100 transition-opacity duration-500">
+                <h3 class="text-5xl font-bold mb-4">Updating <span class="text-gray-600 text-3xl">(03)</span></h3>
+                <div class="glass-panel p-8 rounded-2xl mt-8">
+                    <p class="text-gray-300">Real-time CRM updates ensuring your team is always informed before the client arrives.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-32 px-6 bg-[#080808] border-y border-white/5">
+        <div class="max-w-5xl mx-auto grid md:grid-cols-2 gap-16">
             <div>
-                <span class="text-gray-500 uppercase tracking-widest text-xs font-bold">The Problem</span>
-                <p class="text-2xl mt-4 text-gray-300">Modern businesses lose thousands in revenue every year because of missed calls and late-night inquiries.</p>
+                <span class="text-gray-600 uppercase tracking-widest text-xs font-bold block mb-6">The Problem</span>
+                <p class="text-2xl md:text-3xl leading-relaxed text-gray-400">Modern businesses lose thousands in revenue every year because of missed calls, late-night inquiries, and the high cost of manual scheduling.</p>
             </div>
             <div>
-                <span class="text-blue-500 uppercase tracking-widest text-xs font-bold">The Solution</span>
-                <p class="text-2xl mt-4">FlowSync's AI receptionist is designed to reclaim that lost time — answering every call instantly.</p>
+                <span class="text-blue-500 uppercase tracking-widest text-xs font-bold block mb-6">The Solution</span>
+                <p class="text-2xl md:text-3xl leading-relaxed text-white">FlowSync's AI receptionist is designed to reclaim that lost time — answering every call instantly, booking appointments on the spot, and keeping your business running 24/7.</p>
             </div>
         </div>
     </section>
 
-    <section class="py-24 px-6 max-w-3xl mx-auto text-center">
-        <h2 class="text-3xl font-semibold mb-12">Meet the Expert</h2>
-        <div class="glass-card overflow-hidden">
-            <div class="aspect-square bg-gray-800 grayscale flex items-center justify-center">
-               <span class="text-gray-600 text-6xl">👤</span>
+    <section class="py-32 px-6 max-w-4xl mx-auto">
+        <div class="glass-panel rounded-3xl overflow-hidden flex flex-col md:flex-row">
+            <div class="md:w-2/5 bg-gray-900 aspect-square md:aspect-auto flex items-center justify-center relative">
+                <span class="text-gray-600 text-sm font-mono">[ Ahmed Yusuf Portrait ]</span>
+                <div class="absolute inset-0 bg-black/20 mix-blend-overlay"></div>
             </div>
-            <div class="p-8 text-left">
-                <h3 class="text-2xl font-bold">Ahmed Yusuf</h3>
-                <p class="text-blue-400 mb-4">CEO & Founder, FlowSync</p>
-                <p class="text-gray-400 leading-relaxed">Driven by a passion for creating truly automated business systems. FlowSync is the culmination of advanced AI modeling, engineered to bridge the gap between human-grade call quality and 24/7 machine efficiency.</p>
+            <div class="md:w-3/5 p-10 flex flex-col justify-center">
+                <h3 class="text-3xl font-bold mb-1">Ahmed Yusuf</h3>
+                <p class="text-blue-400 font-medium mb-6">CEO & Founder, FlowSync</p>
+                <p class="text-gray-400 leading-relaxed text-lg">"Driven by a passion for creating truly automated business systems. FlowSync is the culmination of advanced AI modeling, engineered to bridge the gap between human-grade call quality and 24/7 machine efficiency."</p>
             </div>
         </div>
     </section>
 
-    <section class="py-24 px-6 max-w-5xl mx-auto text-center space-y-20">
-        <div>
-            <h2 class="text-7xl font-bold">24/7</h2>
-            <p class="text-xl text-gray-400 mt-4">Availability. Never miss a lead again.</p>
-        </div>
-        <div>
-            <h2 class="text-7xl font-bold">100%</h2>
-            <p class="text-xl text-gray-400 mt-4">Booking Accuracy. Zero double-bookings.</p>
-        </div>
-        <div>
-            <h2 class="text-7xl font-bold">Zero</h2>
-            <p class="text-xl text-gray-400 mt-4">Management Overhead. No training or sick days.</p>
+    <section class="py-24 px-6 max-w-6xl mx-auto border-t border-white/5">
+        <div class="grid md:grid-cols-3 gap-12 text-center md:text-left">
+            <div>
+                <h2 class="text-6xl md:text-8xl font-bold text-gradient tracking-tighter mb-4">24/7</h2>
+                <p class="text-xl text-gray-400 font-medium">Availability.</p>
+            </div>
+            <div>
+                <h2 class="text-6xl md:text-8xl font-bold text-gradient tracking-tighter mb-4">100%</h2>
+                <p class="text-xl text-gray-400 font-medium">Booking Accuracy.</p>
+            </div>
+            <div>
+                <h2 class="text-6xl md:text-8xl font-bold text-gradient tracking-tighter mb-4">Zero</h2>
+                <p class="text-xl text-gray-400 font-medium">Management Overhead.</p>
+            </div>
         </div>
     </section>
 
-    <section class="py-24 px-6 max-w-3xl mx-auto">
-        <h2 class="text-3xl font-semibold mb-12">Frequently Asked Questions</h2>
+    <section class="py-32 px-6 max-w-3xl mx-auto">
+        <h2 class="text-4xl font-semibold mb-12 text-center">Frequently Asked Questions</h2>
         <div class="space-y-4">
-            <details class="glass-card p-6 group">
-                <summary class="list-none flex justify-between items-center cursor-pointer font-medium">
+            <details class="glass-panel rounded-xl group" open>
+                <summary class="p-6 font-semibold text-lg cursor-pointer flex justify-between items-center">
                     How does FlowSync handle my calls?
-                    <span class="group-open:rotate-180 transition-transform">↓</span>
+                    <span class="text-gray-500 group-open:rotate-45 transition-transform text-2xl">+</span>
                 </summary>
-                <p class="mt-4 text-gray-400">FlowSync uses advanced conversational AI to answer your business line instantly, book appointments, and handle FAQs.</p>
+                <div class="px-6 pb-6 text-gray-400">
+                    FlowSync uses advanced conversational AI to answer your business line instantly, book appointments natively into your calendar, and handle common customer inquiries just like a human receptionist would.
+                </div>
             </details>
-            <details class="glass-card p-6 group">
-                <summary class="list-none flex justify-between items-center cursor-pointer font-medium">
+            <details class="glass-panel rounded-xl group">
+                <summary class="p-6 font-semibold text-lg cursor-pointer flex justify-between items-center">
                     Does it sound like a robot?
-                    <span class="group-open:rotate-180 transition-transform">↓</span>
+                    <span class="text-gray-500 group-open:rotate-45 transition-transform text-2xl">+</span>
                 </summary>
-                <p class="mt-4 text-gray-400">Not at all. FlowSync uses natural language processing to ensure a human-like, professional tone.</p>
+                <div class="px-6 pb-6 text-gray-400">
+                    Not at all. We utilize the latest voice generation models to ensure latency is practically zero and the tone is professional, warm, and highly human-like.
+                </div>
+            </details>
+            <details class="glass-panel rounded-xl group">
+                <summary class="p-6 font-semibold text-lg cursor-pointer flex justify-between items-center">
+                    Does it connect with my existing calendar?
+                    <span class="text-gray-500 group-open:rotate-45 transition-transform text-2xl">+</span>
+                </summary>
+                <div class="px-6 pb-6 text-gray-400">
+                    Yes. FlowSync integrates seamlessly with Google Calendar, Outlook, Calendly, and most major CRM platforms to read your availability and push new appointments directly.
+                </div>
+            </details>
+            <details class="glass-panel rounded-xl group">
+                <summary class="p-6 font-semibold text-lg cursor-pointer flex justify-between items-center">
+                    Can I customize the AI's instructions?
+                    <span class="text-gray-500 group-open:rotate-45 transition-transform text-2xl">+</span>
+                </summary>
+                <div class="px-6 pb-6 text-gray-400">
+                    Absolutely. You provide the core business context, FAQs, and rules for booking. The AI strictly adheres to your custom operational guardrails.
+                </div>
+            </details>
+            <details class="glass-panel rounded-xl group">
+                <summary class="p-6 font-semibold text-lg cursor-pointer flex justify-between items-center">
+                    What happens if a call is too complex for the AI?
+                    <span class="text-gray-500 group-open:rotate-45 transition-transform text-2xl">+</span>
+                </summary>
+                <div class="px-6 pb-6 text-gray-400">
+                    If a caller has a highly specific issue outside the AI's knowledge base, FlowSync will politely take a message, collect their contact info, and instantly forward a transcript to your team.
+                </div>
             </details>
         </div>
     </section>
 
-    <footer class="py-12 px-6 border-t border-white/5 text-center">
-        <h2 class="text-3xl font-bold mb-6">AI System Report —<br>Smarter Automation.</h2>
-        <button class="bg-white text-black px-8 py-3 rounded-full font-medium mb-12">Book a demo</button>
-        <div class="flex justify-center gap-6 text-gray-500 mb-8">
-            <span>𝕏</span> <span>📸</span> <span>▶</span> <span>FB</span>
+    <footer class="py-24 px-6 border-t border-white/10 text-center bg-black">
+        <h2 class="text-3xl md:text-5xl font-bold mb-8 tracking-tight">AI System Report —<br><span class="text-gray-500">Smarter Automation.</span></h2>
+        <button class="bg-white text-black px-8 py-4 rounded-full text-lg font-semibold hover:bg-gray-200 transition-colors mb-16">
+            Book a demo
+        </button>
+        
+        <div class="flex flex-col md:flex-row justify-between items-center max-w-6xl mx-auto text-sm text-gray-500">
+            <p>© FlowSync 2026</p>
+            <div class="flex gap-6 mt-6 md:mt-0">
+                <a href="#" class="hover:text-white transition-colors">Instagram</a>
+                <a href="#" class="hover:text-white transition-colors">Twitter (X)</a>
+                <a href="#" class="hover:text-white transition-colors">YouTube</a>
+                <a href="#" class="hover:text-white transition-colors">Facebook</a>
+            </div>
         </div>
-        <p class="text-gray-600 text-sm">© FlowSync 2026</p>
     </footer>
 
 </body>
